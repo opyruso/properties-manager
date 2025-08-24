@@ -1,17 +1,21 @@
 import Keycloak from 'keycloak-js';
 
-const instance = new Keycloak('/config/keycloak.json');
+let instance;
 
 export default {
-	instance: () => {return instance},
-	authenticated: () => {return instance?.authenticated},
-	eventLogger : (event, error) => {
-		console.log('onKeycloakEvent (authenticated : ' + instance?.authenticated + ')', event, error);
-	},
-	
-	tokenLogger : (tokens) => {
-	  console.log('onKeycloakTokens', tokens)
-	},
+        createInstance: (config) => {
+                instance = new Keycloak(config);
+                return instance;
+        },
+        instance: () => {return instance},
+        authenticated: () => {return instance?.authenticated},
+        eventLogger : (event, error) => {
+                console.log('onKeycloakEvent (authenticated : ' + instance?.authenticated + ')', event, error);
+        },
+
+        tokenLogger : (tokens) => {
+          console.log('onKeycloakTokens', tokens)
+        },
 	
 	getUserGroups() {
 		if (instance === undefined
