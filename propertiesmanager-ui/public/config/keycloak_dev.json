@@ -1,8 +1,8 @@
 {
-	"realm": "development",
-	"auth-server-url": "https://auth.opyruso.com/",
-	"ssl-required": "external",
-	"resource": "propertiesmanager-client",
-	"public-client": true,
-	"confidential-port": 0
+        "realm": "development",
+        "url": "https://auth.opyruso.com/",
+        "ssl-required": "external",
+        "clientId": "propertiesmanager-client",
+        "publicClient": true,
+        "confidential-port": 0
 }
