@@ -63,41 +63,42 @@ public class FileUtils {
 
 	public static String convert(String text, String fromEncoding, String toEncoding) throws Exception {
 		if (text == null || fromEncoding == null || toEncoding == null) throw new Exception();
-		try {
-			ByteBuffer inputBuffer = ByteBuffer.wrap(text.getBytes(Charset.forName(fromEncoding)));
-			CharBuffer data = Charset.forName(fromEncoding).decode(inputBuffer);
-			ByteBuffer outputBuffer = Charset.forName(toEncoding).encode(data);
-			byte[] outputData = outputBuffer.array();
-			return new String(outputData, Charset.forName(toEncoding)).trim();
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		}
-	}
+                try {
+                        ByteBuffer inputBuffer = ByteBuffer.wrap(text.getBytes(Charset.forName(fromEncoding)));
+                        CharBuffer data = Charset.forName(fromEncoding).decode(inputBuffer);
+                        ByteBuffer outputBuffer = Charset.forName(toEncoding).encode(data);
+                        byte[] outputData = outputBuffer.array();
+                        return new String(outputData, Charset.forName(toEncoding)).trim();
+                } catch (Exception e) {
+                        Log.error("Error converting string", e);
+                        throw new IllegalStateException(e);
+                }
+        }
 
 	public static String detectEncodingForFile(File file) throws Exception {
 		if (file == null) throw new Exception();
 		final String[] encodings = { "UTF-8", "ISO-8859-1", "ASCII", StandardCharsets.UTF_16.name() };
 		String result = null;
 		for (String charset : encodings) {
-			try {
-				Files.readAllLines(file.toPath(), Charset.forName(charset));
-				result = charset;
-				break;
-			} catch (Exception e) {
-				Log.error(e.getMessage() + " / " + file + " / " + charset);
-			}
-		}
-		if (result == null) {
-			for (Entry<String, Charset> charset : Charset.availableCharsets().entrySet()) {
-				try {
-					Files.readAllLines(file.toPath(), charset.getValue());
-					result = charset.getValue().name();
-					break;
-				} catch (Exception e) {
-					Log.error(e.getMessage() + " / " + file + " / " + charset.getValue());
-				}
-			}
-		}
+                        try {
+                                Files.readAllLines(file.toPath(), Charset.forName(charset));
+                                result = charset;
+                                break;
+                        } catch (Exception e) {
+                                Log.error(e.getMessage() + " / " + file + " / " + charset, e);
+                        }
+                }
+                if (result == null) {
+                        for (Entry<String, Charset> charset : Charset.availableCharsets().entrySet()) {
+                                try {
+                                        Files.readAllLines(file.toPath(), charset.getValue());
+                                        result = charset.getValue().name();
+                                        break;
+                                } catch (Exception e) {
+                                        Log.error(e.getMessage() + " / " + file + " / " + charset.getValue(), e);
+                                }
+                        }
+                }
 		if (result != null) {
 			Log.debug("Encoding : " + result);
 		} else {

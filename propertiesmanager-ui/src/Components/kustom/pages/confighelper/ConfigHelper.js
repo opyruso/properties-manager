@@ -115,17 +115,18 @@ if (keycloak?.authenticated && envList != undefined) {
 		let fr = new FileReader();
 		fr.onloadend = (_e)=>{
 			let text = fr.result;
-			try {
-				JSON.stringify(btoa(text));
-				setTextInput(text);
-				setLogsOutput(text);
-			} catch (e) {
-				setTextInput("Error, Invalid file content !");	
-				setLogsOutput("Error, Invalid file content !");
-			}
-		};
-		fr.readAsText(file);
-	}
+                        try {
+                                JSON.stringify(btoa(text));
+                                setTextInput(text);
+                                setLogsOutput(text);
+                        } catch (e) {
+                                console.error(e);
+                                setTextInput("Error, Invalid file content !");
+                                setLogsOutput("Error, Invalid file content !");
+                        }
+                };
+                fr.readAsText(file);
+        }
 		
 	function startTestCallback() {
 		console.log("startTestCallback");
