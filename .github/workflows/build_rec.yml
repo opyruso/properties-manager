@@ -19,9 +19,9 @@ jobs:
       run: ./build-all.sh
     - name: Deploy site
       run: |
-        rm -rf /opt/props/props-rec
-        mkdir -p /opt/props/props-rec
-        cp -r propertiesmanager-ui/build/* /opt/props/props-rec/
+        rm -rf /opt/props/props-ui-rec
+        mkdir -p /opt/props/props-ui-rec
+        cp -r propertiesmanager-ui/build/* /opt/props/props-ui-rec/
     - name: Deploy API
       run: |
         mkdir -p /opt/props/props-api-rec
