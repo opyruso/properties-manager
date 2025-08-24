@@ -1,6 +1,6 @@
 import './AppDetails.css';
 
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 
 import Keycloak from '../../../Keycloak';
@@ -19,7 +19,8 @@ export default function AppDetails() {
 	
   	const { t } = useTranslation();
 
-	const { keycloak, } = useKeycloak();
+        const { keycloak, } = useKeycloak();
+        const { app } = useContext(AppContext);
 	
 	/* INIT */
 
@@ -58,11 +59,11 @@ export default function AppDetails() {
 
 	/* HOOKS */
 	
-	useEffect(() => {
-		AppContext.app!=undefined?
-			setEnvList(AppContext.app.env)
-			:null;
-	}, [AppContext.app]);
+        useEffect(() => {
+                app!=undefined?
+                        setEnvList(app.env)
+                        :null;
+        }, [app]);
 	
 	useEffect(() => {
 			console.log("keycloak and/or envList change", keycloak, envList);

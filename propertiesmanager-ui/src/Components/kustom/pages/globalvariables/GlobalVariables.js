@@ -1,6 +1,6 @@
 import './GlobalVariables.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useKeycloak } from '@react-keycloak/web';
 
@@ -14,7 +14,8 @@ import { t } from 'i18next';
 
 export default function GlobalVariables() {
 
-	const { keycloak, } = useKeycloak();
+        const { keycloak, } = useKeycloak();
+        const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();
 
@@ -31,11 +32,11 @@ export default function GlobalVariables() {
 
 	/* HOOKS */
 	
-	useEffect(() => {
-		AppContext.app!=undefined?
-			setEnvList(AppContext.app.env)
-			:null;
-	}, [AppContext.app]);
+        useEffect(() => {
+                app!=undefined?
+                        setEnvList(app.env)
+                        :null;
+        }, [app]);
 	
 	useEffect(() => {
 		if (keycloak.authenticated && envList != undefined) {

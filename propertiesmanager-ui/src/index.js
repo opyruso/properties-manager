@@ -9,7 +9,6 @@ import Keycloak from './Components/Keycloak';
 
 import './index.css';
 import App from './Components/App';
-import AppContext from './Components/AppContext';
 
 import './Components/kustom/i18n';
 import { BrowserRouter } from 'react-router-dom';
@@ -27,7 +26,6 @@ function Root() {
                 })
                 .then(res => res.json())
                 .then(data => {
-                        AppContext.app = data;
                         setConfig(data);
                 })
                 .catch(e => {

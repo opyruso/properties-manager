@@ -1,6 +1,6 @@
 import './ConfigHelper.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useKeycloak } from '@react-keycloak/web';
 
@@ -14,7 +14,8 @@ export default function ConfigHelper() {
 	
   	const { t } = useTranslation();
 
-	const { keycloak, } = useKeycloak();
+        const { keycloak, } = useKeycloak();
+        const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();
 	
@@ -42,11 +43,11 @@ export default function ConfigHelper() {
 
 	/* HOOKS */
 	
-	useEffect(() => {
-		AppContext.app!=undefined?
-			setEnvList(AppContext.app.env)
-			:null;
-	}, [AppContext.app]);
+        useEffect(() => {
+                app!=undefined?
+                        setEnvList(app.env)
+                        :null;
+        }, [app]);
 	
 	useEffect(() => {
 		if (keycloak.authenticated && envList != undefined) {
