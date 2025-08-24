@@ -40,7 +40,7 @@ export default function AppRouter() {
 	
         function security(action) {
                 if (!keycloak?.authenticated) {
-                        keycloak?.init?.();
+                        keycloak?.login?.();
                         return null;
                 }
 
