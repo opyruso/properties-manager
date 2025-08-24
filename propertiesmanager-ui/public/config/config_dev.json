@@ -1,5 +1,5 @@
 {
-	"API_ROOT_URL": "https://props.dev.tech.opyruso.com/pm-api",
+        "API_ROOT_URL": "https://props-api.dev.tech.opyruso.com/pm-api",
 	"lang": "fr-FR",
 	"env": [
 			"dev",
@@ -11,5 +11,5 @@
 		"silentCheckSsoRedirectUri": "/silent-check-sso.html",
 		"checkLoginIframe": false
 	},
-	"version": "propertiesmanager_version"
+        "version": "propertiesmanager_version"
 }
