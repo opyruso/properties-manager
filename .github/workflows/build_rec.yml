@@ -15,35 +15,13 @@ jobs:
       run: |
         npm install
         npm run build
-    - name: Build toolbox file lib
-      working-directory: propertiesmanager-toolbox-file-lib
-      run: |
-        mvn clean install
-    - name: Build security lib
-      working-directory: propertiesmanager-security-lib
-      run: |
-        mvn clean install
-    - name: Build database lib
-      working-directory: propertiesmanager-database-lib
-      run: |
-        mvn clean install
-    - name: Build lib
-      working-directory: propertiesmanager-lib
-      run: |
-        mvn clean install
-    - name: Build API lib
-      working-directory: propertiesmanager-api-lib
-      run: |
-        mvn clean install
-    - name: Build API
-      working-directory: propertiesmanager-api
-      run: |
-        mvn clean package
+    - name: Build backend
+      run: ./build-all.sh
     - name: Deploy site
       run: |
         rm -rf /opt/props/props-rec
         mkdir -p /opt/props/props-rec
-        cp -r propertiesmanager-ui/dist/* /opt/props/props-rec/
+        cp -r propertiesmanager-ui/build/* /opt/props/props-rec/
     - name: Deploy API
       run: |
         mkdir -p /opt/props/props-api-rec

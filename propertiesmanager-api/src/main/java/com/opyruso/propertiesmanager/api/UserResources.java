@@ -1,9 +1,9 @@
 package com.opyruso.propertiesmanager.api;
 
-import javax.inject.Inject;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 

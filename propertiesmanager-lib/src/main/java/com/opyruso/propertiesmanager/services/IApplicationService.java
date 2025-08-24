@@ -3,7 +3,7 @@ package com.opyruso.propertiesmanager.services;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 import com.opyruso.propertiesmanager.api.entity.ApiApplicationFull;
 import com.opyruso.propertiesmanager.api.entity.ApiApplicationShort;

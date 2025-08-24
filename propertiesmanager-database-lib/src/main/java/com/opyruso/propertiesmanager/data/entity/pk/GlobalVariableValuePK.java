@@ -2,19 +2,19 @@ package com.opyruso.propertiesmanager.data.entity.pk;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class GlobalVariableValuePK implements Serializable {
 
 	private static final long serialVersionUID = 7081931518771053844L;
 
-	@Column(name = "globalvariable_key", nullable = false)
-	private String globalVariableKey;
+       @Column(name = "globalvariable_key", nullable = false, length = 100)
+       private String globalVariableKey;
 
-	@Column(name = "env_id", nullable = false)
-	private String envId;
+       @Column(name = "env_id", nullable = false, length = 100)
+       private String envId;
 
 	@Override
 	public int hashCode() {

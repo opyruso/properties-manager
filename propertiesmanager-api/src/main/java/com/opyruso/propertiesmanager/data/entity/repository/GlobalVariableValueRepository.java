@@ -1,6 +1,6 @@
 package com.opyruso.propertiesmanager.data.entity.repository;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.opyruso.propertiesmanager.data.entity.GlobalVariableValue;
 

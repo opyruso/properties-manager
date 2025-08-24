@@ -3,7 +3,7 @@ package com.opyruso.propertiesmanager.data;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import com.opyruso.propertiesmanager.data.entity.UserRightsDemand;
 

@@ -3,8 +3,8 @@ package com.opyruso.propertiesmanager.transformers.impl;
 import java.text.DateFormat;
 import java.util.Date;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import com.opyruso.propertiesmanager.api.entity.ApiLog;
 import com.opyruso.propertiesmanager.constants.TransformerLogStatusEnum;

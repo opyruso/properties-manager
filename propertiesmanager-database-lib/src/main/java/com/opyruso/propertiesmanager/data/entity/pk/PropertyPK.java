@@ -2,25 +2,25 @@ package com.opyruso.propertiesmanager.data.entity.pk;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PropertyPK implements Serializable {
 
 	private static final long serialVersionUID = 3884974871349693735L;
 
-	@Column(name = "app_id", nullable = false)
-	private String appId;
+       @Column(name = "app_id", nullable = false, length = 100)
+       private String appId;
 
-	@Column(name = "num_version", nullable = false)
-	private String numVersion;
+       @Column(name = "num_version", nullable = false, length = 100)
+       private String numVersion;
 
-	@Column(name = "filename", nullable = false)
-	private String filename;
+       @Column(name = "filename", nullable = false, length = 100)
+       private String filename;
 
-	@Column(name = "property_key", nullable = false)
-	private String propertyKey;
+       @Column(name = "property_key", nullable = false, length = 100)
+       private String propertyKey;
 
 	@Override
 	public int hashCode() {
