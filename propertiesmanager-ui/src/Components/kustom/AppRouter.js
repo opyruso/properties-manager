@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { useKeycloak } from '@react-keycloak/web';
@@ -15,7 +15,8 @@ import AppContext from "../AppContext";
 
 export default function AppRouter() {
 
-	const { keycloak, } = useKeycloak();
+        const { keycloak, } = useKeycloak();
+        const { app } = useContext(AppContext);
 
 	return (
 			<Routes>
@@ -36,7 +37,7 @@ export default function AppRouter() {
 	);
 	
 	function globalCondition(action) {
-		return AppContext.app!==undefined?action:<Error errNum="500" />;
+                return app!==undefined?action:<Error errNum="500" />;
 	}
 	
 	function security(action) {

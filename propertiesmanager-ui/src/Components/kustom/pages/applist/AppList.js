@@ -1,6 +1,6 @@
 import './AppList.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 
 import AppContext from "../../../AppContext";
@@ -14,7 +14,8 @@ export default function AppList() {
 	
   	const { t } = useTranslation();
 
-	const { keycloak, } = useKeycloak();
+        const { keycloak, } = useKeycloak();
+        const { app } = useContext(AppContext);
 	
 	/* INIT */
 
@@ -42,11 +43,11 @@ export default function AppList() {
 
 	/* HOOKS */
 	
-	useEffect(() => {
-		AppContext.app!=undefined?
-			setEnvList(AppContext.app.env)
-			:null;
-	}, [AppContext.app]);
+        useEffect(() => {
+                app!=undefined?
+                        setEnvList(app.env)
+                        :null;
+        }, [app]);
 	
 	useEffect(() => {
 		if (keycloak.authenticated && envList !== undefined) {

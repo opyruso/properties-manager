@@ -1,6 +1,6 @@
 import './Profile.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useKeycloak } from '@react-keycloak/web';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,7 +14,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
 
-	const { keycloak, } = useKeycloak();
+        const { keycloak, } = useKeycloak();
+        const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();
 
@@ -40,11 +41,11 @@ export default function Profile() {
 
 	/* HOOKS */
 	
-	useEffect(() => {
-		AppContext.app!=undefined?
-			setEnvList(AppContext.app.env)
-			:null;
-	}, [AppContext.app]);
+        useEffect(() => {
+                app!=undefined?
+                        setEnvList(app.env)
+                        :null;
+        }, [app]);
 	
 	useEffect(() => {
 		if (keycloak.authenticated) {

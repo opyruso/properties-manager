@@ -13,29 +13,35 @@ import { Rings } from 'react-loader-spinner';
 
 export default function App() {
 
-  	const [loading, setLoading] = useState(1);
+        const [loading, setLoading] = useState(1);
+        const [app, setApp] = useState();
   	
   	const navigate = useNavigate();
 
-	useEffect(() => {
-		console.log("Init events");
-		
-		// eslint-disable-next-line no-unused-expressions
-		AppContext.app===undefined?initConfig():null;
-		
-		if (document.readyState === "complete") {
-			subscribe("startLoadingEvent", () => {
-				console.log("startLoadingEvent");
-				setLoading(loading+1);
-			});
-			subscribe("endLoadingEvent", () => {
-				console.log("endLoadingEvent");
-				setLoading(loading>0?loading-1:0);
-			});
-			
-		}
-		
-	}, [loading]);
+        useEffect(() => {
+                console.log("Init events");
+
+                if (app === undefined) {
+                        initConfig();
+                }
+
+                if (document.readyState === "complete") {
+                        subscribe("startLoadingEvent", () => {
+                                console.log("startLoadingEvent");
+                                setLoading(loading + 1);
+                        });
+                        subscribe("endLoadingEvent", () => {
+                                console.log("endLoadingEvent");
+                                setLoading(loading > 0 ? loading - 1 : 0);
+                        });
+
+                }
+
+        }, [loading, app]);
+
+        useEffect(() => {
+                AppContext.app = app;
+        }, [app]);
 	
 	function initConfig() {
 		console.log("Init config...");
@@ -49,8 +55,8 @@ export default function App() {
 		.then(res => res.json())
 		.then((data) => {
 			console.log("Response config success : ", data);
-			AppContext.app = data;
-			setLoading(loading>0?loading-1:0);
+                        setApp(data);
+                        setLoading(loading>0?loading-1:0);
 		})
 		.catch((e) => {
 			console.error("Response config error : ", e);
@@ -59,23 +65,25 @@ export default function App() {
 		});
 	}
 
-	return (
-		<React.Fragment>
-			<Rings visible={loading > 0}
-				color="red"
-				radius={300}
-				width={300}
-				height={300}
-				wrapperClass="loading-overlay" />
-			<div className="main-header">
-				<Header />
-			</div>
-			<div className="main-body">
-				<AppRouter  />
-			</div>
-			<div className="main-footer">
-				<Footer />
-			</div>
-		</React.Fragment>
-	);
+        return (
+                <AppContext.Provider value={{ app, setApp }}>
+                        <React.Fragment>
+                                <Rings visible={loading > 0}
+                                        color="red"
+                                        radius={300}
+                                        width={300}
+                                        height={300}
+                                        wrapperClass="loading-overlay" />
+                                <div className="main-header">
+                                        <Header />
+                                </div>
+                                <div className="main-body">
+                                        <AppRouter />
+                                </div>
+                                <div className="main-footer">
+                                        <Footer />
+                                </div>
+                        </React.Fragment>
+                </AppContext.Provider>
+        );
 }

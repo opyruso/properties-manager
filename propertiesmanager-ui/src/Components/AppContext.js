@@ -1,26 +1,12 @@
-export default {
-	app: undefined,
-	lastErrorMessage: ''
-}
+import React from 'react';
 
-/*
+const AppContext = React.createContext({
+        app: undefined,
+        setApp: () => {}
+});
 
-	app content exemple (location : config/config.json) :
+// Legacy fields to maintain compatibility
+AppContext.app = undefined;
+AppContext.lastErrorMessage = '';
 
-	{
-		"API_ROOT_URL": "http://localhost:10000/pm-api",
-		"lang": "fr-FR",
-		"env": [
-				"dev",
-				"tst",
-				"rec",
-				"prepro",
-				"pro"
-			],
-		"keycloak_init_options" : {
-			"onLoad": "check-sso",
-			"silentCheckSsoRedirectUri": "/silent-check-sso.html",
-			"checkLoginIframe": false
-		}
-	}
-*/
+export default AppContext;
