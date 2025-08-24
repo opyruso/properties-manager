@@ -11,7 +11,7 @@ import './index.css';
 import App from './Components/App';
 
 import './Components/kustom/i18n';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 function Root() {
         const [config, setConfig] = useState();
@@ -49,9 +49,9 @@ function Root() {
                         key={JSON.stringify(config.keycloak_init_options)}
                 >
                         <React.StrictMode>
-                                <BrowserRouter>
+                                <HashRouter>
                                         <App />
-                                </BrowserRouter>
+                                </HashRouter>
                         </React.StrictMode>
                 </ReactKeycloakProvider>
         );
