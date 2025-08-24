@@ -1,5 +1,5 @@
 {
-	"API_ROOT_URL": "https://props.rec.tech.opyruso.com/pm-api",
+        "API_ROOT_URL": "https://props-api.rec.tech.opyruso.com/pm-api",
 	"lang": "fr-FR",
 	"env": [
 			"dev",
