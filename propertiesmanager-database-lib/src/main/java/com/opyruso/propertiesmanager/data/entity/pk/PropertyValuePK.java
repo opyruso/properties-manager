@@ -10,20 +10,20 @@ public class PropertyValuePK implements Serializable {
 
 	private static final long serialVersionUID = 5203820714714261353L;
 
-	@Column(name = "app_id", nullable = false)
-	private String appId;
+       @Column(name = "app_id", nullable = false, length = 100)
+       private String appId;
 
-	@Column(name = "num_version", nullable = false)
-	private String numVersion;
+       @Column(name = "num_version", nullable = false, length = 100)
+       private String numVersion;
 
-	@Column(name = "filename", nullable = false)
-	private String filename;
+       @Column(name = "filename", nullable = false, length = 100)
+       private String filename;
 
-	@Column(name = "property_key", nullable = false)
-	private String propertyKey;
+       @Column(name = "property_key", nullable = false, length = 100)
+       private String propertyKey;
 
-	@Column(name = "env_id", nullable = false)
-	private String envId;
+       @Column(name = "env_id", nullable = false, length = 100)
+       private String envId;
 
 	@Override
 	public int hashCode() {

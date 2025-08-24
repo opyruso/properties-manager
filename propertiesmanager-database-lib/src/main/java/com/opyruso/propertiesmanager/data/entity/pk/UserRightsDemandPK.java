@@ -10,17 +10,17 @@ public class UserRightsDemandPK implements Serializable {
 
 	private static final long serialVersionUID = -7585064914012477092L;
 
-	@Column(name = "user_id", nullable = false)
-	private String userId;
+       @Column(name = "user_id", nullable = false, length = 100)
+       private String userId;
 
-	@Column(name = "app_id", nullable = false)
-	private String appId;
+       @Column(name = "app_id", nullable = false, length = 100)
+       private String appId;
 
-	@Column(name = "env_id", nullable = false)
-	private String envId;
+       @Column(name = "env_id", nullable = false, length = 100)
+       private String envId;
 
-	@Column(name = "level", nullable = false)
-	private String level;
+       @Column(name = "level", nullable = false, length = 100)
+       private String level;
 
 	@Override
 	public int hashCode() {

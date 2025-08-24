@@ -10,11 +10,11 @@ public class VersionPK implements Serializable {
 
 	private static final long serialVersionUID = -3761646265074666388L;
 
-	@Column(name = "app_id", nullable = false)
-	private String appId;
+       @Column(name = "app_id", nullable = false, length = 100)
+       private String appId;
 
-	@Column(name = "num_version", nullable = false)
-	private String numVersion;
+       @Column(name = "num_version", nullable = false, length = 100)
+       private String numVersion;
 
 	@Override
 	public int hashCode() {

@@ -10,8 +10,8 @@ public class GlobalVariablePK implements Serializable {
 
 	private static final long serialVersionUID = -6607564208223563517L;
 
-	@Column(name = "globalvariable_key", nullable = false)
-	private String globalVariableKey;
+       @Column(name = "globalvariable_key", nullable = false, length = 100)
+       private String globalVariableKey;
 
 	@Override
 	public int hashCode() {

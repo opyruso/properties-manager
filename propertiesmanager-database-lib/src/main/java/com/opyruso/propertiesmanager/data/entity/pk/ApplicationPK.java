@@ -10,8 +10,8 @@ public class ApplicationPK implements Serializable {
 
 	private static final long serialVersionUID = -6857143440338021902L;
 
-	@Column(name = "app_id", nullable = false)
-	private String appId;
+       @Column(name = "app_id", nullable = false, length = 100)
+       private String appId;
 
 	@Override
 	public int hashCode() {
