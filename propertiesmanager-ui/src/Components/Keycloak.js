@@ -1,4 +1,5 @@
 import Keycloak from 'keycloak-js';
+import { useKeycloak as useReactKeycloak } from '@react-keycloak/web';
 
 class KeycloakService {
   constructor() {
@@ -58,6 +59,11 @@ class KeycloakService {
     const rightsTokens = Array.isArray(rightsSource) ? rightsSource : [rightsSource];
     return rightsTokens.some((r) => r.admin);
   }
+}
+
+export function useKeycloakInstance() {
+  const { keycloak } = useReactKeycloak();
+  return keycloak;
 }
 
 export default new KeycloakService();

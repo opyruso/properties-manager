@@ -2,7 +2,7 @@ import './ConfigHelper.css';
 
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useKeycloak } from '@react-keycloak/web';
+import { useKeycloakInstance } from '../../../Keycloak';
 
 import AppContext from '../../../AppContext';
 
@@ -14,7 +14,7 @@ export default function ConfigHelper() {
 	
   	const { t } = useTranslation();
 
-        const { keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();

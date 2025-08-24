@@ -2,9 +2,7 @@ import './GlobalVariables.css';
 
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useKeycloak } from '@react-keycloak/web';
-
-import Keycloak from '../../../Keycloak';
+import Keycloak, { useKeycloakInstance } from '../../../Keycloak';
 
 import AppContext from '../../../AppContext';
 
@@ -14,7 +12,7 @@ import { t } from 'i18next';
 
 export default function GlobalVariables() {
 
-        const { keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import AppContext from "../../../AppContext";
 
-import { useKeycloak } from '@react-keycloak/web';
+import { useKeycloakInstance } from '../../../Keycloak';
 
 import ApiDefinition from '../../api/ApiDefinition';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,7 @@ export default function AppList() {
 	
   	const { t } = useTranslation();
 
-        const { keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
         const { app } = useContext(AppContext);
 	
 	/* INIT */
