@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import { useKeycloakInstance } from '../Keycloak';
 
-import Error, { ForbiddenError, NotFoundError } from "../kernel/error/Error";
+import Error, { NotFoundError } from "../kernel/error/Error";
 import Copyright from "../kernel/copyright/Copyright";
 
 import AppList from './pages/applist/AppList';
@@ -38,7 +38,11 @@ export default function AppRouter() {
                 return app!==undefined?action:<Error errNum="500" />;
 	}
 	
-	function security(action) {
-		return keycloak.authenticated?action:<ForbiddenError errNum="403" />;
-	}
+        function security(action) {
+                if (!keycloak.authenticated) {
+                        keycloak.login();
+                        return null;
+                }
+                return action;
+        }
 }
