@@ -2,8 +2,7 @@ package com.opyruso.propertiesmanager.api.entity;
 
 public class ApiUserDetails {
 
-	public String userId;
-	public String name;
-	public ApiUserAttributeRights rights;
+        public String userId;
+        public String name;
 
 }
