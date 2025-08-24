@@ -1,6 +1,6 @@
 package com.opyruso.propertiesmanager.services;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 public interface IKeycloakService {
 

@@ -1,6 +1,6 @@
 package com.opyruso.propertiesmanager.utils;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.keycloak.OAuth2Constants;

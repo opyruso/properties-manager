@@ -1,7 +1,7 @@
 package com.opyruso.propertiesmanager.connector;
 import java.io.File;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.opyruso.propertiesmanager.connector.constants.CommandEnum;
 import com.opyruso.propertiesmanager.connector.services.UpdatePropertiesCommandService;

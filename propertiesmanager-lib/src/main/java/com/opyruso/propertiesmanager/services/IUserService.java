@@ -2,7 +2,7 @@ package com.opyruso.propertiesmanager.services;
 
 import java.util.List;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 import com.opyruso.propertiesmanager.api.entity.ApiUserRightsDemand;
 

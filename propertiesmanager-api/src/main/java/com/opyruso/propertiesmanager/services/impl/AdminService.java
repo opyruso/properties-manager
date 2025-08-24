@@ -3,9 +3,9 @@ package com.opyruso.propertiesmanager.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.keycloak.admin.client.Keycloak;

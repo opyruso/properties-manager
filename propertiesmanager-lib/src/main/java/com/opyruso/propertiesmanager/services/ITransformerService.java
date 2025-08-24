@@ -2,7 +2,7 @@ package com.opyruso.propertiesmanager.services;
 
 import java.io.File;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 import com.opyruso.propertiesmanager.transformers.ITransformerFactory;
 
