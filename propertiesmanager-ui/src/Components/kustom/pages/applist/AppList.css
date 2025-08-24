@@ -1,0 +1,41 @@
+
+
+/* Apps */
+.apps {
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	padding: 2px 5px;
+}
+.apps .search-input {
+	margin: 5px 5px 5px 5px;
+	font-size: 1em;
+}
+.apps .search-result-title {
+	display: flex;
+	border: solid gray 1px;
+	margin: 0px 5px -1px 5px;
+	background-color: #000000;
+	font-weight: bold;
+	padding: 2px 5px;
+}
+.apps .search-result {
+	display: flex;
+	flex: auto;
+	border: solid gray 1px;
+	margin: 0px 5px -1px 5px;
+	background-color: none;
+	padding: 2px 5px;
+}
+.apps .search-result:hover {
+	background-color: gray;
+}
+.apps .title {
+	flex: 2;
+}
+.apps .productOwner {
+	flex: 2;
+}
+.apps .envColumn {
+	flex: 1;
+}

@@ -1,0 +1,143 @@
+/* Structure */
+.testing {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.testing-menu {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+.testing-content {
+	flex: auto;
+	display: flex;
+	flex-direction: row;
+	overflow: auto;
+}
+.testing-parameters {
+	flex: 4;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+.testing-parameters-line {
+	display: flex;
+	flex-direction: row;
+}
+.group-element {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+.actual-property {
+	cursor: pointer;
+	flex: 1;
+	font-size: 0.9em;
+	margin-left: 25px;
+}
+.actual-property:hover {
+	background-color: var(--background-hover);
+}
+.testing-parameters .group-element button {
+	padding: 5px 10px;
+	margin: auto;
+}
+.testing-files {
+	flex: 6;
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	overflow: auto;
+	font-size: 0.9em;
+}
+.testing-source {
+	flex: 1;
+}
+.testing-log {
+	flex: 1;
+}
+
+/* design */
+
+.rich-content {
+	white-space: pre;
+	margin: 5px;
+	padding: 2px;
+	color: gray;
+}
+.testing-source .underline {
+	background-color: var(--background-ok);
+	color: var(--font-ok);
+}
+
+
+.log-line {
+	flex: auto;
+	display: flex;
+	flex-direction: row;
+}
+.log-line .log-line-status {
+	flex: 2;
+}
+.log-line .log-line-comment {
+	flex: 5;
+	white-space: pre;
+}
+.log-line .log-line-comment .key-found {
+	cursor: pointer;
+}
+.log-line .log-line-comment .key-found:hover {
+	font-weight: bold;
+	background-color: rgb(192, 192, 192);
+	color: rgb(0, 0, 0);
+}
+.log-line.log-line-status-INFO {
+	color: rgb(192, 192, 192);
+	font-style: italic;
+	opacity: 0.9;
+}
+.log-line.log-line-status-IGNORED {
+	color: rgb(192, 192, 192);
+	opacity: 0.4;
+}
+.log-line.log-line-status-UNCHANGED {
+	color: rgb(192, 192, 192);
+}
+.log-line.log-line-status-ADDED_VALID {
+	color: lightgreen;
+}
+.log-line.log-line-status-REMOVED_VALID {
+	color: lightgreen;
+}
+.log-line.log-line-status-UPDATED_VALID {
+	color: lightgreen;
+}
+.log-line.log-line-status-ADDED_TO_VALIDATE {
+	color: lightsalmon;
+} 
+.log-line.log-line-status-REMOVED_TO_VALIDATE {
+	color: lightsalmon;
+}
+.log-line.log-line-status-UPDATED_TO_VALIDATE {
+	color: lightsalmon;
+}
+.log-line.log-line-status-NOT_FOUND {
+	color: lightcoral;
+}
+.log-line.log-line-status-GLOBAL_UPDATED {
+	color: lightgreen;
+}
+.log-line.log-line-status-GLOBAL_NOT_FOUND {
+	color: rgb(192, 192, 192);
+}
+.log-line.log-line-status-GLOBAL_ENV_NOT_FOUND {
+	color: lightsalmon;
+}
+
+
+
+
+

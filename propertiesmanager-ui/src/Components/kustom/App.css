@@ -1,0 +1,54 @@
+
+.loading-overlay {
+	position: fixed;
+	width: 100%;
+	height:100%;
+	align-items: right;
+	top: 0;
+}
+.loading-overlay :first-child {
+	display: flex;
+	margin: 0 auto;
+}
+
+/* Pages */
+/* Global */
+.spacer {
+	flex: auto;
+}
+.env-action {
+	cursor: pointer;
+}
+.button-ok {
+	opacity: 0.5;
+	color: green;
+	text-align: center;
+}
+.button-ko {
+	opacity: 0.5;
+	color: red;
+	text-align: center;
+}
+.button-ok:hover {
+	opacity: 1;
+	background-color: rgb(213, 255, 213);
+}
+.button-ko:hover {
+	opacity: 1;
+	background-color: rgb(255, 217, 217);
+}
+.error {
+	opacity: 0.5;
+	color: red;
+	text-align: center;
+}
+.error:hover {
+	opacity: 1;
+}
+option {
+	color: black;
+}
+
+.lang-country {
+	border-radius: 100%;
+}

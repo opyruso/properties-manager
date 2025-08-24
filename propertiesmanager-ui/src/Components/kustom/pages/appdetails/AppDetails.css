@@ -1,0 +1,157 @@
+/* AppDetails */
+.app-details {
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	padding: 2px 5px;
+}
+.app-details .app-details-header {
+	display: flex;
+	flex-direction: row;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 20px;
+}
+.app-details .app-details-header .title {
+	display: flex;
+	flex-direction: row;
+	flex: 2;
+}
+.app-details .app-details-header .title div {
+	font-size: 1em;
+	margin: 10px;
+	width: auto;
+}
+.app-details .app-details-header .title select {
+	font-size: 1em;
+	margin: 10px;
+	width: auto;
+	flex: 1;
+}
+.app-details .app-details-header .title option {
+	font-size: 0.75em;
+}
+.app-details .app-details-header .env-selector {
+	display: flex;
+	flex: auto;
+	flex-direction: row;
+	flex: 2;
+}
+.app-details .app-details-header .env-selector .checkbox-group {
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	flex: 1;
+	align-items: center;
+	margin: auto;
+}
+.app-details .app-details-header .env-selector input {
+	opacity: 1;
+	cursor: pointer;
+	vertical-align: middle;
+	height: 26px;
+	width: 26px;
+}
+.app-details .app-details-header .env-selector label {
+	vertical-align: middle;
+	width: 100%;
+	text-align: center;
+}
+.app-details .app-details-header .product-owner {
+	display: flex;
+	flex-direction: row;
+	flex: auto;
+	flex: 2;
+	align-items: center;
+	text-align: right;
+}
+.app-details .app-details-header .product-owner .env-value {
+	flex: 8;
+}
+.app-details .app-details-header .product-owner .env-action {
+	flex: 1;
+}
+.app-details .app-details-header .product-owner input {
+	font-size: 1em;
+	text-align: left;
+}
+.app-details .search-input {
+	margin: 5px 5px 5px 5px;
+	font-size: 1em;
+}
+.app-details .body .property-line-title {
+	margin: 0px 5px -1px 5px;
+	background-color: #000000;
+	font-weight: bold;
+}
+.app-details .body .property-line {
+	margin: 0px 5px -1px 5px;
+	background-color: none;
+}
+.app-details .body .property-line:hover {
+	background-color: gray;
+}
+.app-details .body .property-element:hover {
+	background-color: rgb(75, 75, 75);
+}
+
+.app-details .body th, .app-details .body td {
+	padding: 2px 5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.app-details .body .property-line .property-line-cell-content {
+	display: flex;
+	flex-direction: row;
+}
+.app-details .body .property-line .property-line-cell-content .env-value {
+	flex: auto;
+}
+.app-details .body .property-line .property-key .property-line-cell-content span {
+	flex: auto;
+}
+.app-details .body .property-line .property-key .property-line-cell-content span.env-action {
+	flex: inherit;
+}
+.app-details .body .property-line .property-line-cell-content input {
+	flex: auto;
+}
+.app-details .body .property-line .status-locked {
+	text-align: left;
+	color: rgb(255, 0, 0);
+}
+.app-details .body .property-line .status-lock .env-action {
+	cursor: default;
+}
+.app-details .body .property-line .status-tovalidate {
+	background-color: rgb(255, 234, 213);
+	color: rgb(75, 75, 75);
+}
+.app-details .body .property-line .status-del {
+	background-color: rgb(255, 193, 193);
+	color: rgb(75, 75, 75);
+}
+.app-details .body .property-line .env-action {
+	flex: 0;
+	flex-direction: row;
+	padding: 2px 5px;
+	text-align: center;
+}
+.app-details .body .property-line .env-action .status-valid {
+	opacity: 0.1;
+}
+.app-details .body .property-line .env-action:hover .status-valid {
+	opacity: 0.8;
+}
+.app-details .body .property-line .env-action .status-lock {
+	color: rgb(255, 0, 0);
+}
+.app-details .body .property-line .env-action .status-unlock {
+	opacity: 0.1;
+	color: rgb(255, 0, 0);
+}
+.app-details .body .property-line .env-action:hover .status-lock {
+	opacity: 0.8;
+	color: rgb(255, 0, 0);
+}

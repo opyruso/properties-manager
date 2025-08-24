@@ -1,0 +1,8 @@
+{
+	"realm": "production",
+	"auth-server-url": "https://auth.opyruso.com/",
+	"ssl-required": "external",
+	"resource": "propertiesmanager-client",
+	"public-client": true,
+	"confidential-port": 0
+}

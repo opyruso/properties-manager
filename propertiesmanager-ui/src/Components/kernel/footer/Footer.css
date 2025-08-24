@@ -1,0 +1,12 @@
+.main-footer {
+	display: flex;
+	flex-direction: row;
+	font-size: 0.75em;
+	padding: 1em;
+}
+.main-footer .version {
+	align-items: flex-start;
+}
+.main-footer .copyright {
+	align-items: flex-end;
+}

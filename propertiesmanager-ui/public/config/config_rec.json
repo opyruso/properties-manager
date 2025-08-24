@@ -1,0 +1,15 @@
+{
+	"API_ROOT_URL": "https://props.rec.tech.opyruso.com/pm-api",
+	"lang": "fr-FR",
+	"env": [
+			"dev",
+			"rec",
+			"pro"
+		],
+	"keycloak_init_options" : {
+		"onLoad": "check-sso",
+		"silentCheckSsoRedirectUri": "/silent-check-sso.html",
+		"checkLoginIframe": false
+	},
+	"version": "propertiesmanager_version"
+}

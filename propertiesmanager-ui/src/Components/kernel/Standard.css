@@ -1,0 +1,93 @@
+html, body, #root {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: var(--background);
+	color: var(--font);
+}
+.main-body {
+	display: flex;
+	flex: auto;
+	flex-direction: column;
+	overflow: auto;
+}
+.main-footer {
+	display: flex;
+}
+a {
+	text-decoration: none;
+	color: var(--font);
+}
+.error-page {
+	flex: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.loading-overlay {
+	position: fixed;
+	width: 100%;
+	height:100%;
+	bottom: 0;
+	z-index: 999;
+}
+.loading-overlay :first-child {
+	position: fixed;
+	display: block;
+	margin: auto;
+	bottom: -150px;
+	width:100%;
+}
+
+/* Pages */
+/* Global */
+input, select, option, button, textarea {
+	background-color: var(--background-form);
+	color: var(--font-form);
+	padding: 5px;
+	border-radius: 5px;
+	border: none;
+}
+button:not(disabled) {
+	color: var(--font-form);
+}
+button:disabled {
+	color: gray;
+	background-color: var(--background-form);
+}
+button:hover:enabled {
+	background-color: var(--background-form-hover);
+}
+.spacer {
+	flex: auto;
+}
+.env-action {
+	cursor: pointer;
+}
+.button-ok {
+	opacity: 0.5;
+	color: var(--font-ok);
+	text-align: center;
+}
+.button-ko {
+	opacity: 0.5;
+	color: var(--font-ko);
+	text-align: center;
+}
+.button-ok:hover {
+	opacity: 1;
+	background-color: var(--background-ok);
+}
+.button-ko:hover {
+	opacity: 1;
+	background-color: var(--background-ko);
+}
+
+
+
+
+
+

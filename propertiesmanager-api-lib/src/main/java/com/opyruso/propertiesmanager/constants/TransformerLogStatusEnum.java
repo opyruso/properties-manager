@@ -1,0 +1,20 @@
+package com.opyruso.propertiesmanager.constants;
+
+public enum TransformerLogStatusEnum {
+	
+	INFO,
+	IGNORED,
+	UNCHANGED,
+	ADDED_VALID,
+	REMOVED_VALID,
+	UPDATED_VALID,
+	ADDED_TO_VALIDATE,
+	REMOVED_TO_VALIDATE,
+	UPDATED_TO_VALIDATE,
+	NOT_FOUND,
+	NOT_CONFIGURED,
+	GLOBAL_NOT_FOUND,
+	GLOBAL_UPDATED,
+	GLOBAL_ENV_NOT_FOUND;
+
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <rewrite>
+            <outboundRules>
+                <preConditions>
+                    <preCondition name="ResponseIsHtml1">
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" />
+                    </preCondition>
+                </preConditions>
+            </outboundRules>
+            <rules>
+                <clear />
+                <rule name="Redirect HTTP to HTTPS" enabled="true" stopProcessing="true">
+                    <match url="(.*)" />
+                    <conditions logicalGrouping="MatchAll" trackAllCaptures="false">
+                        <add input="{HTTPS}" pattern="^OFF$" />
+                    </conditions>
+                    <action type="Redirect" url="https://{HTTP_HOST}{REQUEST_URI}" appendQueryString="true" />
+                </rule>
+                <rule name="Redirect" enabled="true">
+                    <match url="(.*)" />
+                    <conditions logicalGrouping="MatchAll" trackAllCaptures="false">
+                    </conditions>
+                    <action type="Rewrite" url="http://192.168.178.48:20000/{R:0}" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>

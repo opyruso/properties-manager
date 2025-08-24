@@ -1,0 +1,25 @@
+:root {
+    --background-form: rgb(218, 218, 218);
+    --background-form-hover: rgb(181, 181, 181);
+    --font-form: rgb(72, 72, 72);
+
+    --background-title: rgb(0, 0, 0);
+    --background: #36383F;
+    --font: #f9f9f9;
+    
+    --background-title-hover: #85888C;
+    --background-hover: #85888C;
+    --font-hover: #85888C;
+    
+    --background-title-selected: rgba(229, 229, 229, 0.5);
+    --background-selected: rgba(255, 255, 255, 50);
+    --font-selected: rgb(0, 0, 0);
+    
+    --background-title-ok: rgb(225, 255, 225);
+    --background-ok: rgb(225, 255, 225);
+    --font-ok: rgb(0, 138, 35);
+    
+    --background-title-ko: rgb(255, 179, 179);
+    --background-ko: rgb(255, 179, 179);
+    --font-ko: rgb(255, 0, 0);
+}

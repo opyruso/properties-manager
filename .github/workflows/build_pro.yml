@@ -1,0 +1,51 @@
+name: Build Pro
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+	- uses: actions/checkout@v4
+	- name: Build site
+	  working-directory: propertiesmanager-ui
+	  run: |
+	    npm install
+	    npm run build
+	- name: Build toolbox file lib
+	  working-directory: propertiesmanager-toolbox-file-lib
+	  run: |
+	    mvn clean install
+	- name: Build security lib
+	  working-directory: propertiesmanager-security-lib
+	  run: |
+	    mvn clean install
+	- name: Build database lib
+	  working-directory: propertiesmanager-database-lib
+	  run: |
+	    mvn clean install
+	- name: Build lib
+	  working-directory: propertiesmanager-lib
+	  run: |
+	    mvn clean install
+	- name: Build API lib
+	  working-directory: propertiesmanager-api-lib
+	  run: |
+	    mvn clean install
+	- name: Build API
+	  working-directory: propertiesmanager-api
+	  run: |
+	    mvn clean package
+	- name: Deploy site
+	  run: |
+	    rm -rf /opt/props/props-pro
+	    mkdir -p /opt/props/props-pro
+	    cp -r propertiesmanager-ui/dist/* /opt/props/props-pro/
+	- name: Deploy API
+	  run: |
+	    mkdir -p /opt/props/props-api-pro
+	    cp propertiesmanager-api/target/*-runner.jar /opt/props/props-api-pro/props-api-runner.jar
+	    sudo systemctl restart quarkus-props-api-pro.service
