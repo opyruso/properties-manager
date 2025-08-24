@@ -39,10 +39,15 @@ export default function AppRouter() {
 	}
 	
         function security(action) {
-                if (!keycloak || !keycloak.authenticated) {
-                        keycloak?.login?.();
+                if (!keycloak) {
                         return null;
                 }
+
+                if (!keycloak.authenticated) {
+                        keycloak.login();
+                        return null;
+                }
+
                 return action;
         }
 }
