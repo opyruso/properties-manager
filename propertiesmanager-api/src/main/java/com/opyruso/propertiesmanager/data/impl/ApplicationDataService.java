@@ -83,8 +83,8 @@ public class ApplicationDataService implements IApplicationDataService {
 
 	@Override
 	public List<String> selectVersions(String appId) throws WebApplicationException {
-		List<String> result = new ArrayList<String>();
-		List<Version> tmp = versionRepository.list("app_id = ?1", appId);
+                List<String> result = new ArrayList<String>();
+                List<Version> tmp = versionRepository.list("pk.appId = ?1", appId);
 		for (Version version : tmp) {
 			result.add(version.getPk().getNumVersion());
 		}
@@ -196,9 +196,9 @@ public class ApplicationDataService implements IApplicationDataService {
 	}
 
 	@Override
-	public Application selectApplication(String appId) throws WebApplicationException {
-		return applicationRepository.find("app_id = ?1", appId).firstResult();
-	}
+        public Application selectApplication(String appId) throws WebApplicationException {
+                return applicationRepository.find("pk.appId = ?1", appId).firstResult();
+        }
 
 	@Override
 	public Map<String, Map<String, Map<String, PropertyValue>>> selectPropertiesValue(String appId, String numVersion) throws WebApplicationException {
