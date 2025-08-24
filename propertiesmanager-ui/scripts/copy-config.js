@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const env = process.env.CONFIG_ENV;
-if (!env) {
-  console.error('CONFIG_ENV env var not set (expected dev, rec, pro).');
+const env = process.env.CONFIG_ENV || 'dev';
+const allowed = ['dev', 'rec', 'pro'];
+if (!allowed.includes(env)) {
+  console.error(`Invalid CONFIG_ENV "${env}" (expected dev, rec, pro).`);
   process.exit(1);
 }
 
