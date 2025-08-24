@@ -77,7 +77,8 @@ public class ApplicationService implements IApplicationService {
 			}
 			return result;
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -86,7 +87,8 @@ public class ApplicationService implements IApplicationService {
 		try {
 			return dataService.selectVersions(appId);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -95,7 +97,8 @@ public class ApplicationService implements IApplicationService {
 		try {
 			return dataService.selectFilename(appId, numVersion);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -104,7 +107,8 @@ public class ApplicationService implements IApplicationService {
 		try {
 			return dataService.selectFilenameAndContent(appId, numVersion);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -114,7 +118,8 @@ public class ApplicationService implements IApplicationService {
 			Map<String, ApiInstalledVersion> result = ApiInstalledVersion.mapEntityToApi(dataService.selectLastInstalledVersion(appId));
 			return result;
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -124,7 +129,8 @@ public class ApplicationService implements IApplicationService {
 			Map<String, Long> result = dataService.selectLastReleaseDate(appId);
 			return result;
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -147,7 +153,8 @@ public class ApplicationService implements IApplicationService {
 			result.propertiesValue = ApiPropertyValue.mapEntityToApi(dataService.selectPropertiesValue(appId, numVersion));
 			return result;
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -157,7 +164,8 @@ public class ApplicationService implements IApplicationService {
 			if (request.appLabel != null) dataService.updateAppLabel(appId, request.appLabel);
 			if (request.productOwner != null) dataService.updateProductOwner(appId, request.productOwner);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -186,7 +194,8 @@ public class ApplicationService implements IApplicationService {
 			if (request.isProtected != null) np.setProtected(request.isProtected);
 			dataService.updatePropertyValue(np);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -203,7 +212,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.addProperty(np);
 			}
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -217,7 +227,8 @@ public class ApplicationService implements IApplicationService {
 			np.getPk().setPropertyKey(propertyKey);
 			dataService.updateAllPropertyValueOperationType(np.getPk(), OperationTypeEnum.DEL);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -231,7 +242,8 @@ public class ApplicationService implements IApplicationService {
 			np.getPk().setPropertyKey(propertyKey);
 			dataService.deletePermanentProperty(np.getPk());
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -245,7 +257,8 @@ public class ApplicationService implements IApplicationService {
 			np.getPk().setPropertyKey(propertyKey);
 			dataService.updateAllPropertyValueOperationType(np.getPk(), OperationTypeEnum.ADD);
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -269,7 +282,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.updatePropertiesFile(appId, numVersion, filename, content);
 			}
 		} catch (Exception e) {
-			Log.error(e);
+                        Log.error("Error:", e);
+                        Log.error(e);
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -287,7 +301,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.addNewInstalledVersion(installedVersion);
 			}
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -367,14 +382,16 @@ public class ApplicationService implements IApplicationService {
 						try {
 							dataService.addProperty(p);
 						} catch (Exception e) {
-							Log.error(pToString(p));
+                        Log.error("Error:", e);
+                        Log.error(pToString(p));
 						}
 					}
 					for (PropertyValue pv : propValueToAdd) {
 						try {
 							dataService.addPropertyValue(pv);
 						} catch (Exception e) {
-							Log.error(pvToString(pv));
+                        Log.error("Error:", e);
+                        Log.error(pvToString(pv));
 						}
 					}
 					for (String cache : propsCache) {
@@ -410,7 +427,8 @@ public class ApplicationService implements IApplicationService {
 				}
 			}
 		} catch (Exception e) {
-			Log.error(e, e);
+                        Log.error("Error:", e);
+                        Log.error(e, e);
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -427,7 +445,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.addNewApplication(application);
 			}
 		} catch (Exception e) {
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -437,7 +456,8 @@ public class ApplicationService implements IApplicationService {
 			List<ApiGlobalVariable> result = ApiGlobalVariable.mapEntityToApi(dataService.selectGlobalVariables());
 			return result;
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -450,7 +470,8 @@ public class ApplicationService implements IApplicationService {
 			result = ApiGlobalVariableValue.mapEntityToApi(resultData);
 			return result;
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -465,7 +486,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.addGlobalVariable(globalVariable);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -486,7 +508,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.updateGlobalVariableValue(gv);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -500,7 +523,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.updateGlobalVariableValue(gv);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -514,7 +538,8 @@ public class ApplicationService implements IApplicationService {
 				dataService.removeGlobalVariable(key);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -525,7 +550,8 @@ public class ApplicationService implements IApplicationService {
 			dataService.cleanPropertiesByVersion(appId, toVersion);
 			dataService.copyAllPropertiesValueFromVersionToVersion(appId, fromVersion, toVersion);
 		} catch (Exception e) {
-			e.printStackTrace();
+                        Log.error("Error:", e);
+                        e.printStackTrace();
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}

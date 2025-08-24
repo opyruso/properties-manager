@@ -20,7 +20,8 @@ export default {
                                         }
                                 ):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -42,7 +43,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -65,7 +67,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -89,7 +92,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -110,7 +114,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -131,7 +136,8 @@ export default {
 					}
 				)
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -155,7 +161,8 @@ export default {
 				},
 				(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -169,7 +176,8 @@ export default {
 				},
 				(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -183,7 +191,8 @@ export default {
 				},
 				(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -197,7 +206,8 @@ export default {
 				},
 				(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -215,7 +225,8 @@ export default {
 				},
 				(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -230,7 +241,8 @@ export default {
 				},
 				(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -253,7 +265,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -281,7 +294,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -309,7 +323,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -337,7 +352,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -365,7 +381,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -393,7 +410,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -419,7 +437,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -445,7 +464,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -471,7 +491,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 
@@ -491,7 +512,8 @@ export default {
 					}
 				):null
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	
@@ -531,7 +553,8 @@ export default {
 					},
 					(error) => callbackError(error))
 		} catch (e) {
-			callbackError(e);
+                        console.error(e);
+                        callbackError(e);
 		}
 	},
 	

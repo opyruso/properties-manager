@@ -168,10 +168,11 @@ public class YamlUtils {
 				yamlLine.path = p;
 				result.add(yamlLine);
 			}
-		} catch (Exception e) {
-			throw e;
-		}
-		return result;
-	}
+                } catch (Exception e) {
+                        Log.error("Error parsing YAML", e);
+                        throw e;
+                }
+                return result;
+        }
 
 }

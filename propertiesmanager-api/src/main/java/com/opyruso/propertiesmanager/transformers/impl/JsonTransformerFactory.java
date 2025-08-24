@@ -63,10 +63,11 @@ public class JsonTransformerFactory extends BaseTransformerFactory implements IT
 				result = JsonPath.parse(result).set(k, v).jsonString();
 				if (!usedCache.contains(key)) usedCache.add(key);
 				log.add(new ApiLog(TransformerLogStatusEnum.valueOf("UPDATED_" + prop.getStatus()), "" + prop.getPk().getPropertyKey() + "=" + prop.getNewValue()));
-		    } catch (PathNotFoundException e) {
-				if (!usedCache.contains(key)) usedCache.add(key);
-				log.add(new ApiLog(TransformerLogStatusEnum.NOT_FOUND, "" + prop.getPk().getPropertyKey() + "=" + prop.getNewValue()));
-		    }
+                    } catch (PathNotFoundException e) {
+                                Log.error("Path not found", e);
+                                if (!usedCache.contains(key)) usedCache.add(key);
+                                log.add(new ApiLog(TransformerLogStatusEnum.NOT_FOUND, "" + prop.getPk().getPropertyKey() + "=" + prop.getNewValue()));
+                    }
 
 		}
 		return usedCache;
