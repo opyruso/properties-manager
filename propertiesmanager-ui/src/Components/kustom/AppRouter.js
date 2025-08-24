@@ -6,7 +6,6 @@ import { useKeycloakInstance } from '../Keycloak';
 import Error, { ForbiddenError, NotFoundError } from "../kernel/error/Error";
 import Copyright from "../kernel/copyright/Copyright";
 
-import Profile from "./pages/user/Profile";
 import AppList from './pages/applist/AppList';
 import AppDetails from "./pages/appdetails/AppDetails";
 import ConfigHelper from "./pages/confighelper/ConfigHelper";
@@ -27,7 +26,6 @@ export default function AppRouter() {
 				<Route exact path="/config-helper" element={globalCondition(security(<ConfigHelper />))} />
 				<Route exact path="/global-variables" element={globalCondition(security(<GlobalVariables />))} />
 				
-				<Route exact path="/user/profil" element={globalCondition(security(<Profile />))} />
 
 				<Route exact path="/copyright" element={globalCondition(<Copyright />)} />
 				

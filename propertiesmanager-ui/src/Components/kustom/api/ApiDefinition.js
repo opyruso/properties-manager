@@ -9,94 +9,23 @@ export default {
 	getAdminUsers(filter, callback = (data) => {console.log("getAdminUsers default success log"), data}, callbackError = (e) => {console.error("getAdminUsers default err log", e)}) {
 		try {
 		true?
-				ApiCallUtils.getSecure('/admin/users/' + filter,
-					(data) => {
-						console.log("success getAdminRightDemands callback", data);
-						callback(data);
-					},
-					(e) => {
-						console.log("error getAdminRightDemands callback", e);
-						callbackError(e);
-					}
-				):null
+                                ApiCallUtils.getSecure('/admin/users/' + filter,
+                                        (data) => {
+                                                console.log("success getAdminUsers callback", data);
+                                                callback(data);
+                                        },
+                                        (e) => {
+                                                console.log("error getAdminUsers callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
 		} catch (e) {
 			callbackError(e);
 		}
 	},
 
-	getAdminRightDemands(callback = (data) => {console.log("getAdminRightDemands default success log"), data}, callbackError = (e) => {console.error("getAdminRightDemands default err log", e)}) {
-		try {
-		true?
-				ApiCallUtils.getSecure('/admin/right/demands',
-					(data) => {
-						console.log("success getAdminRightDemands callback", data);
-						callback(data);
-					},
-					(e) => {
-						console.log("error getAdminRightDemands callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
-			callbackError(e);
-		}
-	},
 
-	adminToggleRight(userId, appId, envId, level, callback = (data) => {console.log("adminToggleRight default success log"), data}, callbackError = (e) => {console.error("adminToggleRight default err log", e)}) {
-		try {
-		userId!=null&&appId!=null&&envId!=null&&level!=null?
-				ApiCallUtils.getSecureNoContent('/admin/users/' + userId + '/app/' + appId + '/env/' + envId + '/level/' + level,
-					() => {
-						console.log("success adminToggleRight callback");
-						callback();
-					},
-					(e) => {
-						console.log("error adminToggleRight callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
-			callbackError(e);
-		}
-	},
-
-	acceptRightDemand(userId, appId, envId, level, callback = (data) => {console.log("acceptRightDemand default success log"), data}, callbackError = (e) => {console.error("acceptRightDemand default err log", e)}) {
-		try {
-		userId!=null&&appId!=null&&envId!=null&&level!=null?
-				ApiCallUtils.getSecureNoContent('/admin/users/' + userId + '/app/' + appId + '/env/' + envId + '/level/' + level + '/accept',
-					() => {
-						console.log("success acceptRightDemand callback");
-						callback();
-					},
-					(e) => {
-						console.log("error acceptRightDemand callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
-			callbackError(e);
-		}
-	},
-
-	refuseRightDemand(userId, appId, envId, level, callback = (data) => {console.log("refuseRightDemand default success log"), data}, callbackError = (e) => {console.error("refuseRightDemand default err log", e)}) {
-		try {
-		userId!=null&&appId!=null&&envId!=null&&level!=null?
-				ApiCallUtils.getSecureNoContent('/admin/users/' + userId + '/app/' + appId + '/env/' + envId + '/level/' + level + '/refuse',
-					() => {
-						console.log("success refuseRightDemand callback");
-						callback();
-					},
-					(e) => {
-						console.log("error refuseRightDemand callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
-			callbackError(e);
-		}
-	},
-
-	addGlobalVariable(key, callback = (data) => {console.log("refuseRightDemand default success log"), data}, callbackError = (e) => {console.error("refuseRightDemand default err log", e)}) {
+        addGlobalVariable(key, callback = (data) => {console.log("addGlobalVariable default success log"), data}, callbackError = (e) => {console.error("addGlobalVariable default err log", e)}) {
 		try {
 		key!=null?
 				ApiCallUtils.postSecureNoContent('/globalvariables',
@@ -104,11 +33,11 @@ export default {
 						"key":  key
 					},
 					() => {
-						console.log("success refuseRightDemand callback");
+                                                console.log("success addGlobalVariable callback");
 						callback();
 					},
 					(e) => {
-						console.log("error refuseRightDemand callback", e);
+                                                console.log("error addGlobalVariable callback", e);
 						callbackError(e);
 					}
 				):null
@@ -117,7 +46,7 @@ export default {
 		}
 	},
 
-	updateGlobalVariableValue(key, env, value, callback = (data) => {console.log("refuseRightDemand default success log"), data}, callbackError = (e) => {console.error("refuseRightDemand default err log", e)}) {
+        updateGlobalVariableValue(key, env, value, callback = (data) => {console.log("updateGlobalVariableValue default success log"), data}, callbackError = (e) => {console.error("updateGlobalVariableValue default err log", e)}) {
 		try {
 		key!=null&&env!=null&&value!=null?
 				ApiCallUtils.putSecureNoContent('/globalvariables',
@@ -127,11 +56,11 @@ export default {
 						"value":  value
 					},
 					() => {
-						console.log("success refuseRightDemand callback");
+                                                console.log("success updateGlobalVariableValue callback");
 						callback();
 					},
 					(e) => {
-						console.log("error refuseRightDemand callback", e);
+                                                console.log("error updateGlobalVariableValue callback", e);
 						callbackError(e);
 					}
 				):null
@@ -140,7 +69,7 @@ export default {
 		}
 	},
 
-	updateGlobalVariableProtection(key, env, isprotected, callback = (data) => {console.log("refuseRightDemand default success log"), data}, callbackError = (e) => {console.error("refuseRightDemand default err log", e)}) {
+        updateGlobalVariableProtection(key, env, isprotected, callback = (data) => {console.log("updateGlobalVariableProtection default success log"), data}, callbackError = (e) => {console.error("updateGlobalVariableProtection default err log", e)}) {
 		try {
 		key!=null&&env!=null&&value!=null?
 				ApiCallUtils.putSecureNoContent('/globalvariables',
@@ -151,11 +80,11 @@ export default {
 						"isprotected":  isprotected
 					},
 					() => {
-						console.log("success refuseRightDemand callback");
+                                                console.log("success updateGlobalVariableProtection callback");
 						callback();
 					},
 					(e) => {
-						console.log("error refuseRightDemand callback", e);
+                                                console.log("error updateGlobalVariableProtection callback", e);
 						callbackError(e);
 					}
 				):null
@@ -164,7 +93,7 @@ export default {
 		}
 	},
 
-	deleteGlobalVariable(key, callback = (data) => {console.log("refuseRightDemand default success log"), data}, callbackError = (e) => {console.error("refuseRightDemand default err log", e)}) {
+        deleteGlobalVariable(key, callback = (data) => {console.log("deleteGlobalVariable default success log"), data}, callbackError = (e) => {console.error("deleteGlobalVariable default err log", e)}) {
 		try {
 		key!=null?
 				ApiCallUtils.deleteSecureNoContent('/globalvariables',
@@ -172,11 +101,11 @@ export default {
 						"key":  key
 					},
 					() => {
-						console.log("success refuseRightDemand callback");
+                                                console.log("success deleteGlobalVariable callback");
 						callback();
 					},
 					(e) => {
-						console.log("error refuseRightDemand callback", e);
+                                                console.log("error deleteGlobalVariable callback", e);
 						callbackError(e);
 					}
 				):null
@@ -206,48 +135,6 @@ export default {
 		}
 	},
 
-	demandNewRight(userId, appId, envId, level,
-			callback = (data) => {console.log("demandNewRight default success log"), data}, callbackError = (e) => {console.error("demandNewRight default err log", e)}) {
-		try {
-		userId!=null&&appId!=null&&envId!=null&&level!=null?
-				ApiCallUtils.putSecure('/user/' + userId + '/right/demand',
-					{
-						"appId": appId,
-						"envId": envId,
-						"level": level
-					},
-					(data) => {
-						console.log("success demandNewRight callback", data);
-						callback(data);
-					},
-					(e) => {
-						console.log("error demandNewRight callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
-			callbackError(e);
-		}
-	},
-
-	getRightDemands(userId,
-			callback = (data) => {console.log("getRightDemands default success log"), data}, callbackError = (e) => {console.error("getRightDemands default err log", e)}) {
-		try {
-		userId!=null?
-				ApiCallUtils.getSecure('/user/' + userId + '/right/demands',
-					(data) => {
-						console.log("success getRightDemands callback", data);
-						callback(data);
-					},
-					(e) => {
-						console.log("error getRightDemands callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
-			callbackError(e);
-		}
-	},
 	
 	
 	

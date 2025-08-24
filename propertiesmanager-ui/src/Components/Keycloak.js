@@ -32,32 +32,19 @@ class KeycloakService {
     return groups || false;
   }
 
-  securityCheck(appId, env, level, forceRights = undefined) {
-    const rightsSource = forceRights ?? this.keycloak?.tokenParsed?.propertiesmanager_rights;
-    if (!rightsSource) return false;
-
-    const rightsTokens = Array.isArray(rightsSource) ? rightsSource : [rightsSource];
-    for (const rights of rightsTokens) {
-      if (
-        rights.admin ||
-        (appId === 'all_app' && rights.all_app?.[env]?.includes(level)) ||
-        (env === 'all_env' && rights.app?.[appId]?.['all_env']?.includes(level)) ||
-        (rights.all_app?.[env]?.includes(level)) ||
-        (rights.app?.[appId]?.['all_env']?.includes(level)) ||
-        (rights.app?.[appId]?.[env]?.includes(level))
-      ) {
-        return true;
-      }
+  securityCheck(appId, env, level) {
+    if (this.keycloak?.hasRealmRole('admin') || this.keycloak?.hasResourceRole('admin', 'propertiesmanager-app')) {
+      return true;
     }
-    return false;
+    const role = `env_${env}_${level === 'r' ? 'read' : 'write'}`;
+    return this.keycloak?.hasResourceRole(role, 'propertiesmanager-app');
   }
 
-  securityAdminCheck(forceRights = undefined) {
-    const rightsSource = forceRights ?? this.keycloak?.tokenParsed?.propertiesmanager_rights;
-    if (!rightsSource) return false;
-
-    const rightsTokens = Array.isArray(rightsSource) ? rightsSource : [rightsSource];
-    return rightsTokens.some((r) => r.admin);
+  securityAdminCheck() {
+    return (
+      this.keycloak?.hasRealmRole('admin') ||
+      this.keycloak?.hasResourceRole('admin', 'propertiesmanager-app')
+    );
   }
 }
 
