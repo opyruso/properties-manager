@@ -14,9 +14,9 @@ mkdir /opt/actions-runner-props
 cd /opt/actions-runner-props
 curl -o actions-runner-linux-x64-2.328.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz
 tar xzf ./actions-runner-linux-x64-2.328.0.tar.gz
-chwon -R opyruso:opyruso /opt/actions-runner-props
+chown -R opyruso:opyruso /opt/actions-runner-props
 su opyruso
-./config.sh --url https://github.com/opyruso/oPyRuSo-Public-Website --token AE6RTM2PY4X2CIG62AKVKLLIU355I
+./config.sh --url https://github.com/opyruso/properties-manager --token AE6RTM2GSTMAXML7Q3IUQL3IVKTY2
 exit
 ./svc.sh install
 ./svc.sh start
