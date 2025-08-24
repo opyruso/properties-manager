@@ -1,6 +1,6 @@
 import './Components/kernel/themes/Dark.css'
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { ReactKeycloakProvider } from '@react-keycloak/web'
@@ -14,22 +14,49 @@ import AppContext from './Components/AppContext';
 import './Components/kustom/i18n';
 import { BrowserRouter } from 'react-router-dom';
 
+function Root() {
+        const [config, setConfig] = useState();
+
+        useEffect(() => {
+                fetch('/config/config.json', {
+                        method: 'GET',
+                        headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                        }
+                })
+                .then(res => res.json())
+                .then(data => {
+                        AppContext.app = data;
+                        setConfig(data);
+                })
+                .catch(e => {
+                        console.error('Response config error : ', e);
+                });
+        }, []);
+
+        if (!config) return null;
+
+        return (
+                <ReactKeycloakProvider
+                        authClient={Keycloak.instance()}
+                        onEvent={Keycloak.eventLogger}
+                        onTokens={Keycloak.tokenLogger}
+                        initOptions={config.keycloak_init_options}
+                        key={JSON.stringify(config.keycloak_init_options)}
+                >
+                        <React.StrictMode>
+                                <BrowserRouter>
+                                        <App />
+                                </BrowserRouter>
+                        </React.StrictMode>
+                </ReactKeycloakProvider>
+        );
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(
-	<ReactKeycloakProvider
-				authClient={Keycloak.instance()}
-				onEvent={Keycloak.eventLogger}
-				onTokens={Keycloak.tokenLogger}
-				initOptions={AppContext?.app?.keycloak_init_options}
-				>
-		<React.StrictMode>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</React.StrictMode>
-	</ReactKeycloakProvider>
-);
+root.render(<Root />);
 
 
 var seq = ['ArrowUp',
