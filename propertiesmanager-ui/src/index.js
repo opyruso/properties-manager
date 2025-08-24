@@ -11,7 +11,7 @@ import './index.css';
 import App from './Components/App';
 
 import './Components/kustom/i18n';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 function Root() {
         const [config, setConfig] = useState();
@@ -31,6 +31,18 @@ function Root() {
                         setConfig(data);
 
                         const kcConfig = await kcRes.json();
+                        if (kcConfig['auth-server-url'] && !kcConfig.url) {
+                                kcConfig.url = kcConfig['auth-server-url'];
+                                delete kcConfig['auth-server-url'];
+                        }
+                        if (kcConfig.resource && !kcConfig.clientId) {
+                                kcConfig.clientId = kcConfig.resource;
+                                delete kcConfig.resource;
+                        }
+                        if (kcConfig['public-client'] !== undefined && kcConfig.publicClient === undefined) {
+                                kcConfig.publicClient = kcConfig['public-client'];
+                                delete kcConfig['public-client'];
+                        }
                         setKeycloak(Keycloak.createInstance(kcConfig));
                 })
                 .catch(e => {
@@ -49,9 +61,9 @@ function Root() {
                         key={JSON.stringify(config.keycloak_init_options)}
                 >
                         <React.StrictMode>
-                                <BrowserRouter>
+                                <HashRouter>
                                         <App />
-                                </BrowserRouter>
+                                </HashRouter>
                         </React.StrictMode>
                 </ReactKeycloakProvider>
         );
