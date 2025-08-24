@@ -8,7 +8,7 @@ import { faRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-sv
 
 export default function ProfilMenu() {
 
-        const keycloak = useKeycloakInstance();
+const { keycloak } = useKeycloakInstance();
 
         const [username, setUsername] = useState('');
 

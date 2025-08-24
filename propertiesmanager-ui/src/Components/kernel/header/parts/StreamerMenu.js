@@ -10,7 +10,7 @@ import { faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 
 export default function StreamerMenu() {
 
-        const keycloak = useKeycloakInstance();
+const { keycloak } = useKeycloakInstance();
 	
 	const [username, setUsername] = useState();
 
@@ -18,10 +18,10 @@ export default function StreamerMenu() {
 		localStorage.setItem("streamer_mod", "0");
 	}
 
-	useEffect(() => {
-		console.log("Streamer Menu : ", keycloak.authenticated);
-		setUsername(keycloak.authenticated && keycloak.tokenParsed?.email!==undefined?keycloak.tokenParsed?.preferred_username:"");
-	}, [keycloak.authenticated, keycloak.tokenParsed?.email, keycloak.tokenParsed?.preferred_username]);
+useEffect(() => {
+console.log("Streamer Menu : ", keycloak?.authenticated);
+setUsername(keycloak?.authenticated && keycloak.tokenParsed?.email!==undefined?keycloak.tokenParsed?.preferred_username:"");
+}, [keycloak?.authenticated, keycloak.tokenParsed?.email, keycloak.tokenParsed?.preferred_username]);
 	
 	
 

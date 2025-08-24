@@ -14,7 +14,7 @@ export default function ConfigHelper() {
 	
   	const { t } = useTranslation();
 
-        const keycloak = useKeycloakInstance();
+const { keycloak } = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();
@@ -49,8 +49,8 @@ export default function ConfigHelper() {
                         :null;
         }, [app]);
 	
-	useEffect(() => {
-		if (keycloak.authenticated && envList != undefined) {
+useEffect(() => {
+if (keycloak?.authenticated && envList != undefined) {
 			setApplications(undefined);
 			setVersions(undefined);
 			setFiles(undefined);
@@ -64,7 +64,7 @@ export default function ConfigHelper() {
 			
 			refreshApplications();
 		}
-	}, [envList, keycloak.authenticated]);
+}, [envList, keycloak?.authenticated]);
 	
 	
 

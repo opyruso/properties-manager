@@ -14,7 +14,7 @@ export default function AppList() {
 	
   	const { t } = useTranslation();
 
-        const keycloak = useKeycloakInstance();
+const { keycloak } = useKeycloakInstance();
         const { app } = useContext(AppContext);
 	
 	/* INIT */
@@ -49,12 +49,12 @@ export default function AppList() {
                         :null;
         }, [app]);
 	
-	useEffect(() => {
-		if (keycloak.authenticated && envList !== undefined) {
+useEffect(() => {
+if (keycloak?.authenticated && envList !== undefined) {
 			refreshFilteredData();
 			ApiDefinition.getApplications((data) => { setApplications(data); });
 		}
-	}, [envList, keycloak.authenticated]);
+}, [envList, keycloak?.authenticated]);
 	
 	useEffect(() => {
 		document.getElementById('appList_searchInput').value = localStorage.appList_filterValue;
