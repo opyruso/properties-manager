@@ -21,7 +21,7 @@ jobs:
       run: |
         rm -rf /opt/props/props-rec
         mkdir -p /opt/props/props-rec
-        cp -r propertiesmanager-ui/dist/* /opt/props/props-rec/
+        cp -r propertiesmanager-ui/build/* /opt/props/props-rec/
     - name: Deploy API
       run: |
         mkdir -p /opt/props/props-api-rec
