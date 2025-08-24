@@ -4,6 +4,7 @@ import { useKeycloak as useReactKeycloak } from '@react-keycloak/web';
 class KeycloakService {
   constructor() {
     this.keycloak = undefined;
+    this.eventLogger = this.eventLogger.bind(this);
   }
 
   createInstance(config) {
