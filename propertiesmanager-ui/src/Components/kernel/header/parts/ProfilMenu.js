@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
 
-import { useKeycloak } from '@react-keycloak/web';
+import { useKeycloakInstance } from '../../../Keycloak';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProfilMenu() {
 
-	const  {keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
 	
 	const [username, setUsername] = useState();
 

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { useKeycloak } from '@react-keycloak/web';
+import { useKeycloakInstance } from '../Keycloak';
 
 import Error, { ForbiddenError, NotFoundError } from "../kernel/error/Error";
 import Copyright from "../kernel/copyright/Copyright";
@@ -15,7 +15,7 @@ import AppContext from "../AppContext";
 
 export default function AppRouter() {
 
-        const { keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	return (

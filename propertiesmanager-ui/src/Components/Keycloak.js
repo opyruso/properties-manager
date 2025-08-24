@@ -1,75 +1,69 @@
 import Keycloak from 'keycloak-js';
+import { useKeycloak as useReactKeycloak } from '@react-keycloak/web';
 
-const instance = new Keycloak('/config/keycloak.json');
+class KeycloakService {
+  constructor() {
+    this.keycloak = undefined;
+  }
 
-export default {
-	instance: () => {return instance},
-	authenticated: () => {return instance?.authenticated},
-	eventLogger : (event, error) => {
-		console.log('onKeycloakEvent (authenticated : ' + instance?.authenticated + ')', event, error);
-	},
-	
-	tokenLogger : (tokens) => {
-	  console.log('onKeycloakTokens', tokens)
-	},
-	
-	getUserGroups() {
-		if (instance === undefined
-			|| instance.tokenParsed === undefined
-			|| instance.tokenParsed.propertiesmanager_rights === undefined) return false;
-		let result = instance.tokenParsed.propertiesmanager_group;
-		return result;
-	},
-	
-	securityCheck(appId, env, level, forceRights = undefined) {
-		if (instance === undefined
-			|| instance.tokenParsed === undefined
-			|| instance.tokenParsed.propertiesmanager_rights === undefined) return false;
-		console.log("token claims : " + JSON.stringify(instance.tokenParsed.propertiesmanager_rights));
-		let result = false;
-		let rightsToken = instance.tokenParsed.propertiesmanager_rights;
-		if (forceRights !== undefined) rightsToken = forceRights;
-		if (rightsToken === undefined || rightsToken == null) rightsToken = {"admin":false};
-		if (!Array.isArray(rightsToken)) rightsToken = [rightsToken];
-		for (let i = 0; i < rightsToken.length; i++) {
-			console.log("token details claims[" + (i + 1) + "/" + rightsToken.length + "] : " + JSON.stringify(rightsToken[i]));
-			let rights = rightsToken[i];
-			if (
-				rights.admin
-					|| (appId == "all_app" && rights.all_app?.[env]!=undefined && rights.all_app?.[env].includes(level))
-					|| (env == "all_env" && rights.app?.[appId]?.["all_env"]!=undefined && rights.app[appId]["all_env"].includes(level))
-					|| appId != "all_app" && env != "all_env" && 
-						(rights.all_app?.[env]!=undefined && rights.all_app?.[env].includes(level))
-						|| (rights.app?.[appId]!=undefined && rights.app[appId]["all_env"]!=undefined && rights.app[appId]["all_env"].includes(level))
-						|| (rights.app?.[appId]!=undefined && rights.app[appId][env]!=undefined && rights.app[appId][env].includes(level))
-			) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	},
-	
-	securityAdminCheck(forceRights = undefined) {
-		if (instance === undefined
-			|| instance.tokenParsed === undefined
-			|| instance.tokenParsed.propertiesmanager_rights === undefined) return false;
-//		console.log("token claims : " + JSON.stringify(instance.tokenParsed.propertiesmanager_rights));
-		let result = false;
-		let rightsToken = instance.tokenParsed.propertiesmanager_rights;
-		if (forceRights !== undefined) rightsToken = forceRights;
-		if (rightsToken === undefined || rightsToken == null) rightsToken = {"admin":false};
-		if (!Array.isArray(rightsToken)) rightsToken = [rightsToken];
-		for (let i = 0; i < rightsToken.length; i++) {
-//			console.log("token details claims[" + (i + 1) + "/" + rightsToken.length + "] : " + JSON.stringify(rightsToken[i]));
-			let rights = rightsToken[i];
-			if (
-				rights.admin
-			) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
+  createInstance(config) {
+    this.keycloak = new Keycloak(config);
+    return this.keycloak;
+  }
+
+  instance() {
+    return this.keycloak;
+  }
+
+  authenticated() {
+    return !!this.keycloak?.authenticated;
+  }
+
+  eventLogger(event, error) {
+    console.log(`onKeycloakEvent (authenticated : ${this.authenticated()})`, event, error);
+  }
+
+  tokenLogger(tokens) {
+    console.log('onKeycloakTokens', tokens);
+  }
+
+  getUserGroups() {
+    const groups = this.keycloak?.tokenParsed?.propertiesmanager_group;
+    return groups || false;
+  }
+
+  securityCheck(appId, env, level, forceRights = undefined) {
+    const rightsSource = forceRights ?? this.keycloak?.tokenParsed?.propertiesmanager_rights;
+    if (!rightsSource) return false;
+
+    const rightsTokens = Array.isArray(rightsSource) ? rightsSource : [rightsSource];
+    for (const rights of rightsTokens) {
+      if (
+        rights.admin ||
+        (appId === 'all_app' && rights.all_app?.[env]?.includes(level)) ||
+        (env === 'all_env' && rights.app?.[appId]?.['all_env']?.includes(level)) ||
+        (rights.all_app?.[env]?.includes(level)) ||
+        (rights.app?.[appId]?.['all_env']?.includes(level)) ||
+        (rights.app?.[appId]?.[env]?.includes(level))
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  securityAdminCheck(forceRights = undefined) {
+    const rightsSource = forceRights ?? this.keycloak?.tokenParsed?.propertiesmanager_rights;
+    if (!rightsSource) return false;
+
+    const rightsTokens = Array.isArray(rightsSource) ? rightsSource : [rightsSource];
+    return rightsTokens.some((r) => r.admin);
+  }
 }
+
+export function useKeycloakInstance() {
+  const { keycloak } = useReactKeycloak();
+  return keycloak;
+}
+
+export default new KeycloakService();

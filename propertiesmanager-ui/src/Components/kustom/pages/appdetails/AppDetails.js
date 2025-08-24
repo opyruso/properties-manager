@@ -3,10 +3,8 @@ import './AppDetails.css';
 import React, { useReducer, useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 
-import Keycloak from '../../../Keycloak';
+import Keycloak, { useKeycloakInstance } from '../../../Keycloak';
 import AppContext from '../../../AppContext';
-
-import { useKeycloak } from '@react-keycloak/web';
 
 import ApiDefinition from '../../api/ApiDefinition';
 
@@ -19,7 +17,7 @@ export default function AppDetails() {
 	
   	const { t } = useTranslation();
 
-        const { keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
         const { app } = useContext(AppContext);
 	
 	/* INIT */

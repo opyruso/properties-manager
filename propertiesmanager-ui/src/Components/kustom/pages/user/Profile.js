@@ -2,19 +2,18 @@ import './Profile.css';
 
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useKeycloak } from '@react-keycloak/web';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faEye, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import AppContext from '../../../AppContext';
-import Keycloak from '../../../../Components/Keycloak';
+import Keycloak, { useKeycloakInstance } from '../../../Keycloak';
 
 import ApiDefinition from '../../../kustom/api/ApiDefinition';
 import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
 
-        const { keycloak, } = useKeycloak();
+        const keycloak = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();

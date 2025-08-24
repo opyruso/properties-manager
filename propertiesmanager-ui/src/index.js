@@ -15,29 +15,34 @@ import { BrowserRouter } from 'react-router-dom';
 
 function Root() {
         const [config, setConfig] = useState();
+        const [keycloak, setKeycloak] = useState();
 
         useEffect(() => {
-                fetch('/config/config.json', {
-                        method: 'GET',
-                        headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
+                Promise.all([
+                        fetch('/config/config.json'),
+                        fetch('/config/keycloak.json')
+                ])
+                .then(async ([confRes, kcRes]) => {
+                        const data = await confRes.json();
+                        if (data.keycloak_init_options?.silentCheckSsoRedirectUri?.startsWith('/')) {
+                                data.keycloak_init_options.silentCheckSsoRedirectUri =
+                                        window.location.origin + data.keycloak_init_options.silentCheckSsoRedirectUri;
                         }
-                })
-                .then(res => res.json())
-                .then(data => {
                         setConfig(data);
+
+                        const kcConfig = await kcRes.json();
+                        setKeycloak(Keycloak.createInstance(kcConfig));
                 })
                 .catch(e => {
                         console.error('Response config error : ', e);
                 });
         }, []);
 
-        if (!config) return null;
+        if (!config || !keycloak) return null;
 
         return (
                 <ReactKeycloakProvider
-                        authClient={Keycloak.instance()}
+                        authClient={keycloak}
                         onEvent={Keycloak.eventLogger}
                         onTokens={Keycloak.tokenLogger}
                         initOptions={config.keycloak_init_options}
