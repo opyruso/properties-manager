@@ -8,12 +8,12 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import com.opyruso.propertiesmanager.api.IConnectorResources;
 
-import io.quarkus.oidc.client.filter.OidcClientRequestFilter;
+import io.quarkus.oidc.client.reactive.filter.OidcClientRequestReactiveFilter;
 
 @ApplicationScoped
 @Path("/pm-api/connector")
 @RegisterRestClient(configKey = "propertiesmanager-api")
-@RegisterProvider(OidcClientRequestFilter.class)
+@RegisterProvider(OidcClientRequestReactiveFilter.class)
 public interface IConnectorClient extends IConnectorResources {
 
 }
