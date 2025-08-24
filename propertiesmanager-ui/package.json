@@ -10,7 +10,7 @@
     "i18next-browser-languagedetector": "^6.1.5",
     "jsonpath": "^1.1.1",
     "jsonpath-plus": "^7.1.0",
-    "keycloak-js": "^9.0.1",
+    "keycloak-js": "^26.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^11.18.4",

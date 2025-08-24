@@ -26,6 +26,10 @@ function Root() {
                 })
                 .then(res => res.json())
                 .then(data => {
+                        if (data.keycloak_init_options?.silentCheckSsoRedirectUri?.startsWith('/')) {
+                                data.keycloak_init_options.silentCheckSsoRedirectUri =
+                                        window.location.origin + data.keycloak_init_options.silentCheckSsoRedirectUri;
+                        }
                         setConfig(data);
                 })
                 .catch(e => {
