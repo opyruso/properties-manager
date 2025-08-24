@@ -12,7 +12,7 @@ import { t } from 'i18next';
 
 export default function GlobalVariables() {
 
-        const keycloak = useKeycloakInstance();
+const { keycloak } = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	const [envList, setEnvList] = useState();
@@ -36,11 +36,11 @@ export default function GlobalVariables() {
                         :null;
         }, [app]);
 	
-	useEffect(() => {
-		if (keycloak.authenticated && envList != undefined) {
-			refreshGlobalVariables();
-		}
-	}, [envList, keycloak.authenticated]);
+useEffect(() => {
+if (keycloak?.authenticated && envList != undefined) {
+refreshGlobalVariables();
+}
+}, [envList, keycloak?.authenticated]);
 	
 	
 

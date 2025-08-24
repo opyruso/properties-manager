@@ -17,7 +17,7 @@ export default function AppDetails() {
 	
   	const { t } = useTranslation();
 
-        const keycloak = useKeycloakInstance();
+const { keycloak } = useKeycloakInstance();
         const { app } = useContext(AppContext);
 	
 	/* INIT */

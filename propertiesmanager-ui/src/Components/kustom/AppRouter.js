@@ -14,7 +14,7 @@ import AppContext from "../AppContext";
 
 export default function AppRouter() {
 
-        const keycloak = useKeycloakInstance();
+const { keycloak, initialized } = useKeycloakInstance();
         const { app } = useContext(AppContext);
 
 	return (
@@ -38,12 +38,15 @@ export default function AppRouter() {
                 return app!==undefined?action:<Error errNum="500" />;
 	}
 	
-        function security(action) {
-                if (!keycloak?.authenticated) {
-                        keycloak?.login?.();
-                        return null;
-                }
+function security(action) {
+if (!initialized) {
+return null;
+}
+if (!keycloak?.authenticated) {
+keycloak?.login?.();
+return null;
+}
 
-                return action;
-        }
+return action;
+}
 }

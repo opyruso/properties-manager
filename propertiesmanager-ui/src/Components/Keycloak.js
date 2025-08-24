@@ -50,8 +50,7 @@ class KeycloakService {
 }
 
 export function useKeycloakInstance() {
-  const { keycloak } = useReactKeycloak();
-  return keycloak;
+  return useReactKeycloak();
 }
 
 export default new KeycloakService();
