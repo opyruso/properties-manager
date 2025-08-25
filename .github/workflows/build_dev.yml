@@ -29,8 +29,3 @@ jobs:
           mkdir -p /opt/props/props-api-dev
           cp propertiesmanager-api/target/*-runner.jar /opt/props/props-api-dev/props-api-runner.jar
           sudo systemctl restart quarkus-props-api-dev.service
-      - name: Archive installer
-        run: |
-          VERSION=$(grep -m1 -oP '(?<=<version>)[^<]+' propertiesmanager-api/pom.xml)
-          mkdir -p /opt/props/props-resources/builds
-          cp propertiesmanager.zip "/opt/props/props-resources/builds/propertiesmanager_installer_${VERSION}.zip"

@@ -11,29 +11,31 @@ mvn -q -f propertiesmanager-security-lib/pom.xml install
 mvn -q -f propertiesmanager-lib/pom.xml install
 mvn -q -f connector-java/pom.xml install
 mvn -q -f propertiesmanager-api/pom.xml install
+if [[ "${CONFIG_ENV}" == "pro" ]]; then
+  npm install --prefix propertiesmanager-ui
+  npm --prefix propertiesmanager-ui run build:${CONFIG_ENV}
 
-npm install --prefix propertiesmanager-ui
-npm --prefix propertiesmanager-ui run build:${CONFIG_ENV}
+  DIST_DIR="dist"
+  rm -rf "${DIST_DIR}"
+  mkdir -p "${DIST_DIR}/propertiesmanager-ui"
+  mkdir -p "${DIST_DIR}/propertiesmanager-api"
+  mkdir -p "${DIST_DIR}/connector"
 
-DIST_DIR="dist"
-rm -rf "${DIST_DIR}"
-mkdir -p "${DIST_DIR}/propertiesmanager-ui"
-mkdir -p "${DIST_DIR}/propertiesmanager-api"
-mkdir -p "${DIST_DIR}/connector"
+  cp -r propertiesmanager-ui/build/* "${DIST_DIR}/propertiesmanager-ui/"
 
-cp -r propertiesmanager-ui/build/* "${DIST_DIR}/propertiesmanager-ui/"
+  API_JAR=$(ls propertiesmanager-api/target/*.jar | head -n1)
+  cp "${API_JAR}" "${DIST_DIR}/propertiesmanager-api/"
 
-API_JAR=$(ls propertiesmanager-api/target/*.jar | head -n1)
-cp "${API_JAR}" "${DIST_DIR}/propertiesmanager-api/"
+  CONNECTOR_JAR=$(ls connector-java/target/*.jar | head -n1)
+  cp "${CONNECTOR_JAR}" "${DIST_DIR}/connector/"
 
-CONNECTOR_JAR=$(ls connector-java/target/*.jar | head -n1)
-cp "${CONNECTOR_JAR}" "${DIST_DIR}/connector/"
+  ZIP_NAME="propertiesmanager.zip"
+  (
+    cd "${DIST_DIR}"
+    zip -qr "../${ZIP_NAME}" .
+  )
 
-ZIP_NAME="propertiesmanager.zip"
-(
-  cd "${DIST_DIR}"
-  zip -qr "../${ZIP_NAME}" .
-)
-
-mkdir -p propertiesmanager-ui/download
-cp "${ZIP_NAME}" propertiesmanager-ui/download/propertiesmanager_latest.zip
+  mkdir -p propertiesmanager-ui/download
+  rm -f propertiesmanager-ui/download/propertiesmanager_latest.zip
+  cp "${ZIP_NAME}" propertiesmanager-ui/download/propertiesmanager_latest.zip
+fi
