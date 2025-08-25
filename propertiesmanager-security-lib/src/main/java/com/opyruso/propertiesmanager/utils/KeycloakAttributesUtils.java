@@ -84,6 +84,7 @@ public class KeycloakAttributesUtils {
                                 }
                         }
 
+                        Log.info("Token roles: " + roles);
                         return roles;
                 } catch (Exception e) {
                         Log.error("Error:", e);
@@ -151,8 +152,11 @@ public class KeycloakAttributesUtils {
                         if (securityCheckIsAdminAsBoolean(jwt)) {
                                 return true;
                         }
+                        Set<String> roles = getUserRoles(jwt);
                         String role = "env_" + env + ("w".equals(right) ? "_write" : "_read");
-                        return getUserRoles(jwt).contains(role);
+                        boolean hasRole = roles.contains(role);
+                        Log.info("Check role " + role + " in token: " + hasRole);
+                        return hasRole;
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
