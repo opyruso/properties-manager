@@ -1,6 +1,7 @@
 package com.opyruso.propertiesmanager.utils;
 
 import java.util.Set;
+import java.util.HashSet;
 
 import jakarta.ws.rs.WebApplicationException;
 
@@ -62,9 +63,29 @@ public class KeycloakAttributesUtils {
                 }
         }
 
+        private static Set<String> getUserGroups(JsonWebToken jwt) {
+                try {
+                        Set<String> groups = new HashSet<>(jwt.getGroups());
+                        Object claim = jwt.getClaim("propertiesmanager_group");
+                        if (claim instanceof Iterable<?>) {
+                                for (Object c : (Iterable<?>) claim) {
+                                        if (c != null) {
+                                                groups.add(c.toString());
+                                        }
+                                }
+                        } else if (claim instanceof String) {
+                                groups.add((String) claim);
+                        }
+                        return groups;
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
+                }
+        }
+
         public static boolean securityCheckIsAdminAsBoolean(JsonWebToken jwt) throws WebApplicationException {
                 try {
-                        return jwt.getGroups().contains("admin");
+                        return getUserGroups(jwt).contains("admin");
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
@@ -90,7 +111,7 @@ public class KeycloakAttributesUtils {
                         if (securityCheckIsAdminAsBoolean(jwt)) {
                                 return true;
                         }
-                        Set<String> groups = jwt.getGroups();
+                        Set<String> groups = getUserGroups(jwt);
                         for (String g : groups) {
                                 if (g.startsWith("env_")) {
                                         return true;
@@ -123,7 +144,7 @@ public class KeycloakAttributesUtils {
                                 return true;
                         }
                         String role = "env_" + env + ("w".equals(right) ? "_write" : "_read");
-                        return jwt.getGroups().contains(role);
+                        return getUserGroups(jwt).contains(role);
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
