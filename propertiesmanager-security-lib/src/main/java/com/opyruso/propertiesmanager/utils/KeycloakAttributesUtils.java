@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.json.JsonString;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -76,7 +77,9 @@ public class KeycloakAttributesUtils {
                                         Object clientRoles = ((Map<?, ?>) client).get("roles");
                                         if (clientRoles instanceof Iterable<?>) {
                                                 for (Object role : (Iterable<?>) clientRoles) {
-                                                        if (role != null) {
+                                                        if (role instanceof JsonString) {
+                                                                roles.add(((JsonString) role).getString());
+                                                        } else if (role != null) {
                                                                 roles.add(role.toString());
                                                         }
                                                 }
@@ -117,10 +120,10 @@ public class KeycloakAttributesUtils {
                         if (securityCheckIsConnectorAsBoolean(jwt)) {
                                 return true;
                         }
-                        if (securityCheckIsAdminAsBoolean(jwt)) {
+                        Set<String> roles = getUserRoles(jwt);
+                        if (roles.contains("admin")) {
                                 return true;
                         }
-                        Set<String> roles = getUserRoles(jwt);
                         for (String r : roles) {
                                 if (r.startsWith("env_")) {
                                         return true;
@@ -149,10 +152,10 @@ public class KeycloakAttributesUtils {
                         if (securityCheckIsConnectorAsBoolean(jwt)) {
                                 return true;
                         }
-                        if (securityCheckIsAdminAsBoolean(jwt)) {
+                        Set<String> roles = getUserRoles(jwt);
+                        if (roles.contains("admin")) {
                                 return true;
                         }
-                        Set<String> roles = getUserRoles(jwt);
                         String role = "env_" + env + ("w".equals(right) ? "_write" : "_read");
                         boolean hasRole = roles.contains(role);
                         Log.info("Check role " + role + " in token: " + hasRole);
