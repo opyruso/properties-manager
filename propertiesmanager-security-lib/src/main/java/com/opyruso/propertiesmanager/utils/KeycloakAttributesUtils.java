@@ -45,8 +45,7 @@ public class KeycloakAttributesUtils {
 
         public static boolean securityCheckIsConnectorAsBoolean(JsonWebToken jwt) throws WebApplicationException {
                 try {
-                        boolean result = false;
-                        result = jwt.containsClaim("propertiesmanager_connector");
+                        boolean result = getUserRoles(jwt).contains("connector");
                         return result;
                 } catch (Exception e) {
                         Log.error("Error:", e);
