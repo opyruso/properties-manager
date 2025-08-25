@@ -336,29 +336,8 @@ public class ApplicationService implements IApplicationService {
 					ITransformerFactory factory = propertiesTransformerFactory.init(appId, numVersion,
 							environmentConfig.environments().get(environmentConfig.environments().keySet().iterator().next()).id, filename, FileUtils.createTempFile(content));
 					factory.process();
-					List<ApiLog> apiLog = factory.getLog();
-					if (!dataService.selectVersions(appId).contains("snapshot")) {
-						Version version = new Version();
-						version.getPk().setAppId(appId);
-						version.getPk().setNumVersion("snapshot");
-						dataService.addNewVersion(version);
-        }
-
-        @Override
-        public void createSnapshotVersion(String appId) throws WebApplicationException {
-                try {
-                        if (!dataService.selectVersions(appId).contains("snapshot")) {
-                                Version version = new Version();
-                                version.getPk().setAppId(appId);
-                                version.getPk().setNumVersion("snapshot");
-                                dataService.addNewVersion(version);
-                        }
-                } catch (Exception e) {
-                        Log.error("Error:", e);
-                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-                }
-        }
-					Map<String, Property> props = dataService.selectProperties(appId, "snapshot");
+                                        List<ApiLog> apiLog = factory.getLog();
+                                        Map<String, Property> props = dataService.selectProperties(appId, "snapshot");
 					for (ApiLog log : apiLog) {
 						if (log.data != null && log.data.containsKey("propertyKey")
 								&& !log.status.equals(TransformerLogStatusEnum.ADDED_TO_VALIDATE)
@@ -441,15 +420,30 @@ public class ApplicationService implements IApplicationService {
 					dataService.copyAllPropertiesValueFromVersionToVersion(appId, "snapshot", numVersion);
 				}
 			}
-		} catch (Exception e) {
+                } catch (Exception e) {
                         Log.error("Error:", e);
                         Log.error(e, e);
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
 
-	@Override
-	public void createNewApplication(ApiNewApplicationRequest request) throws WebApplicationException {
+        @Override
+        public void createSnapshotVersion(String appId) throws WebApplicationException {
+                try {
+                        if (!dataService.selectVersions(appId).contains("snapshot")) {
+                                Version version = new Version();
+                                version.getPk().setAppId(appId);
+                                version.getPk().setNumVersion("snapshot");
+                                dataService.addNewVersion(version);
+                        }
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public void createNewApplication(ApiNewApplicationRequest request) throws WebApplicationException {
 		try {
 			Application old = dataService.selectApplication(request.appId);
 			if (old == null) {
