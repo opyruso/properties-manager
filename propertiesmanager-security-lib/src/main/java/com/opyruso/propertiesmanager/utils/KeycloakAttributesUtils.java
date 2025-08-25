@@ -64,39 +64,27 @@ public class KeycloakAttributesUtils {
                 }
         }
 
-        private static Set<String> getUserGroups(JsonWebToken jwt) {
+        private static Set<String> getUserRoles(JsonWebToken jwt) {
                 try {
-                        Set<String> groups = new HashSet<>(jwt.getGroups());
-
-                        Object claim = jwt.getClaim("propertiesmanager_group");
-                        if (claim instanceof Iterable<?>) {
-                                for (Object c : (Iterable<?>) claim) {
-                                        if (c != null) {
-                                                groups.add(c.toString());
-                                        }
-                                }
-                        } else if (claim instanceof String) {
-                                groups.add((String) claim);
-                        }
+                        Set<String> roles = new HashSet<>();
 
                         Object resourceAccessClaim = jwt.getClaim("resource_access");
                         if (resourceAccessClaim instanceof Map<?, ?>) {
                                 Map<?, ?> resourceAccess = (Map<?, ?>) resourceAccessClaim;
-                                for (Object res : resourceAccess.values()) {
-                                        if (res instanceof Map<?, ?>) {
-                                                Object roles = ((Map<?, ?>) res).get("roles");
-                                                if (roles instanceof Iterable<?>) {
-                                                        for (Object role : (Iterable<?>) roles) {
-                                                                if (role != null) {
-                                                                        groups.add(role.toString());
-                                                                }
+                                Object client = resourceAccess.get("propertiesmanager-app");
+                                if (client instanceof Map<?, ?>) {
+                                        Object clientRoles = ((Map<?, ?>) client).get("roles");
+                                        if (clientRoles instanceof Iterable<?>) {
+                                                for (Object role : (Iterable<?>) clientRoles) {
+                                                        if (role != null) {
+                                                                roles.add(role.toString());
                                                         }
                                                 }
                                         }
                                 }
                         }
 
-                        return groups;
+                        return roles;
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
@@ -105,7 +93,7 @@ public class KeycloakAttributesUtils {
 
         public static boolean securityCheckIsAdminAsBoolean(JsonWebToken jwt) throws WebApplicationException {
                 try {
-                        return getUserGroups(jwt).contains("admin");
+                        return getUserRoles(jwt).contains("admin");
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
@@ -131,9 +119,9 @@ public class KeycloakAttributesUtils {
                         if (securityCheckIsAdminAsBoolean(jwt)) {
                                 return true;
                         }
-                        Set<String> groups = getUserGroups(jwt);
-                        for (String g : groups) {
-                                if (g.startsWith("env_")) {
+                        Set<String> roles = getUserRoles(jwt);
+                        for (String r : roles) {
+                                if (r.startsWith("env_")) {
                                         return true;
                                 }
                         }
@@ -164,7 +152,7 @@ public class KeycloakAttributesUtils {
                                 return true;
                         }
                         String role = "env_" + env + ("w".equals(right) ? "_write" : "_read");
-                        return getUserGroups(jwt).contains(role);
+                        return getUserRoles(jwt).contains(role);
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
