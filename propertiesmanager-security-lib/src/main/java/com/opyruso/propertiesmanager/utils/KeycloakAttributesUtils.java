@@ -2,6 +2,7 @@ package com.opyruso.propertiesmanager.utils;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
 
 import jakarta.ws.rs.WebApplicationException;
 
@@ -66,6 +67,7 @@ public class KeycloakAttributesUtils {
         private static Set<String> getUserGroups(JsonWebToken jwt) {
                 try {
                         Set<String> groups = new HashSet<>(jwt.getGroups());
+
                         Object claim = jwt.getClaim("propertiesmanager_group");
                         if (claim instanceof Iterable<?>) {
                                 for (Object c : (Iterable<?>) claim) {
@@ -76,6 +78,24 @@ public class KeycloakAttributesUtils {
                         } else if (claim instanceof String) {
                                 groups.add((String) claim);
                         }
+
+                        Object resourceAccessClaim = jwt.getClaim("resource_access");
+                        if (resourceAccessClaim instanceof Map<?, ?>) {
+                                Map<?, ?> resourceAccess = (Map<?, ?>) resourceAccessClaim;
+                                for (Object res : resourceAccess.values()) {
+                                        if (res instanceof Map<?, ?>) {
+                                                Object roles = ((Map<?, ?>) res).get("roles");
+                                                if (roles instanceof Iterable<?>) {
+                                                        for (Object role : (Iterable<?>) roles) {
+                                                                if (role != null) {
+                                                                        groups.add(role.toString());
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
+
                         return groups;
                 } catch (Exception e) {
                         Log.error("Error:", e);
