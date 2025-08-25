@@ -63,3 +63,5 @@ local.properties
 /node_modules/
 /build/
 /package-lock.json
+/dist/
+/propertiesmanager.zip
