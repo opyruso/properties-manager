@@ -140,10 +140,10 @@ function ApplicationLineTitle(props) {
 }
 
 function ApplicationLine(props) {
-	return (
-		<div className="search-result" to={"/app/" + props.application?.appId}>
-			<span className="title">{props.application?.appLabel}</span>
-			<span className="productOwner">{props.application?.productOwner}</span>
+        return (
+                <div className="search-result" to={"/app/" + props.application?.appId}>
+                        <span className="title"><Link to={"/app/" + props.application?.appId + "/version/snapshot"}>{props.application?.appLabel}</Link></span>
+                        <span className="productOwner">{props.application?.productOwner}</span>
 			{
 				props.envList?.map((env) => {
 						return <ApplicationLineEnvColumn key={env} appId={props.application?.appId} version={props.application?.versions?.[env]} date={props.application?.lastReleaseDates?.[env]} />

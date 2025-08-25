@@ -324,7 +324,7 @@ public class ApplicationService implements IApplicationService {
 	}
 
 	@Override
-	public void createNewApplicationVersion(String appId, String numVersion, String filename, String content) throws WebApplicationException {
+        public void createNewApplicationVersion(String appId, String numVersion, String filename, String content) throws WebApplicationException {
 		try {
 			if (numVersion.equals("snapshot")) {
 				if (filename.endsWith(".properties")) {
@@ -342,7 +342,22 @@ public class ApplicationService implements IApplicationService {
 						version.getPk().setAppId(appId);
 						version.getPk().setNumVersion("snapshot");
 						dataService.addNewVersion(version);
-					}
+        }
+
+        @Override
+        public void createSnapshotVersion(String appId) throws WebApplicationException {
+                try {
+                        if (!dataService.selectVersions(appId).contains("snapshot")) {
+                                Version version = new Version();
+                                version.getPk().setAppId(appId);
+                                version.getPk().setNumVersion("snapshot");
+                                dataService.addNewVersion(version);
+                        }
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
 					Map<String, Property> props = dataService.selectProperties(appId, "snapshot");
 					for (ApiLog log : apiLog) {
 						if (log.data != null && log.data.containsKey("propertyKey")

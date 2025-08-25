@@ -3,6 +3,7 @@ import './ConfigHelper.css';
 import React, { useState, useEffect, useContext } from 'react';
 
 import { useKeycloakInstance } from '../../../Keycloak';
+import Keycloak from '../../../Keycloak';
 
 import AppContext from '../../../AppContext';
 
@@ -32,8 +33,9 @@ const { keycloak } = useKeycloakInstance();
 	const [newPropertyKey, setNewPropertyKey] = useState();
 	const [newValue, setNewValue] = useState();
 
-	const [textInput, setTextInput] = useState();
-	const [logsOutput, setLogsOutput] = useState();
+        const [textInput, setTextInput] = useState();
+        const [logsOutput, setLogsOutput] = useState();
+        const [selectedTab, setSelectedTab] = useState('source');
 	
 	
 
@@ -113,12 +115,15 @@ if (keycloak?.authenticated && envList != undefined) {
 	function selectFileContentCallback(file) {
 		console.log("selectFileContentCallback : ", file);
 		let fr = new FileReader();
-		fr.onloadend = (_e)=>{
-			let text = fr.result;
+                fr.onloadend = (_e)=>{
+                        let text = fr.result;
                         try {
                                 JSON.stringify(btoa(text));
                                 setTextInput(text);
                                 setLogsOutput(text);
+                                if (Keycloak.securityAdminCheck() && selectedApplication !== undefined && selectedVersion !== undefined && selectedFilename !== undefined) {
+                                        addOrUpdatePropertiesFile(selectedApplication, selectedVersion, selectedFilename, text);
+                                }
                         } catch (e) {
                                 console.error(e);
                                 setTextInput("Error, Invalid file content !");
@@ -128,11 +133,12 @@ if (keycloak?.authenticated && envList != undefined) {
                 fr.readAsText(file);
         }
 		
-	function startTestCallback() {
-		console.log("startTestCallback");
-		setLogsOutput("...");
-		startTest(selectedApplication, selectedVersion, selectedFilename, selectedEnvironment, textInput);
-	}
+        function startTestCallback() {
+                console.log("startTestCallback");
+                setLogsOutput("...");
+                setSelectedTab('result');
+                startTest(selectedApplication, selectedVersion, selectedFilename, selectedEnvironment, textInput);
+        }
 		
 	function addOrUpdatePropertiesFileCallback() {
 		console.log("addOrUpdatePropertiesFileCallback");
@@ -283,14 +289,19 @@ if (keycloak?.authenticated && envList != undefined) {
 						<ExistingRules applicationDetails={applicationDetails} selectedFilename={selectedFilename} selectPropertyKeyCallback={changeNewPropertyKeyCallback} />
 					</div>
 				</div>
-				<div className="testing-files">
-					<div className="testing-source">
-						<RichContentUtils label={t('confighelper.title.testcontent')} content={textInput} contentType={selectedFilename?.split('.').slice(-1)[0]} underline={newPropertyKey} />
-					</div>
-					<div className="testing-log">
-						<LogReader label={t('confighelper.title.testresult')} logsOutput={logsOutput} selectPropertyKeyCallback={selectPropertyKeyCallback} />
-					</div>
-				</div>
+                                <div className="testing-files">
+                                        <div className="testing-tabs">
+                                                <button className={selectedTab==='source'?"selected":null} onClick={()=>setSelectedTab('source')}>{t('confighelper.title.testcontent')}</button>
+                                                <button className={selectedTab==='result'?"selected":null} onClick={()=>setSelectedTab('result')}>{t('confighelper.title.testresult')}</button>
+                                        </div>
+                                        <div className="testing-tab-content">
+                                                {selectedTab==='source'?(
+                                                        <RichContentUtils label={t('confighelper.title.testcontent')} content={textInput} contentType={selectedFilename?.split('.').slice(-1)[0]} underline={newPropertyKey} />
+                                                ):(
+                                                        <LogReader label={t('confighelper.title.testresult')} logsOutput={logsOutput} selectPropertyKeyCallback={selectPropertyKeyCallback} />
+                                                )}
+                                        </div>
+                                </div>
 			</div>
 		</div>
 	);
