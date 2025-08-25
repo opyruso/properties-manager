@@ -75,9 +75,13 @@ public interface IApplicationResources {
 	@Path("/app/{appId}/property/addall")
 	public Response appPropertyAllEnvAdd(@PathParam("appId") String appId, ApiPropertyUpdateRequest request) throws WebApplicationException;
 
-	@POST
-	@Path("/test/process")
-	public Response testFile(ApiTestFileRequest request) throws WebApplicationException;
+          @POST
+          @Path("/test/process")
+          public Response testFile(ApiTestFileRequest request) throws WebApplicationException;
+
+          @POST
+          @Path("/app/{appId}/snapshot")
+          public Response createSnapshot(@PathParam("appId") String appId) throws WebApplicationException;
 
 	@GET
 	@Path("/globalvariables")

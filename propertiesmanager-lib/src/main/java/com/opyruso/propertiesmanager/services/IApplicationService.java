@@ -47,9 +47,11 @@ public interface IApplicationService {
 
 	public void addInstalledApplicationVersion(String appId, String numVersion, String envId) throws WebApplicationException;
 
-	public void replaceAllPropertiesFromVersionToVersion(String appId, String fromVersion, String toVersion) throws WebApplicationException;
+        public void replaceAllPropertiesFromVersionToVersion(String appId, String fromVersion, String toVersion) throws WebApplicationException;
 
-	public void createNewApplicationVersion(String appId, String numVersion, String filename, String content) throws WebApplicationException;
+        public void createNewApplicationVersion(String appId, String numVersion, String filename, String content) throws WebApplicationException;
+
+        public void createSnapshotVersion(String appId) throws WebApplicationException;
 
 	public void createNewApplication(ApiNewApplicationRequest request) throws WebApplicationException;
 

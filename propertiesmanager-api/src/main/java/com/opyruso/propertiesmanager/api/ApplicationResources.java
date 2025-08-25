@@ -296,15 +296,40 @@ public class ApplicationResources implements IApplicationResources {
 	}
 
 	@Override
-	public Response replacePropertiesByVersion(String appId, String numVersion, String toVersion) throws WebApplicationException {
-		for (String envId : environmentConfig.environments().keySet()) KeycloakAttributesUtils.securityCheck(jwt, appId, envId, "w");
-		try {
-			applicationService.replaceAllPropertiesFromVersionToVersion(appId, numVersion, toVersion);
-			return Response.noContent().build();
-		} catch (Exception e) {
-			Log.error("Error:", e);
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+        public Response replacePropertiesByVersion(String appId, String numVersion, String toVersion) throws WebApplicationException {
+                for (String envId : environmentConfig.environments().keySet()) KeycloakAttributesUtils.securityCheck(jwt, appId, envId, "w");
+                try {
+                        applicationService.replaceAllPropertiesFromVersionToVersion(appId, numVersion, toVersion);
+                        return Response.noContent().build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public Response createSnapshot(String appId) throws WebApplicationException {
+                try {
+                        boolean hasRight = KeycloakAttributesUtils.securityCheckIsAdminAsBoolean(jwt);
+                        if (!hasRight) {
+                                for (String envId : environmentConfig.environments().keySet()) {
+                                        if (KeycloakAttributesUtils.securityCheckAsBoolean(jwt, appId, envId, "w")) {
+                                                hasRight = true;
+                                                break;
+                                        }
+                                }
+                        }
+                        if (!hasRight) {
+                                throw new WebApplicationException(HttpStatus.SC_FORBIDDEN);
+                        }
+                        applicationService.createSnapshotVersion(appId);
+                        return Response.noContent().build();
+                } catch (WebApplicationException e) {
+                        throw e;
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
 
 }

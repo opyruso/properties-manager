@@ -48,6 +48,7 @@ i18n
           'appdetails.novalue': 'Pas de valeur',
           'appdetails.table.title.file': 'Nom de fichier',
           'appdetails.table.title.key': 'Clé',
+          'appdetails.createsnapshot': 'Créer la version snapshot',
           
           'confighelper.existingkey.title': 'Clés existantes',
           'confighelper.params.title.application': 'Applications',
@@ -63,6 +64,9 @@ i18n
           'confighelper.params.title.selectedfilename': 'Ajouter au fichier actuel --> ',
           'confighelper.title.testcontent': 'Contenu du fichier de test',
           'confighelper.title.testresult': 'Résultat après traitement',
+
+          'profil.title': 'Profil',
+          'profil.roles': 'Rôles',
           
           'globalvariable.addnew': 'Ajouter une nouvelle variable globale',
           'globalvariable.addnew.btn': 'Ajouter',
@@ -103,6 +107,7 @@ i18n
           'appdetails.novalue': 'No value',
           'appdetails.table.title.file': 'File name',
           'appdetails.table.title.key': 'Key',
+          'appdetails.createsnapshot': 'Create snapshot version',
           
           'confighelper.existingkey.title': 'Existing keys',
           'confighelper.params.title.application': 'Applications',
@@ -118,6 +123,9 @@ i18n
           'confighelper.params.title.selectedfilename': 'Add to current file --> ',
           'confighelper.title.testcontent': 'Test file content',
           'confighelper.title.testresult': 'Result after processing',
+
+          'profil.title': 'Profile',
+          'profil.roles': 'Roles',
           
           'globalvariable.addnew': 'Add new global variable',
           'globalvariable.addnew.btn': 'Add',
@@ -158,6 +166,7 @@ i18n
           'appdetails.novalue': 'Kein Wert',
           'appdetails.table.title.file': 'Dateiname',
           'appdetails.table.title.key': 'Schlüssel',
+          'appdetails.createsnapshot': 'Snapshot-Version erstellen',
           
           'confighelper.existingkey.title': 'Vorhandene Schlüssel',
           'confighelper.params.title.application': 'Anwendungen',
@@ -173,6 +182,9 @@ i18n
           'confighelper.params.title.s selectedfilename': 'Zur aktuellen Datei hinzufügen --> ',
           'confighelper.title.testcontent': 'Inhalt der Testdatei',
           'confighelper.title.testresult': 'Ergebnis nach Verarbeitung',
+
+          'profil.title': 'Profil',
+          'profil.roles': 'Rollen',
           
           'globalvariable.addnew': 'Neue globale Variable hinzufügen',
           'globalvariable.addnew.btn': 'Hinzufügen',
@@ -214,6 +226,7 @@ i18n
           'appdetails.novalue': 'Kee Wäert',
           'appdetails.table.title.file': 'Numm vum Fichier',
           'appdetails.table.title.key': 'Schlëssel',
+          'appdetails.createsnapshot': 'Snapshot Versioun erstellen',
           
           'confighelper.existingkey.title': 'Existéierend Schlësselen',
           'confighelper.params.title.application': 'Applikatiounen',
@@ -229,6 +242,9 @@ i18n
           'confighelper.params.title.selectedfilename': 'An den aktuelle Fichier bäifügen --> ',
           'confighelper.title.testcontent': 'Test Datei Inhalt',
           'confighelper.title.testresult': 'Resultat no der Veraarbechtung',
+
+          'profil.title': 'Profil',
+          'profil.roles': 'Rollen',
           
           'globalvariable.addnew': 'Nei global Variabel derbäisetzen',
           'globalvariable.addnew.btn': 'Addéieren',

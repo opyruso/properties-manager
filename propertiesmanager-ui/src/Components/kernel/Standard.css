@@ -51,6 +51,15 @@ input, select, option, button, textarea {
 	border-radius: 5px;
 	border: none;
 }
+
+table {
+        width: 100%;
+        table-layout: fixed;
+}
+
+table th, table td {
+        word-break: break-word;
+}
 button:not(disabled) {
 	color: var(--font-form);
 }

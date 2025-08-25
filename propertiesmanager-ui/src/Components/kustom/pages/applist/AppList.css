@@ -31,10 +31,10 @@
 	background-color: gray;
 }
 .apps .title {
-	flex: 2;
+        flex: 1;
 }
 .apps .productOwner {
-	flex: 2;
+        flex: 1;
 }
 .apps .envColumn {
 	flex: 1;

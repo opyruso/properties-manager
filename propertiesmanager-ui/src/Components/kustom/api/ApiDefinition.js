@@ -496,26 +496,48 @@ export default {
 		}
 	},
 
-	replaceAllPropertiesByVersion(appId, fromVersion, toVersion,
-			callback = (data) => {console.log("addPropertyAllEnv default success log"), data},
-			callbackError = (e) => {console.error("addPropertyAllEnv default err log", e)}) {
-		try {
-		appId!=null&&fromVersion!=null&&toVersion!=null?
-				ApiCallUtils.getSecureNoContent('/app/' + appId + '/version/' + toVersion + '/replaceby/' + fromVersion,
-					() => {
-						console.log("success updateProperty callback");
-						callback();
-					},
-					(e) => {
-						console.log("error updateProperty callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
+        replaceAllPropertiesByVersion(appId, fromVersion, toVersion,
+                        callback = (data) => {console.log("addPropertyAllEnv default success log"), data},
+                        callbackError = (e) => {console.error("addPropertyAllEnv default err log", e)}) {
+                try {
+                appId!=null&&fromVersion!=null&&toVersion!=null?
+                                ApiCallUtils.getSecureNoContent('/app/' + appId + '/version/' + toVersion + '/replaceby/' + fromVersion,
+                                        () => {
+                                                console.log("success updateProperty callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error updateProperty callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
                         console.error(e);
                         callbackError(e);
-		}
-	},
+                }
+        },
+
+        addSnapshotVersion(appId,
+                        callback = (data) => {console.log("addSnapshotVersion default success log"), data},
+                        callbackError = (e) => {console.error("addSnapshotVersion default err log", e)}) {
+                try {
+                appId!=null?
+                                ApiCallUtils.postSecureNoContent('/app/' + appId + '/snapshot',
+                                        {},
+                                        () => {
+                                                console.log("success addSnapshotVersion callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error addSnapshotVersion callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
 	
 	
 	
