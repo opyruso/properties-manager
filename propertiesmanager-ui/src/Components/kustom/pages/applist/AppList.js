@@ -34,7 +34,7 @@ const { keycloak } = useKeycloakInstance();
 
 	const [envList, setEnvList] = useState();
 	const [applications, setApplications] = useState();
-	const [filteredApplications, setFilteredApplications] = useState();
+        const [filteredApplications, setFilteredApplications] = useState();
 	
 	
 
@@ -79,10 +79,19 @@ useEffect(() => {
 	
 	/* HANDLERS */
 		
-	function updateFilteredApplicationsCallback(e) {
-		localStorage.setItem("appList_filterValue", e.target.value);
-		refreshFilteredData();
-	}
+        function updateFilteredApplicationsCallback(e) {
+                localStorage.setItem("appList_filterValue", e.target.value);
+                refreshFilteredData();
+        }
+
+        function addApplicationCallback() {
+                const name = prompt(t('applist.add.prompt'));
+                if (name !== null && name.trim() !== '') {
+                        ApiDefinition.createApplication(name.trim(), () => {
+                                ApiDefinition.getApplications((data) => { setApplications(data); });
+                        });
+                }
+        }
 
 	
 
@@ -121,6 +130,7 @@ useEffect(() => {
                 <div className="apps">
                         <h1>{t('applist.title')}</h1>
                         <input id="appList_searchInput" onChange={updateFilteredApplicationsCallback} className="search-input" type="text" placeholder={t('applist.search.placeholder')}></input>
+                        {Keycloak.securityAdminCheck() ? <button onClick={addApplicationCallback}>{t('applist.add')}</button> : null}
                         <table>
                                 <thead>
                                         <ApplicationLineTitle envList={envList} />

@@ -46,6 +46,8 @@ i18n
           'applist.search.placeholder': 'Rechercher une application',
           'applist.noapplication': 'Aucune application trouvées',
           'applist.title': 'Applications',
+          'applist.add': 'Ajouter une application',
+          'applist.add.prompt': 'Nom de la nouvelle application ?',
 
           'appdetails.noconfiguration': 'Aucune configuration trouvée',
           'appdetails.search.placeholder': 'Rechercher une propriété',
@@ -68,6 +70,11 @@ i18n
           'confighelper.params.title.selectedfilename': 'Ajouter au fichier actuel --> ',
           'confighelper.title.testcontent': 'Contenu du fichier de test',
           'confighelper.title.testresult': 'Résultat après traitement',
+          'confighelper.addversion': 'Ajouter une version',
+          'confighelper.addversion.prompt': 'Nom de la nouvelle version ?',
+          'confighelper.addproperty': 'Ajouter une propriété',
+          'confighelper.addproperty.filename': 'Nom du fichier ?',
+          'confighelper.addproperty.key': 'Clé de la propriété ?',
 
           'profil.title': 'Profil',
           'profil.roles': 'Rôles',
@@ -110,6 +117,8 @@ i18n
           'applist.search.placeholder': 'Find an application',
           'applist.noapplication': 'No applications found',
           'applist.title': 'Apps',
+          'applist.add': 'Add application',
+          'applist.add.prompt': 'New application name?',
 
           'appdetails.noconfiguration': 'No configuration found',
           'appdetails.search.placeholder': 'Find a property',
@@ -132,6 +141,11 @@ i18n
           'confighelper.params.title.selectedfilename': 'Add to current file --> ',
           'confighelper.title.testcontent': 'Test file content',
           'confighelper.title.testresult': 'Result after processing',
+          'confighelper.addversion': 'Add version',
+          'confighelper.addversion.prompt': 'New version name?',
+          'confighelper.addproperty': 'Add property',
+          'confighelper.addproperty.filename': 'File name?',
+          'confighelper.addproperty.key': 'Property key?',
 
           'profil.title': 'Profile',
           'profil.roles': 'Roles',
@@ -174,6 +188,8 @@ i18n
           'applist.search.placeholder': 'Anwendung finden',
           'applist.noapplication': 'Keine Anwendungen gefunden',
           'applist.title': 'Apps',
+          'applist.add': 'Anwendung hinzufügen',
+          'applist.add.prompt': 'Name der neuen Anwendung?',
 
           'appdetails.noconfiguration': 'Keine Konfiguration gefunden',
           'appdetails.search.placeholder': 'Konfiguration finden',
@@ -196,6 +212,11 @@ i18n
           'confighelper.params.title.s selectedfilename': 'Zur aktuellen Datei hinzufügen --> ',
           'confighelper.title.testcontent': 'Inhalt der Testdatei',
           'confighelper.title.testresult': 'Ergebnis nach Verarbeitung',
+          'confighelper.addversion': 'Version hinzufügen',
+          'confighelper.addversion.prompt': 'Name der neuen Version?',
+          'confighelper.addproperty': 'Eigenschaft hinzufügen',
+          'confighelper.addproperty.filename': 'Dateiname?',
+          'confighelper.addproperty.key': 'Schlüssel der Eigenschaft?',
 
           'profil.title': 'Profil',
           'profil.roles': 'Rollen',

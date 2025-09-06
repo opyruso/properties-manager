@@ -323,6 +323,57 @@ export default {
                 }
         },
 
+        createApplication(appLabel,
+                        callback = () => {console.log("createApplication default success log")},
+                        callbackError = (e) => {console.error("createApplication default err log", e)}) {
+                try {
+                appLabel!=null?
+                                ApiCallUtils.putSecureNoContent('/connector/app',
+                                        {
+                                                "appId":  appLabel,
+                                                "appLabel":  appLabel,
+                                                "productOwner":  ""
+                                        },
+                                        () => {
+                                                console.log("success createApplication callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error createApplication callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+        addVersion(appId, numVersion,
+                        callback = () => {console.log("addVersion default success log")},
+                        callbackError = (e) => {console.error("addVersion default err log", e)}) {
+                try {
+                appId!=null&&numVersion!=null?
+                                ApiCallUtils.putSecureNoContent('/connector/app/' + appId + '/version/' + numVersion,
+                                        {
+                                                "filename":  "",
+                                                "contentAsBase64":  ""
+                                        },
+                                        () => {
+                                                console.log("success addVersion callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error addVersion callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
 	updateProperty(appId, envId, version, filename, propertyKey, newValue,
 			callback = (data) => {console.log("updateProperty default success log"), data},
 			callbackError = (e) => {console.error("updateProperty default err log", e)}) {
