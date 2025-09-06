@@ -76,8 +76,13 @@
 	text-align: left;
 }
 .app-details .search-input {
-	margin: 5px 5px 5px 5px;
-	font-size: 1em;
+        margin: 5px 5px 5px 5px;
+        font-size: 1em;
+}
+
+.app-details table {
+        width: 100%;
+        border-collapse: collapse;
 }
 .app-details .body .property-line-title,
 .app-details .body .property-line {
