@@ -15,18 +15,24 @@
 }
 
 
-.global-variables .global-variable-line-title {
+.global-variables .global-variable-line-title,
+.global-variables .global-variable-line {
         margin: 0px 5px -1px 5px;
-        background: linear-gradient(to right, var(--background-title), #1a1a1a);
+}
+
+.global-variables .global-variable-line-title {
         font-weight: bold;
 }
 
-.global-variables .global-variable-line {
-        margin: 0px 5px -1px 5px;
+.global-variables th {
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
+}
+
+.global-variables td {
         background: linear-gradient(to right, var(--background), #404349);
 }
 
-.global-variables .global-variable-line:hover {
+.global-variables tr:hover td {
         background: linear-gradient(to right, gray, #a0a0a0);
 }
 

@@ -16,22 +16,25 @@
         border-collapse: collapse;
 }
 
-.apps .app-line-title {
-        background: linear-gradient(to right, var(--background-title), #1a1a1a);
-        font-weight: bold;
-}
-
-.apps .app-line {
-        background: linear-gradient(to right, var(--background), #404349);
-}
-
-.apps .app-line:hover {
-        background: linear-gradient(to right, gray, #a0a0a0);
-}
-
 .apps .app-line-title,
 .apps .app-line {
         margin: 0px 5px -1px 5px;
+}
+
+.apps .app-line-title {
+        font-weight: bold;
+}
+
+.apps th {
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
+}
+
+.apps td {
+        background: linear-gradient(to right, var(--background), #404349);
+}
+
+.apps tr:hover td {
+        background: linear-gradient(to right, gray, #a0a0a0);
 }
 
 .apps th,
