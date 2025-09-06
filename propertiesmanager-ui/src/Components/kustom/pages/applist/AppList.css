@@ -17,12 +17,16 @@
 }
 
 .apps .app-line-title {
-        background-color: #000000;
+        background: linear-gradient(to right, #000000, #111111);
         font-weight: bold;
 }
 
+.apps .app-line {
+        background: linear-gradient(to right, #000000, #0a0a0a);
+}
+
 .apps .app-line:hover {
-        background-color: gray;
+        background: linear-gradient(to right, gray, #a0a0a0);
 }
 
 .apps .app-line-title,
@@ -36,4 +40,5 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
 }

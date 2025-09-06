@@ -14,14 +14,20 @@
         border-collapse: collapse;
 }
 
+
 .global-variables .global-variable-line-title {
         margin: 0px 5px -1px 5px;
-        background-color: #000000;
+        background: linear-gradient(to right, #000000, #111111);
         font-weight: bold;
 }
 
+.global-variables .global-variable-line {
+        margin: 0px 5px -1px 5px;
+        background: linear-gradient(to right, #000000, #0a0a0a);
+}
+
 .global-variables .global-variable-line:hover {
-        background-color: gray;
+        background: linear-gradient(to right, gray, #a0a0a0);
 }
 
 .global-variables th,
@@ -30,6 +36,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .global-variables .cell-content {

@@ -80,26 +80,27 @@
 	font-size: 1em;
 }
 .app-details .body .property-line-title {
-	margin: 0px 5px -1px 5px;
-	background-color: #000000;
-	font-weight: bold;
+        margin: 0px 5px -1px 5px;
+        background: linear-gradient(to right, #000000, #111111);
+        font-weight: bold;
 }
 .app-details .body .property-line {
-	margin: 0px 5px -1px 5px;
-	background-color: none;
+        margin: 0px 5px -1px 5px;
+        background: linear-gradient(to right, #000000, #0a0a0a);
 }
 .app-details .body .property-line:hover {
-	background-color: gray;
+        background: linear-gradient(to right, gray, #a0a0a0);
 }
 .app-details .body .property-element:hover {
 	background-color: rgb(75, 75, 75);
 }
 
 .app-details .body th, .app-details .body td {
-	padding: 2px 5px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
+        padding: 2px 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .app-details .body .property-line .property-line-cell-content {
 	display: flex;
