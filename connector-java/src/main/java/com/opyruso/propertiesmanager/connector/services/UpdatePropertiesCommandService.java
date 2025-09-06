@@ -64,13 +64,13 @@ public class UpdatePropertiesCommandService {
 			apiClient.addInstalledVersion(projectId, version, env);
 			apiClient.addOrUpdateFile(projectId, version, addOrUpdateFileRequest);
 			ApiGenerateConfigResponse response = apiClient.getGeneratedConfig(request);
-			if (response.logs != null) {
-				for (ApiLog log : response.logs) {
-					System.out.println(log.status + " : " + log.comment);
-				}
-			} else {
-				System.out.println("WARNING : Pas de log retour...");
-			}
+                        if (response.logs != null) {
+                                for (ApiLog log : response.logs) {
+                                        System.out.println(log.status);
+                                }
+                        } else {
+                                System.out.println("WARNING : Pas de log retour...");
+                        }
 			System.out.println("Updated : " + Files.write(file.toPath(), Base64.getDecoder().decode(response.fileContentAsBase64), StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE).toAbsolutePath());
 			
 		} else {
