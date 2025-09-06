@@ -10,6 +10,7 @@ import AppContext from '../../../AppContext';
 import ApiDefinition from '../../../kustom/api/ApiDefinition';
 import { ButtonUtils, DropDownUtils, FileInputUtils, RichContentUtils, TextInputUtils } from '../../../kustom/commons/HtmlUtils';
 import { useTranslation } from 'react-i18next';
+import { subscribe, unsubscribe } from '../../../AppStaticData';
 
 export default function ConfigHelper() {
 	
@@ -53,7 +54,7 @@ const { keycloak } = useKeycloakInstance();
 	
 useEffect(() => {
 if (keycloak?.authenticated && envList != undefined) {
-			setApplications(undefined);
+                        setApplications(undefined);
 			setVersions(undefined);
 			setFiles(undefined);
 			setTextInput(undefined);
@@ -67,6 +68,14 @@ if (keycloak?.authenticated && envList != undefined) {
 			refreshApplications();
 		}
 }, [envList, keycloak?.authenticated]);
+
+useEffect(() => {
+                const listener = () => {
+                        refreshApplications();
+                };
+                subscribe('archivesChangeEvent', listener);
+                return () => unsubscribe('archivesChangeEvent', listener);
+}, []);
 	
 	
 

@@ -14,12 +14,13 @@ import com.opyruso.propertiesmanager.api.entity.request.ApiApplicationUpdateRequ
 import com.opyruso.propertiesmanager.api.entity.request.ApiNewApplicationRequest;
 import com.opyruso.propertiesmanager.api.entity.request.ApiPropertyUpdateRequest;
 import com.opyruso.propertiesmanager.api.entity.ApiGlobalVariableValue;
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 
 public interface IApplicationService {
 	
-	public List<ApiApplicationShort> getApplications() throws WebApplicationException;
+        public List<ApiApplicationShort> getApplications(boolean includeArchived) throws WebApplicationException;
 
-	public List<String> getApplicationVersions(String appId) throws WebApplicationException;
+        public List<String> getApplicationVersions(String appId, boolean includeArchived) throws WebApplicationException;
 
 	public List<String> getApplicationFilenames(String appId, String numVersion) throws WebApplicationException;
 
@@ -31,7 +32,9 @@ public interface IApplicationService {
 
 	public ApiApplicationFull getApplicationDetails(String appId, String numVersion) throws WebApplicationException;
 
-	public void appUpdate(String appId, ApiApplicationUpdateRequest request) throws WebApplicationException;
+        public void appUpdate(String appId, ApiApplicationUpdateRequest request) throws WebApplicationException;
+
+        public void archiveVersion(String appId, String numVersion) throws WebApplicationException;
 
 	public void propertyAdd(ApiProperty request) throws WebApplicationException;
 

@@ -18,6 +18,7 @@ import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.opyruso.propertiesmanager.constants.OperationTypeEnum;
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 import com.opyruso.propertiesmanager.data.IApplicationDataService;
 import com.opyruso.propertiesmanager.data.entity.Application;
 import com.opyruso.propertiesmanager.data.entity.GlobalVariable;
@@ -76,20 +77,24 @@ public class ApplicationDataService implements IApplicationDataService {
 	@Inject
 	protected VersionRepository versionRepository;
 
-	@Override
-	public List<Application> selectApplications() throws WebApplicationException {
-		return applicationRepository.listAll();
-	}
+        @Override
+        public List<Application> selectApplications(boolean includeArchived) throws WebApplicationException {
+                if (includeArchived) {
+                        return applicationRepository.listAll();
+                }
+                return applicationRepository.list("status = ?1", StatusEnum.ACTIVE);
+        }
 
 	@Override
-	public List<String> selectVersions(String appId) throws WebApplicationException {
+        public List<String> selectVersions(String appId, boolean includeArchived) throws WebApplicationException {
                 List<String> result = new ArrayList<String>();
-                List<Version> tmp = versionRepository.list("pk.appId = ?1", appId);
-		for (Version version : tmp) {
-			result.add(version.getPk().getNumVersion());
-		}
-		return result;
-	}
+                List<Version> tmp = includeArchived ? versionRepository.list("pk.appId = ?1", appId)
+                                : versionRepository.list("pk.appId = ?1 AND status = ?2", appId, StatusEnum.ACTIVE);
+                for (Version version : tmp) {
+                        result.add(version.getPk().getNumVersion());
+                }
+                return result;
+        }
 
 	@Override
 	public List<String> selectInstalledVersions(String appId, String envId) throws WebApplicationException {
@@ -244,9 +249,15 @@ public class ApplicationDataService implements IApplicationDataService {
 
 	@Override
 	@Transactional
-	public void updateProductOwner(String appId, String productOwner) throws WebApplicationException {
-		applicationRepository.update("UPDATE Application SET productOwner = ?2, updateDate = current_timestamp WHERE pk.appId = ?1", appId, productOwner);
-	}
+        public void updateProductOwner(String appId, String productOwner) throws WebApplicationException {
+                applicationRepository.update("UPDATE Application SET productOwner = ?2, updateDate = current_timestamp WHERE pk.appId = ?1", appId, productOwner);
+        }
+
+        @Override
+        @Transactional
+        public void updateAppStatus(String appId, StatusEnum status) throws WebApplicationException {
+                applicationRepository.update("UPDATE Application SET status = ?2, updateDate = current_timestamp WHERE pk.appId = ?1", appId, status);
+        }
 
 	@Override
 	public PropertyValue selectPropertyValue(String appId, String numVersion, String envId, String filename, String propertyKey) throws WebApplicationException {
@@ -316,9 +327,15 @@ public class ApplicationDataService implements IApplicationDataService {
 
 	@Override
 	@Transactional
-	public void addNewVersion(Version version) throws SQLException {
-		versionRepository.persist(version);
-	}
+        public void addNewVersion(Version version) throws SQLException {
+                versionRepository.persist(version);
+        }
+
+        @Override
+        @Transactional
+        public void updateVersionStatus(String appId, String numVersion, StatusEnum status) throws WebApplicationException {
+                versionRepository.update("UPDATE Version SET status = ?3, updateDate = current_timestamp WHERE pk.appId = ?1 AND pk.numVersion = ?2", appId, numVersion, status);
+        }
 
 	@Override
 	@Transactional

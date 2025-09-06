@@ -11,6 +11,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.DefaultValue;
 
 import com.opyruso.propertiesmanager.api.entity.request.ApiAddOrUpdateFileRequest;
 import com.opyruso.propertiesmanager.api.entity.request.ApiAdminGlobalVariableRequest;
@@ -23,13 +25,13 @@ import com.opyruso.propertiesmanager.api.entity.request.ApiTestFileRequest;
 @Produces(MediaType.APPLICATION_JSON)
 public interface IApplicationResources {
 
-	@GET
-	@Path("/apps")
-	public Response apps() throws WebApplicationException;
+        @GET
+        @Path("/apps")
+        public Response apps(@QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException;
 
-	@GET
-	@Path("/app/{appId}/versions")
-	public Response versions(@PathParam("appId") String appId) throws WebApplicationException;
+        @GET
+        @Path("/app/{appId}/versions")
+        public Response versions(@PathParam("appId") String appId, @QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException;
 
 	@GET
 	@Path("/app/{appId}/version/{numVersion}")
@@ -51,9 +53,13 @@ public interface IApplicationResources {
 	@Path("/app/{appId}/version/{numVersion}/file")
 	public Response addOrUpdateFile(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion, ApiAddOrUpdateFileRequest request) throws WebApplicationException;
 
-	@PUT
-	@Path("/app/{appId}")
-	public Response appUpdate(@PathParam("appId") String appId, ApiApplicationUpdateRequest request) throws WebApplicationException;
+        @PUT
+        @Path("/app/{appId}")
+        public Response appUpdate(@PathParam("appId") String appId, ApiApplicationUpdateRequest request) throws WebApplicationException;
+
+        @PUT
+        @Path("/app/{appId}/version/{numVersion}/archive")
+        public Response archiveVersion(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException;
 
 	@PUT
 	@Path("/app/{appId}/updateproperty")

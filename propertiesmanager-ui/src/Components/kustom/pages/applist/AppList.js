@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 
 import AppContext from "../../../AppContext";
 
-import { useKeycloakInstance } from '../../../Keycloak';
+import Keycloak, { useKeycloakInstance } from '../../../Keycloak';
 
 import ApiDefinition from '../../api/ApiDefinition';
 import { useTranslation } from 'react-i18next';
+import { subscribe, unsubscribe, publish } from '../../../AppStaticData';
 
 export default function AppList() {
 	
@@ -51,10 +52,18 @@ const { keycloak } = useKeycloakInstance();
 	
 useEffect(() => {
 if (keycloak?.authenticated && envList !== undefined) {
-			refreshFilteredData();
-			ApiDefinition.getApplications((data) => { setApplications(data); });
-		}
+                        refreshFilteredData();
+                        ApiDefinition.getApplications((data) => { setApplications(data); });
+                }
 }, [envList, keycloak?.authenticated]);
+
+useEffect(() => {
+        const listener = () => {
+                ApiDefinition.getApplications((data) => { setApplications(data); });
+        };
+        subscribe('archivesChangeEvent', listener);
+        return () => unsubscribe('archivesChangeEvent', listener);
+}, []);
 	
 	useEffect(() => {
 		document.getElementById('appList_searchInput').value = localStorage.appList_filterValue;
@@ -143,6 +152,7 @@ function ApplicationLineTitle(props) {
                                         return <th key={env + "_title"} className="envColumn">{env.toUpperCase()}</th>;
                                 })
                         }
+                        <th className="archive"></th>
                 </tr>
         );
 }
@@ -156,6 +166,9 @@ function ApplicationLine(props) {
                                 props.envList?.map((env) => {
                                         return <ApplicationLineEnvColumn key={env} appId={props.application?.appId} version={props.application?.versions?.[env]} date={props.application?.lastReleaseDates?.[env]} />;
                                 })
+                        }
+                        {
+                                Keycloak.securityAdminCheck() ? <td><button onClick={() => { ApiDefinition.archiveApplication(props.application?.appId, () => publish('archivesChangeEvent')); }}>Archive</button></td> : null
                         }
                 </tr>
         );

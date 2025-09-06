@@ -8,6 +8,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.DefaultValue;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -50,30 +52,30 @@ public class ApplicationResources implements IApplicationResources {
 	@Inject
 	protected ITransformerService transformerService;
 
-	@Override
-	public Response apps() throws WebApplicationException {
-		try {
-			List<ApiApplicationShort> response = applicationService.getApplications();
-			if (response == null) {
-				throw new WebApplicationException(HttpStatus.SC_NOT_FOUND);
-			}
-			return Response.ok(response).build();
-		} catch (Exception e) {
+        @Override
+        public Response apps(@QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException {
+                try {
+                        List<ApiApplicationShort> response = applicationService.getApplications(archives);
+                        if (response == null) {
+                                throw new WebApplicationException(HttpStatus.SC_NOT_FOUND);
+                        }
+                        return Response.ok(response).build();
+                } catch (Exception e) {
 			Log.error("Error:", e);
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@Override
-	public Response versions(@PathParam("appId") String appId) throws WebApplicationException {
-		try {
-			List<String> response = applicationService.getApplicationVersions(appId);
-			return Response.ok(response).build();
-		} catch (Exception e) {
-			Log.error("Error:", e);
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+        public Response versions(@PathParam("appId") String appId, @QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException {
+                try {
+                        List<String> response = applicationService.getApplicationVersions(appId, archives);
+                        return Response.ok(response).build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
 
 	@Override
 	public Response app(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException {
@@ -207,16 +209,28 @@ public class ApplicationResources implements IApplicationResources {
 	}
 
 	@Override
-	public Response appPropertyAllEnvAdd(@PathParam("appId") String appId, ApiPropertyUpdateRequest request) throws WebApplicationException {
-		for (String envId : environmentConfig.environments().keySet()) KeycloakAttributesUtils.securityCheck(jwt, appId, envId, "w");
-		try {
-			applicationService.propertyAllEnvAdd(appId, request.numVersion, request.filename, request.propertyKey);
-			return Response.noContent().build();
-		} catch (Exception e) {
-			Log.error("Error:", e);
-			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+        public Response appPropertyAllEnvAdd(@PathParam("appId") String appId, ApiPropertyUpdateRequest request) throws WebApplicationException {
+                for (String envId : environmentConfig.environments().keySet()) KeycloakAttributesUtils.securityCheck(jwt, appId, envId, "w");
+                try {
+                        applicationService.propertyAllEnvAdd(appId, request.numVersion, request.filename, request.propertyKey);
+                        return Response.noContent().build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public Response archiveVersion(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException {
+                KeycloakAttributesUtils.securityCheckIsAdmin(jwt);
+                try {
+                        applicationService.archiveVersion(appId, numVersion);
+                        return Response.noContent().build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
 
 	@Override
 	public Response testFile(ApiTestFileRequest request) throws WebApplicationException {

@@ -23,6 +23,7 @@ i18n
           'header.title.apps': 'Gestion des valeurs',
           'header.title.config-helper': 'Gestion des clés',
           'header.title.global-variables': 'Variables globales',
+          'header.archives': 'Archives',
           
           'profile.application.title': 'Applications',
           'profile.adminuser.filter.minimumadvise': '3 caractères minimum',
@@ -83,6 +84,7 @@ i18n
           'header.title.apps': 'Value management',
           'header.title.config-helper': 'Key management',
           'header.title.global-variables': 'Global Variables',
+          'header.archives': 'Archives',
           
           'profile.application.title': 'Applications',
           'profile.adminuser.filter.minimumadvise': 'minimum 3 characters',
@@ -143,6 +145,7 @@ i18n
           'header.title.apps': 'Wertverwaltung',
           'header.title.config-helper': 'Schlüsselverwaltung',
           'header.title.global-variables': 'Globale Variablen',
+          'header.archives': 'Archive',
           
           'profile.application.title': 'Bewerbungen',
           'profile.adminuser.filter.minimumadvise': 'mindestens 3 Zeichen',
@@ -204,6 +207,7 @@ i18n
           'header.title.apps': 'Wäertemanagement',
           'header.title.config-helper': 'Schlësselmanagement',
           'header.title.global-variables': 'Global Variablen',
+          'header.archives': 'Archive',
           
           'profile.application.title': 'Uwendungen',
           'profile.adminuser.filter.minimumadvise': 'minimum 3 Zeechen',

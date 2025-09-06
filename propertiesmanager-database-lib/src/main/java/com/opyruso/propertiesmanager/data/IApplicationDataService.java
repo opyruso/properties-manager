@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.opyruso.propertiesmanager.constants.OperationTypeEnum;
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 import com.opyruso.propertiesmanager.data.entity.Application;
 import com.opyruso.propertiesmanager.data.entity.GlobalVariable;
 import com.opyruso.propertiesmanager.data.entity.GlobalVariableValue;
@@ -17,9 +18,9 @@ import com.opyruso.propertiesmanager.data.entity.pk.PropertyValuePK;
 
 public interface IApplicationDataService {
 
-	List<Application> selectApplications() throws SQLException;
+        List<Application> selectApplications(boolean includeArchived) throws SQLException;
 
-	List<String> selectVersions(String appId) throws SQLException;
+        List<String> selectVersions(String appId, boolean includeArchived) throws SQLException;
 
 	List<String> selectInstalledVersions(String appId, String envId) throws SQLException;
 
@@ -31,7 +32,9 @@ public interface IApplicationDataService {
 
 	void updateAppLabel(String appId, String appLabel) throws SQLException;
 
-	void updateProductOwner(String appId, String productOwner) throws SQLException;
+        void updateProductOwner(String appId, String productOwner) throws SQLException;
+
+        void updateAppStatus(String appId, StatusEnum status) throws SQLException;
 
 	void addPropertyValue(PropertyValue np) throws SQLException;
 
@@ -61,7 +64,9 @@ public interface IApplicationDataService {
 
 	void addNewInstalledVersion(InstalledVersion installedVersion) throws SQLException;
 
-	void addNewVersion(Version version) throws SQLException;
+        void addNewVersion(Version version) throws SQLException;
+
+        void updateVersionStatus(String appId, String numVersion, StatusEnum status) throws SQLException;
 
 	void addNewApplication(Application application) throws SQLException;
 
