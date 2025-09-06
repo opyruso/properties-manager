@@ -292,7 +292,7 @@ export default {
         archiveApplication(appId,
                         callback = () => {console.log("archiveApplication default success log")},
                         callbackError = (e) => {console.error("archiveApplication default err log", e)}) {
-                ApiDefinition.updateApplication(appId, null, 'ARCHIVED', callback, callbackError);
+                this.updateApplication(appId, null, 'ARCHIVED', callback, callbackError);
         },
 
         archiveVersion(appId, version,
