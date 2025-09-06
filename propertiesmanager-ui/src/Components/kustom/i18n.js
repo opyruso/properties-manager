@@ -73,6 +73,7 @@ i18n
           'globalvariable.editvalue': 'Valeur de remplacement',
           'globalvariable.remove.btn': 'Supprimer',
           'globalvariable.remove.confirm': 'Confirmer la suppression ?',
+          'globalvariable.newkey': 'Nouvelle clé',
           
         }
       },
@@ -132,6 +133,7 @@ i18n
           'globalvariable.editvalue': 'Replace value',
           'globalvariable.remove.btn': 'Remove',
           'globalvariable.remove.confirm': 'Confirm removal?',
+          'globalvariable.newkey': 'New key',
           
         }
       },
@@ -191,6 +193,7 @@ i18n
           'globalvariable.editvalue': 'Wert ersetzen',
           'globalvariable.remove.btn': 'Entfernen',
           'globalvariable.remove.confirm': 'Entfernung bestätigen?',
+          'globalvariable.newkey': 'Neuer Schlüssel',
           
         }
       },
@@ -251,6 +254,7 @@ i18n
           'globalvariable.editvalue': 'Wäert ersetzen',
           'globalvariable.remove.btn': 'Ewechmaachen',
           'globalvariable.remove.confirm': 'Entfernung bestätegt?',
+          'globalvariable.newkey': 'Neie Schlëssel',
           
         }
       }
