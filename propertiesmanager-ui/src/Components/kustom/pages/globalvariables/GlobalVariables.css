@@ -6,6 +6,7 @@
         display: flex;
         flex-direction: row;
         margin-bottom: 10px;
+        align-items: flex-end;
 }
 
 .global-variables table {
@@ -13,14 +14,26 @@
         border-collapse: collapse;
 }
 
-.global-variables .global-variable-line-title {
+
+.global-variables .global-variable-line-title,
+.global-variables .global-variable-line {
         margin: 0px 5px -1px 5px;
-        background-color: #000000;
+}
+
+.global-variables .global-variable-line-title {
         font-weight: bold;
 }
 
-.global-variables .global-variable-line:hover {
-        background-color: gray;
+.global-variables th {
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
+}
+
+.global-variables td {
+        background: linear-gradient(to right, var(--background), #404349);
+}
+
+.global-variables tr:hover td {
+        background: linear-gradient(to right, gray, #a0a0a0);
 }
 
 .global-variables th,
@@ -29,6 +42,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .global-variables .cell-content {
@@ -48,4 +62,9 @@
         flex: 0;
         padding: 2px 5px;
         text-align: center;
+}
+
+.global-variables .delete-col {
+        width: 1%;
+        white-space: nowrap;
 }

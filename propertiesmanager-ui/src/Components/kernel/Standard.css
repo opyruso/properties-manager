@@ -5,7 +5,7 @@ html, body, #root {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: var(--background);
+        background: linear-gradient(to bottom, var(--background), #404349);
 	color: var(--font);
 }
 .main-body {
