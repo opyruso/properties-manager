@@ -1,41 +1,39 @@
-
-
 /* Apps */
 .apps {
-	display: flex;
-	flex-direction: column;
-	flex: auto;
-	padding: 2px 5px;
+        display: flex;
+        flex-direction: column;
+        flex: auto;
+        padding: 2px 5px;
 }
+
 .apps .search-input {
-	margin: 5px 5px 5px 5px;
-	font-size: 1em;
+        margin: 5px 5px 5px 5px;
+        font-size: 1em;
 }
-.apps .search-result-title {
-	display: flex;
-	border: solid gray 1px;
-	margin: 0px 5px -1px 5px;
-	background-color: #000000;
-	font-weight: bold;
-	padding: 2px 5px;
+
+.apps table {
+        width: 100%;
+        border-collapse: collapse;
 }
-.apps .search-result {
-	display: flex;
-	flex: auto;
-	border: solid gray 1px;
-	margin: 0px 5px -1px 5px;
-	background-color: none;
-	padding: 2px 5px;
+
+.apps .app-line-title {
+        background-color: #000000;
+        font-weight: bold;
 }
-.apps .search-result:hover {
-	background-color: gray;
+
+.apps .app-line:hover {
+        background-color: gray;
 }
-.apps .title {
-        flex: 1;
+
+.apps .app-line-title,
+.apps .app-line {
+        margin: 0px 5px -1px 5px;
 }
-.apps .productOwner {
-        flex: 1;
-}
-.apps .envColumn {
-	flex: 1;
+
+.apps th,
+.apps td {
+        padding: 2px 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
 }

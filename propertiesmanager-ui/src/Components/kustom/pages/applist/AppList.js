@@ -108,64 +108,74 @@ if (keycloak?.authenticated && envList !== undefined) {
 	
 	
 
-	return (
-		<div className="apps">
-			<h1>{t('applist.title')}</h1>
-			<input id="appList_searchInput" onChange={updateFilteredApplicationsCallback} className="search-input" type="text" placeholder={t('applist.search.placeholder')}></input>
-			<ApplicationLineTitle envList={envList} />
-			<div className="applicationsPlaceholder">{
-				filteredApplications === undefined || filteredApplications?.length <= 0? 
-							<span className="no-data">{t('applist.noapplication')}</span>
-						 : filteredApplications?.map(a => <ApplicationLine key={a.appId} envList={envList} application={a} />)
-			}</div>
-		</div>
-	);
+        return (
+                <div className="apps">
+                        <h1>{t('applist.title')}</h1>
+                        <input id="appList_searchInput" onChange={updateFilteredApplicationsCallback} className="search-input" type="text" placeholder={t('applist.search.placeholder')}></input>
+                        <table>
+                                <thead>
+                                        <ApplicationLineTitle envList={envList} />
+                                </thead>
+                                <tbody>
+                                        {
+                                                filteredApplications === undefined || filteredApplications?.length <= 0 ?
+                                                        <tr className="app-line">
+                                                                <td className="no-data" colSpan={(envList?.length || 0) + 2}>{t('applist.noapplication')}</td>
+                                                        </tr>
+                                                        : filteredApplications?.map(a => <ApplicationLine key={a.appId} envList={envList} application={a} />)
+                                        }
+                                </tbody>
+                        </table>
+                </div>
+        );
 }
 
 function ApplicationLineTitle(props) {
 	
   	const { t } = useTranslation();
   	
-	return (
-		<div className="search-result-title" key="-1" >
-			<span className="title">{t('applist.application.name')}</span>
-			<span className="productOwner">{t('applist.application.productowner')}</span>
-			{
-				props.envList?.map((env) => {
-						return <span key={env + "_title"} className="envColumn">{env.toUpperCase()}</span>
-					})
-			}
-		</div>
-	);
+        return (
+                <tr className="app-line-title">
+                        <th className="title">{t('applist.application.name')}</th>
+                        <th className="productOwner">{t('applist.application.productowner')}</th>
+                        {
+                                props.envList?.map((env) => {
+                                        return <th key={env + "_title"} className="envColumn">{env.toUpperCase()}</th>;
+                                })
+                        }
+                </tr>
+        );
 }
 
 function ApplicationLine(props) {
         return (
-                <div className="search-result" to={"/app/" + props.application?.appId}>
-                        <span className="title"><Link to={"/app/" + props.application?.appId + "/version/snapshot"}>{props.application?.appLabel}</Link></span>
-                        <span className="productOwner">{props.application?.productOwner}</span>
-			{
-				props.envList?.map((env) => {
-						return <ApplicationLineEnvColumn key={env} appId={props.application?.appId} version={props.application?.versions?.[env]} date={props.application?.lastReleaseDates?.[env]} />
-					})
-			}
-		</div>
-	);
+                <tr className="app-line">
+                        <td className="title"><Link to={"/app/" + props.application?.appId + "/version/snapshot"}>{props.application?.appLabel}</Link></td>
+                        <td className="productOwner">{props.application?.productOwner}</td>
+                        {
+                                props.envList?.map((env) => {
+                                        return <ApplicationLineEnvColumn key={env} appId={props.application?.appId} version={props.application?.versions?.[env]} date={props.application?.lastReleaseDates?.[env]} />;
+                                })
+                        }
+                </tr>
+        );
 }
 
 function ApplicationLineEnvColumn(props) {
 	
   	const { t } = useTranslation();
   	
-	return (
-		props.version!=null?(
-			<Link className="envColumn" to={"/app/" + props.appId + "/version/" + props.version}>
-				<span title={props.date!=null?formatDate(props.date):t('applist.application.unknowlastdeliverydate')}>{props.version}</span>
-			</Link>
-		):(
-			<span className="envColumn" title={t('applist.application.unknowlastdeliverydate')}></span>
-		)
-	)
+        return (
+                props.version != null ? (
+                        <td className="envColumn">
+                                <Link to={"/app/" + props.appId + "/version/" + props.version} title={props.date != null ? formatDate(props.date) : t('applist.application.unknowlastdeliverydate')}>
+                                        {props.version}
+                                </Link>
+                        </td>
+                ) : (
+                        <td className="envColumn" title={t('applist.application.unknowlastdeliverydate')}></td>
+                )
+        );
 }
 
 function formatDate(t) {

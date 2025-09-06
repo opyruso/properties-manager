@@ -110,7 +110,7 @@ export default function GlobalVariables() {
                                         <tr className="global-variable-line-title">
                                                 <th>{t('appdetails.table.title.key')}</th>
                                                 {envList?.map((env) => { return <th key={env}>{env}</th>; })}
-                                                <th></th>
+                                                <th className="delete-col"></th>
                                         </tr>
                                 </thead>
                                 <tbody>
@@ -145,7 +145,7 @@ export default function GlobalVariables() {
                                                                                         </td>;
                                                                         })
                                                                 }
-                                                                <td>
+                                                                <td className="delete-col">
                                                                         {Keycloak.securityAdminCheck() ? <div className="cell-content">
                                                                                 <span className="env-action" onClick={() => { deleteGlobalVariableCallback(gv.globalVariableKey); }}><FontAwesomeIcon className="error" icon={faTrash} /></span>
                                                                         </div> : null}
