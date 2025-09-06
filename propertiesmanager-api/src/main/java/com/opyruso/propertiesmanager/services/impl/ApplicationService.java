@@ -136,29 +136,32 @@ public class ApplicationService implements IApplicationService {
 	}
 
 	@Override
-	public ApiApplicationFull getApplicationDetails(String appId, String numVersion) throws WebApplicationException {
-		try {
-			ApiApplicationFull result = ApiApplicationFull.mapEntityToApi(dataService.selectApplication(appId));
-			result.versions = new HashMap<String, String>();
-			result.lastReleaseDates = new HashMap<String, Long>();
-			Map<String, ApiInstalledVersion> tmp = getApplicationInstalledVersions(result.appId);
-			for (ApiInstalledVersion iv : tmp.values()) {
-				result.versions.put(iv.envId, iv.numVersion);
-				result.lastReleaseDates.put(iv.envId, iv.updateDate.getTime());
-			}
-                        // retrieve non-archived versions for details view
-                        result.existingVersions = getApplicationVersions(appId, false);
-			result.lastReleaseDates = getApplicationLastReleaseDate(appId);
-			List<ApiProperty> tmpProp = new ArrayList<ApiProperty>();
-			tmpProp.addAll(ApiProperty.mapEntityToApi(dataService.selectProperties(appId, numVersion).values()));
-			result.properties = tmpProp;
-			result.propertiesValue = ApiPropertyValue.mapEntityToApi(dataService.selectPropertiesValue(appId, numVersion));
-			return result;
-		} catch (Exception e) {
+        public ApiApplicationFull getApplicationDetails(String appId, String numVersion, boolean includeArchived) throws WebApplicationException {
+                try {
+                        ApiApplicationFull result = ApiApplicationFull.mapEntityToApi(dataService.selectApplication(appId));
+                        result.versions = new HashMap<String, String>();
+                        result.lastReleaseDates = new HashMap<String, Long>();
+                        Map<String, ApiInstalledVersion> tmp = getApplicationInstalledVersions(result.appId);
+                        for (ApiInstalledVersion iv : tmp.values()) {
+                                result.versions.put(iv.envId, iv.numVersion);
+                                result.lastReleaseDates.put(iv.envId, iv.updateDate.getTime());
+                        }
+                        result.existingVersions = getApplicationVersions(appId, includeArchived);
+                        result.lastReleaseDates = getApplicationLastReleaseDate(appId);
+                        List<ApiProperty> tmpProp = new ArrayList<ApiProperty>();
+                        tmpProp.addAll(ApiProperty.mapEntityToApi(dataService.selectProperties(appId, numVersion).values()));
+                        result.properties = tmpProp;
+                        result.propertiesValue = ApiPropertyValue.mapEntityToApi(dataService.selectPropertiesValue(appId, numVersion));
+                        Version v = dataService.selectVersion(appId, numVersion);
+                        if (v != null) {
+                                result.versionStatus = v.getStatus();
+                        }
+                        return result;
+                } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+                }
+        }
 
 	@Override
         public void appUpdate(String appId, ApiApplicationUpdateRequest request) throws WebApplicationException {
@@ -174,8 +177,21 @@ public class ApplicationService implements IApplicationService {
 
         @Override
         public void archiveVersion(String appId, String numVersion) throws WebApplicationException {
+                if ("snapshot".equalsIgnoreCase(numVersion)) {
+                        throw new WebApplicationException(HttpStatus.SC_BAD_REQUEST);
+                }
                 try {
                         dataService.updateVersionStatus(appId, numVersion, StatusEnum.ARCHIVED);
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public void unarchiveVersion(String appId, String numVersion) throws WebApplicationException {
+                try {
+                        dataService.updateVersionStatus(appId, numVersion, StatusEnum.ACTIVE);
                 } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);

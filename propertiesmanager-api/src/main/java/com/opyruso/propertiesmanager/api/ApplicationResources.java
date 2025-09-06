@@ -78,14 +78,15 @@ public class ApplicationResources implements IApplicationResources {
         }
 
 	@Override
-	public Response app(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException {
-		try {
-			ApiApplicationFull response = applicationService.getApplicationDetails(appId, numVersion);
-			if (response == null) {
-				throw new WebApplicationException(HttpStatus.SC_NOT_FOUND);
-			}
-			return Response.ok(response).build();
-		} catch (Exception e) {
+        public Response app(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion,
+                        @QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException {
+                try {
+                        ApiApplicationFull response = applicationService.getApplicationDetails(appId, numVersion, archives);
+                        if (response == null) {
+                                throw new WebApplicationException(HttpStatus.SC_NOT_FOUND);
+                        }
+                        return Response.ok(response).build();
+                } catch (Exception e) {
 			Log.error("Error:", e);
 			throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		}
@@ -225,6 +226,18 @@ public class ApplicationResources implements IApplicationResources {
                 KeycloakAttributesUtils.securityCheckIsAdmin(jwt);
                 try {
                         applicationService.archiveVersion(appId, numVersion);
+                        return Response.noContent().build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public Response unarchiveVersion(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException {
+                KeycloakAttributesUtils.securityCheckIsAdmin(jwt);
+                try {
+                        applicationService.unarchiveVersion(appId, numVersion);
                         return Response.noContent().build();
                 } catch (Exception e) {
                         Log.error("Error:", e);

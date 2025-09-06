@@ -158,6 +158,7 @@ function ApplicationLineTitle(props) {
 }
 
 function ApplicationLine(props) {
+        const { t } = useTranslation();
         return (
                 <tr className="app-line">
                         <td className="title"><Link to={"/app/" + props.application?.appId + "/version/snapshot"}>{props.application?.appLabel}</Link></td>
@@ -168,7 +169,11 @@ function ApplicationLine(props) {
                                 })
                         }
                         {
-                                Keycloak.securityAdminCheck() ? <td><button onClick={() => { ApiDefinition.archiveApplication(props.application?.appId, () => publish('archivesChangeEvent')); }}>Archive</button></td> : null
+                                Keycloak.securityAdminCheck() ? <td><button onClick={() => {
+                                        props.application?.status === 'ARCHIVED'
+                                                ? ApiDefinition.unarchiveApplication(props.application?.appId, () => publish('archivesChangeEvent'))
+                                                : ApiDefinition.archiveApplication(props.application?.appId, () => publish('archivesChangeEvent'));
+                                }}>{props.application?.status === 'ARCHIVED' ? t('unarchive') : t('archive')}</button></td> : null
                         }
                 </tr>
         );

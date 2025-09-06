@@ -74,9 +74,11 @@ public interface IApplicationDataService {
 
 	InstalledVersion selectLastInstalledVersionGlobal(String appId) throws SQLException;
 
-	Version selectLastVersionGlobal(String appId) throws SQLException;
+        Version selectLastVersionGlobal(String appId) throws SQLException;
 
-	void updateInstalledVersionUpdateDate(String appId, String envId, String numVersion) throws SQLException;
+        Version selectVersion(String appId, String numVersion) throws SQLException;
+
+        void updateInstalledVersionUpdateDate(String appId, String envId, String numVersion) throws SQLException;
 
 	List<GlobalVariable> selectGlobalVariables() throws SQLException;
 

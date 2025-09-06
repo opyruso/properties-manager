@@ -180,15 +180,20 @@ public class ApplicationDataService implements IApplicationDataService {
 	}
 
 	@Override
-	public Version selectLastVersionGlobal(String appId) throws SQLException {
-		Optional<Version> tmp = versionRepository.find(
-				"pk.appId = ?1 "
-					+ "AND creationDate = (SELECT MAX(iv2.creationDate) FROM Version iv2 WHERE iv2.pk.appId = ?1) "
-					+ "AND pk.numVersion <> 'snapshot' "
-					+ "ORDER BY updateDate desc "
-				, appId).firstResultOptional();
-		return tmp.orElse(null);
-	}
+        public Version selectLastVersionGlobal(String appId) throws SQLException {
+                Optional<Version> tmp = versionRepository.find(
+                                "pk.appId = ?1 "
+                                        + "AND creationDate = (SELECT MAX(iv2.creationDate) FROM Version iv2 WHERE iv2.pk.appId = ?1) "
+                                        + "AND pk.numVersion <> 'snapshot' "
+                                        + "ORDER BY updateDate desc "
+                                , appId).firstResultOptional();
+                return tmp.orElse(null);
+        }
+
+        @Override
+        public Version selectVersion(String appId, String numVersion) throws WebApplicationException {
+                return versionRepository.find("pk.appId = ?1 AND pk.numVersion = ?2", appId, numVersion).firstResult();
+        }
 
 	@Override
 	public Map<String, Long> selectLastReleaseDate(String appId) throws WebApplicationException {

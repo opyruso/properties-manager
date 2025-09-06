@@ -24,6 +24,9 @@ i18n
           'header.title.config-helper': 'Gestion des clés',
           'header.title.global-variables': 'Variables globales',
           'header.archives': 'Archives',
+
+          'archive': 'Archiver',
+          'unarchive': 'Désarchiver',
           
           'profile.application.title': 'Applications',
           'profile.adminuser.filter.minimumadvise': '3 caractères minimum',
@@ -85,6 +88,9 @@ i18n
           'header.title.config-helper': 'Key management',
           'header.title.global-variables': 'Global Variables',
           'header.archives': 'Archives',
+
+          'archive': 'Archive',
+          'unarchive': 'Unarchive',
           
           'profile.application.title': 'Applications',
           'profile.adminuser.filter.minimumadvise': 'minimum 3 characters',
@@ -146,6 +152,9 @@ i18n
           'header.title.config-helper': 'Schlüsselverwaltung',
           'header.title.global-variables': 'Globale Variablen',
           'header.archives': 'Archive',
+
+          'archive': 'Archivieren',
+          'unarchive': 'Wiederherstellen',
           
           'profile.application.title': 'Bewerbungen',
           'profile.adminuser.filter.minimumadvise': 'mindestens 3 Zeichen',

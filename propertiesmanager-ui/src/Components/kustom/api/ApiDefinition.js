@@ -295,11 +295,28 @@ export default {
                 this.updateApplication(appId, null, 'ARCHIVED', callback, callbackError);
         },
 
+        unarchiveApplication(appId,
+                        callback = () => {console.log("unarchiveApplication default success log")},
+                        callbackError = (e) => {console.error("unarchiveApplication default err log", e)}) {
+                this.updateApplication(appId, null, 'ACTIVE', callback, callbackError);
+        },
+
         archiveVersion(appId, version,
                         callback = () => {console.log("archiveVersion default success log")},
                         callbackError = (e) => {console.error("archiveVersion default err log", e)}) {
                 try {
                         ApiCallUtils.putSecureNoContent('/app/' + appId + '/version/' + version + '/archive', {}, callback, callbackError);
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+        unarchiveVersion(appId, version,
+                        callback = () => {console.log("unarchiveVersion default success log")},
+                        callbackError = (e) => {console.error("unarchiveVersion default err log", e)}) {
+                try {
+                        ApiCallUtils.putSecureNoContent('/app/' + appId + '/version/' + version + '/unarchive', {}, callback, callbackError);
                 } catch (e) {
                         console.error(e);
                         callbackError(e);

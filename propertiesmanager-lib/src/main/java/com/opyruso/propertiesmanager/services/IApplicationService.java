@@ -28,13 +28,15 @@ public interface IApplicationService {
 
 	public Map<String, ApiInstalledVersion> getApplicationInstalledVersions(String appId) throws WebApplicationException;
 
-	public Map<String, Long> getApplicationLastReleaseDate(String appId) throws WebApplicationException;
+        public Map<String, Long> getApplicationLastReleaseDate(String appId) throws WebApplicationException;
 
-	public ApiApplicationFull getApplicationDetails(String appId, String numVersion) throws WebApplicationException;
+        public ApiApplicationFull getApplicationDetails(String appId, String numVersion, boolean includeArchived) throws WebApplicationException;
 
         public void appUpdate(String appId, ApiApplicationUpdateRequest request) throws WebApplicationException;
 
         public void archiveVersion(String appId, String numVersion) throws WebApplicationException;
+
+        public void unarchiveVersion(String appId, String numVersion) throws WebApplicationException;
 
 	public void propertyAdd(ApiProperty request) throws WebApplicationException;
 

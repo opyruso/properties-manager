@@ -33,9 +33,10 @@ public interface IApplicationResources {
         @Path("/app/{appId}/versions")
         public Response versions(@PathParam("appId") String appId, @QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException;
 
-	@GET
-	@Path("/app/{appId}/version/{numVersion}")
-	public Response app(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException;
+        @GET
+        @Path("/app/{appId}/version/{numVersion}")
+        public Response app(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion,
+                        @QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException;
 
 	@GET
 	@Path("/app/{appId}/version/{toVersion}/replaceby/{numVersion}")
@@ -60,6 +61,10 @@ public interface IApplicationResources {
         @PUT
         @Path("/app/{appId}/version/{numVersion}/archive")
         public Response archiveVersion(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException;
+
+        @PUT
+        @Path("/app/{appId}/version/{numVersion}/unarchive")
+        public Response unarchiveVersion(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException;
 
 	@PUT
 	@Path("/app/{appId}/updateproperty")

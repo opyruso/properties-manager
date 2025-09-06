@@ -412,9 +412,13 @@ const { keycloak } = useKeycloakInstance();
                                                 {(!applicationVersions?.includes('snapshot') && hasWriteRight())?(
                                                         <button onClick={addSnapshotVersionCallback}>{t('appdetails.createsnapshot')}</button>
                                                 ):null}
-                                                {hasWriteRight()?(
-                                                        <button onClick={() => { ApiDefinition.archiveVersion(appId, currentVersion, () => publish('archivesChangeEvent')); }}>{t('header.archives')}</button>
-                                                ):null}
+                                                {hasWriteRight() && currentVersion !== 'snapshot' ? (
+                                                        applicationDetails?.versionStatus === 'ARCHIVED' ? (
+                                                                <button onClick={() => { ApiDefinition.unarchiveVersion(appId, currentVersion, () => publish('archivesChangeEvent')); }}>{t('unarchive')}</button>
+                                                        ) : (
+                                                                <button onClick={() => { ApiDefinition.archiveVersion(appId, currentVersion, () => publish('archivesChangeEvent')); }}>{t('archive')}</button>
+                                                        )
+                                                ) : null}
                                        </div>
                                         <span className="spacer" />
 					<div className="env-selector">
