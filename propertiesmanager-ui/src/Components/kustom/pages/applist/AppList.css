@@ -17,12 +17,12 @@
 }
 
 .apps .app-line-title {
-        background: linear-gradient(to right, #000000, #111111);
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
         font-weight: bold;
 }
 
 .apps .app-line {
-        background: linear-gradient(to right, #000000, #0a0a0a);
+        background: linear-gradient(to right, var(--background), #404349);
 }
 
 .apps .app-line:hover {

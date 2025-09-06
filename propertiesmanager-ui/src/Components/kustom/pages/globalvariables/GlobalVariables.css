@@ -17,13 +17,13 @@
 
 .global-variables .global-variable-line-title {
         margin: 0px 5px -1px 5px;
-        background: linear-gradient(to right, #000000, #111111);
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
         font-weight: bold;
 }
 
 .global-variables .global-variable-line {
         margin: 0px 5px -1px 5px;
-        background: linear-gradient(to right, #000000, #0a0a0a);
+        background: linear-gradient(to right, var(--background), #404349);
 }
 
 .global-variables .global-variable-line:hover {

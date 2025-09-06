@@ -81,12 +81,12 @@
 }
 .app-details .body .property-line-title {
         margin: 0px 5px -1px 5px;
-        background: linear-gradient(to right, #000000, #111111);
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
         font-weight: bold;
 }
 .app-details .body .property-line {
         margin: 0px 5px -1px 5px;
-        background: linear-gradient(to right, #000000, #0a0a0a);
+        background: linear-gradient(to right, var(--background), #404349);
 }
 .app-details .body .property-line:hover {
         background: linear-gradient(to right, gray, #a0a0a0);
