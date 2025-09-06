@@ -13,10 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.opyruso.propertiesmanager.data.entity.pk.ApplicationPK;
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 
 @Entity
 @Table(
@@ -42,9 +45,13 @@ public class Application implements Serializable {
 	@CreationTimestamp
 	private Timestamp creationDate;
 
-	@Column(name = "update_date", nullable = false)
-	@CreationTimestamp
-	private Timestamp updateDate;
+        @Column(name = "update_date", nullable = false)
+        @CreationTimestamp
+        private Timestamp updateDate;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "status", nullable = false)
+        private StatusEnum status = StatusEnum.ACTIVE;
 
 	@Transient
 	private List<String> existingVersions = new ArrayList<String>();
@@ -97,9 +104,17 @@ public class Application implements Serializable {
 		return updateDate;
 	}
 
-	public void setUpdateDate(Timestamp updateDate) {
-		this.updateDate = updateDate;
-	}
+        public void setUpdateDate(Timestamp updateDate) {
+                this.updateDate = updateDate;
+        }
+
+        public StatusEnum getStatus() {
+                return status;
+        }
+
+        public void setStatus(StatusEnum status) {
+                this.status = status;
+        }
 
 	public List<String> getExistingVersions() {
 		return existingVersions;

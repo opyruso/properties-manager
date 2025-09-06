@@ -29,6 +29,7 @@ import com.opyruso.propertiesmanager.constants.OperationTypeEnum;
 import com.opyruso.propertiesmanager.constants.TransformerLogStatusEnum;
 import com.opyruso.propertiesmanager.constants.propertyStatusEnum;
 import com.opyruso.propertiesmanager.constants.propertyTypeEnum;
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 import com.opyruso.propertiesmanager.data.IApplicationDataService;
 import com.opyruso.propertiesmanager.data.entity.Application;
 import com.opyruso.propertiesmanager.data.entity.GlobalVariable;
@@ -62,14 +63,14 @@ public class ApplicationService implements IApplicationService {
 	@Named(value = "propertiesTransformerFactory")
 	protected PropertiesTransformerFactory propertiesTransformerFactory;
 	
-	@Override
-	public List<ApiApplicationShort> getApplications() throws WebApplicationException {
-		try {
-			List<ApiApplicationShort> result = ApiApplicationShort.mapEntityToApi(dataService.selectApplications());
-			for (ApiApplicationShort application : result) {
-				application.versions = new HashMap<String, String>();
-				application.lastReleaseDates = new HashMap<String, Long>();
-				Map<String, ApiInstalledVersion> tmp = getApplicationInstalledVersions(application.appId);
+        @Override
+        public List<ApiApplicationShort> getApplications(boolean includeArchived) throws WebApplicationException {
+                try {
+                        List<ApiApplicationShort> result = ApiApplicationShort.mapEntityToApi(dataService.selectApplications(includeArchived));
+                        for (ApiApplicationShort application : result) {
+                                application.versions = new HashMap<String, String>();
+                                application.lastReleaseDates = new HashMap<String, Long>();
+                                Map<String, ApiInstalledVersion> tmp = getApplicationInstalledVersions(application.appId);
 				for (ApiInstalledVersion iv : tmp.values()) {
 					application.versions.put(iv.envId, iv.numVersion);
 					application.lastReleaseDates.put(iv.envId, iv.updateDate.getTime());
@@ -82,15 +83,15 @@ public class ApplicationService implements IApplicationService {
 		}
 	}
 
-	@Override
-	public List<String> getApplicationVersions(String appId) throws WebApplicationException {
-		try {
-			return dataService.selectVersions(appId);
-		} catch (Exception e) {
+        @Override
+        public List<String> getApplicationVersions(String appId, boolean includeArchived) throws WebApplicationException {
+                try {
+                        return dataService.selectVersions(appId, includeArchived);
+                } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+                }
+        }
 
 	@Override
 	public List<String> getApplicationFilenames(String appId, String numVersion) throws WebApplicationException {
@@ -135,39 +136,67 @@ public class ApplicationService implements IApplicationService {
 	}
 
 	@Override
-	public ApiApplicationFull getApplicationDetails(String appId, String numVersion) throws WebApplicationException {
-		try {
-			ApiApplicationFull result = ApiApplicationFull.mapEntityToApi(dataService.selectApplication(appId));
-			result.versions = new HashMap<String, String>();
-			result.lastReleaseDates = new HashMap<String, Long>();
-			Map<String, ApiInstalledVersion> tmp = getApplicationInstalledVersions(result.appId);
-			for (ApiInstalledVersion iv : tmp.values()) {
-				result.versions.put(iv.envId, iv.numVersion);
-				result.lastReleaseDates.put(iv.envId, iv.updateDate.getTime());
-			}
-			result.existingVersions = getApplicationVersions(appId);
-			result.lastReleaseDates = getApplicationLastReleaseDate(appId);
-			List<ApiProperty> tmpProp = new ArrayList<ApiProperty>();
-			tmpProp.addAll(ApiProperty.mapEntityToApi(dataService.selectProperties(appId, numVersion).values()));
-			result.properties = tmpProp;
-			result.propertiesValue = ApiPropertyValue.mapEntityToApi(dataService.selectPropertiesValue(appId, numVersion));
-			return result;
-		} catch (Exception e) {
+        public ApiApplicationFull getApplicationDetails(String appId, String numVersion, boolean includeArchived) throws WebApplicationException {
+                try {
+                        ApiApplicationFull result = ApiApplicationFull.mapEntityToApi(dataService.selectApplication(appId));
+                        result.versions = new HashMap<String, String>();
+                        result.lastReleaseDates = new HashMap<String, Long>();
+                        Map<String, ApiInstalledVersion> tmp = getApplicationInstalledVersions(result.appId);
+                        for (ApiInstalledVersion iv : tmp.values()) {
+                                result.versions.put(iv.envId, iv.numVersion);
+                                result.lastReleaseDates.put(iv.envId, iv.updateDate.getTime());
+                        }
+                        result.existingVersions = getApplicationVersions(appId, includeArchived);
+                        result.lastReleaseDates = getApplicationLastReleaseDate(appId);
+                        List<ApiProperty> tmpProp = new ArrayList<ApiProperty>();
+                        tmpProp.addAll(ApiProperty.mapEntityToApi(dataService.selectProperties(appId, numVersion).values()));
+                        result.properties = tmpProp;
+                        result.propertiesValue = ApiPropertyValue.mapEntityToApi(dataService.selectPropertiesValue(appId, numVersion));
+                        Version v = dataService.selectVersion(appId, numVersion);
+                        if (v != null) {
+                                result.versionStatus = v.getStatus();
+                        }
+                        return result;
+                } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+                }
+        }
 
 	@Override
-	public void appUpdate(String appId, ApiApplicationUpdateRequest request) throws WebApplicationException {
-		try {
-			if (request.appLabel != null) dataService.updateAppLabel(appId, request.appLabel);
-			if (request.productOwner != null) dataService.updateProductOwner(appId, request.productOwner);
-		} catch (Exception e) {
+        public void appUpdate(String appId, ApiApplicationUpdateRequest request) throws WebApplicationException {
+                try {
+                        if (request.appLabel != null) dataService.updateAppLabel(appId, request.appLabel);
+                        if (request.productOwner != null) dataService.updateProductOwner(appId, request.productOwner);
+                        if (request.status != null) dataService.updateAppStatus(appId, request.status);
+                } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+                }
+        }
+
+        @Override
+        public void archiveVersion(String appId, String numVersion) throws WebApplicationException {
+                if ("snapshot".equalsIgnoreCase(numVersion)) {
+                        throw new WebApplicationException(HttpStatus.SC_BAD_REQUEST);
+                }
+                try {
+                        dataService.updateVersionStatus(appId, numVersion, StatusEnum.ARCHIVED);
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public void unarchiveVersion(String appId, String numVersion) throws WebApplicationException {
+                try {
+                        dataService.updateVersionStatus(appId, numVersion, StatusEnum.ACTIVE);
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
 
 	@Override
 	public void propertyUpdate(ApiPropertyUpdateRequest request) throws WebApplicationException {
@@ -405,7 +434,8 @@ public class ApplicationService implements IApplicationService {
 					}
 				}
 			} else {
-				if (dataService.selectVersions(appId).contains(numVersion)) return;
+                                // check against all versions including archived ones
+                                if (dataService.selectVersions(appId, true).contains(numVersion)) return;
 				Version lastVersion = dataService.selectLastVersionGlobal(appId);
 				
 				Version version = new Version();
@@ -430,7 +460,7 @@ public class ApplicationService implements IApplicationService {
         @Override
         public void createSnapshotVersion(String appId) throws WebApplicationException {
                 try {
-                        if (!dataService.selectVersions(appId).contains("snapshot")) {
+                        if (!dataService.selectVersions(appId, true).contains("snapshot")) {
                                 Version version = new Version();
                                 version.getPk().setAppId(appId);
                                 version.getPk().setNumVersion("snapshot");

@@ -7,6 +7,7 @@ import Keycloak, { useKeycloakInstance } from '../../../Keycloak';
 import AppContext from '../../../AppContext';
 
 import ApiDefinition from '../../api/ApiDefinition';
+import { subscribe, unsubscribe, publish } from '../../../AppStaticData';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faMinus, faPlus, faCheck, faXmark, faWarning, faLock, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -89,9 +90,9 @@ const { keycloak } = useKeycloakInstance();
         useEffect(() => {
                 console.log("currentVersion change", currentVersion);
                 if (currentVersion != undefined) {
-			setLocalStorageEnvKey("appDetails_env");
-			setLocalStorageFilterKey("appDetails_filter_" + appId);
-			setIsEditable([]);
+                        setLocalStorageEnvKey("appDetails_env");
+                        setLocalStorageFilterKey("appDetails_filter_" + appId);
+                        setIsEditable([]);
                         ApiDefinition.getApplicationDetails(appId, version, (data) => {
                                 setApplicationDetails(data);
                                 setApplicationVersions(data.existingVersions);
@@ -102,6 +103,17 @@ const { keycloak } = useKeycloakInstance();
                         });
                 }
         }, [currentVersion]);
+
+        useEffect(() => {
+                const listener = () => {
+                        ApiDefinition.getApplicationDetails(appId, version, (data) => {
+                                setApplicationDetails(data);
+                                setApplicationVersions(data.existingVersions);
+                        });
+                };
+                subscribe('archivesChangeEvent', listener);
+                return () => unsubscribe('archivesChangeEvent', listener);
+        }, [appId, version]);
 	
 	useEffect(() => {
 		console.log("applicationDetails change : ", applicationDetails);
@@ -195,7 +207,7 @@ const { keycloak } = useKeycloakInstance();
 		console.log("save Product Owner callback", productOwner);
 		
 		if (Keycloak.securityAdminCheck()) {
-			ApiDefinition.updateApplication(appId, productOwner, () => {
+                        ApiDefinition.updateApplication(appId, productOwner, null, () => {
 				console.log("success update product callback");
 				setApplicationDetails((current) => {
 					current.productOwner = productOwner;
@@ -400,8 +412,15 @@ const { keycloak } = useKeycloakInstance();
                                                 {(!applicationVersions?.includes('snapshot') && hasWriteRight())?(
                                                         <button onClick={addSnapshotVersionCallback}>{t('appdetails.createsnapshot')}</button>
                                                 ):null}
+                                                {hasWriteRight() && currentVersion !== 'snapshot' ? (
+                                                        applicationDetails?.versionStatus === 'ARCHIVED' ? (
+                                                                <button onClick={() => { ApiDefinition.unarchiveVersion(appId, currentVersion, () => publish('archivesChangeEvent')); }}>{t('unarchive')}</button>
+                                                        ) : (
+                                                                <button onClick={() => { ApiDefinition.archiveVersion(appId, currentVersion, () => publish('archivesChangeEvent')); }}>{t('archive')}</button>
+                                                        )
+                                                ) : null}
                                        </div>
-					<span className="spacer" />
+                                        <span className="spacer" />
 					<div className="env-selector">
 						{
 							accessibleEnvList?.map((env) => {

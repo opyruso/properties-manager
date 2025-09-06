@@ -152,30 +152,32 @@ export default {
 	
 	
 
-	getApplications(callback = (data) => {console.log("getApplications default success log"), data}, callbackError = (e) => {console.error("useApplications default err log", e)}) {
-		try {
-		ApiCallUtils.getSecure('/apps',
-				(data) => {
-					data.sort((a,b) => (a.appLabel > b.appLabel) ? 1 : ((b.appLabel > a.appLabel) ? -1 : 0));
-					callback(data);
-				},
-				(error) => callbackError(error))
+        getApplications(callback = (data) => {console.log("getApplications default success log"), data}, callbackError = (e) => {console.error("useApplications default err log", e)}) {
+                try {
+                const archives = localStorage.getItem('withArchives') === 'true';
+                ApiCallUtils.getSecure('/apps' + (archives ? '?archives=true' : ''),
+                                (data) => {
+                                        data.sort((a,b) => (a.appLabel > b.appLabel) ? 1 : ((b.appLabel > a.appLabel) ? -1 : 0));
+                                        callback(data);
+                                },
+                                (error) => callbackError(error))
 		} catch (e) {
                         console.error(e);
                         callbackError(e);
 		}
 	},
 	
-	getApplicationVersions(appId,
-			callback = (data) => {console.log("getApplicationVersions default success log"), data},
-			callbackError = (e) => {console.error("getApplicationVersions default err log", e)}) {
-		try {
-		ApiCallUtils.getSecure('/app/' + appId + '/versions',
-				(data) => {
-					callback(data);
-				},
-				(error) => callbackError(error))
-		} catch (e) {
+        getApplicationVersions(appId,
+                        callback = (data) => {console.log("getApplicationVersions default success log"), data},
+                        callbackError = (e) => {console.error("getApplicationVersions default err log", e)}) {
+                try {
+                const archives = localStorage.getItem('withArchives') === 'true';
+                ApiCallUtils.getSecure('/app/' + appId + '/versions' + (archives ? '?archives=true' : ''),
+                                (data) => {
+                                        callback(data);
+                                },
+                                (error) => callbackError(error))
+                } catch (e) {
                         console.error(e);
                         callbackError(e);
 		}
@@ -230,45 +232,147 @@ export default {
 		}
 	},
 	
-	getApplicationDetails(appId, version,
-			callback = (data) => {console.log("getApplicationDetails default success log"), data},
-			callbackError = (e) => {console.error("getApplicationDetails default err log", e)}) {
-		try {
-		ApiCallUtils.getSecure('/app/' + appId + '/version/' + version,
-				(data) => {
-					data.properties?.sort((a,b) => (a.filename+a.propertyKey > b.filename+b.propertyKey) ? 1 : ((b.filename+b.propertyKey > a.filename+a.propertyKey) ? -1 : 0));
-					callback(data);
-				},
-				(error) => callbackError(error))
+        getApplicationDetails(appId, version,
+                        callback = (data) => {console.log("getApplicationDetails default success log"), data},
+                        callbackError = (e) => {console.error("getApplicationDetails default err log", e)}) {
+                try {
+                const archives = localStorage.getItem('withArchives') === 'true';
+                ApiCallUtils.getSecure('/app/' + appId + '/version/' + version + (archives ? '?archives=true' : ''),
+                                (data) => {
+                                        data.properties?.sort((a,b) => (a.filename+a.propertyKey > b.filename+b.propertyKey) ? 1 : ((b.filename+b.propertyKey > a.filename+a.propertyKey) ? -1 : 0));
+                                        callback(data);
+                                },
+                                (error) => callbackError(error))
 		} catch (e) {
                         console.error(e);
                         callbackError(e);
 		}
 	},
 
-	updateApplication(appId, productOwner,
-			callback = (data) => {console.log("updateApplication default success log"), data},
-			callbackError = (e) => {console.error("updateApplication default err log", e)}) {
-		try {
-		productOwner!==undefined&&productOwner!=null?
-				ApiCallUtils.putSecureNoContent('/app/' + appId,
-					{
-						"productOwner": productOwner
-					},
-					() => {
-						console.log("success updateApplication callback");
-						callback();
-					},
-					(e) => {
-						console.log("error updateApplication callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
+        updateApplication(appId, productOwner, status,
+                        callback = (data) => {console.log("updateApplication default success log"), data},
+                        callbackError = (e) => {console.error("updateApplication default err log", e)}) {
+                try {
+                if (productOwner!==undefined&&productOwner!=null) {
+                                ApiCallUtils.putSecureNoContent('/app/' + appId,
+                                        {
+                                                "productOwner": productOwner,
+                                                "status": status
+                                        },
+                                        () => {
+                                                console.log("success updateApplication callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error updateApplication callback", e);
+                                                callbackError(e);
+                                        }
+                                );
+                } else if (status !== undefined && status != null) {
+                                ApiCallUtils.putSecureNoContent('/app/' + appId,
+                                        {
+                                                "status": status
+                                        },
+                                        () => {
+                                                console.log("success updateApplication callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error updateApplication callback", e);
+                                                callbackError(e);
+                                        }
+                                );
+                }
+                } catch (e) {
                         console.error(e);
                         callbackError(e);
-		}
-	},
+                }
+        },
+
+        archiveApplication(appId,
+                        callback = () => {console.log("archiveApplication default success log")},
+                        callbackError = (e) => {console.error("archiveApplication default err log", e)}) {
+                this.updateApplication(appId, null, 'ARCHIVED', callback, callbackError);
+        },
+
+        unarchiveApplication(appId,
+                        callback = () => {console.log("unarchiveApplication default success log")},
+                        callbackError = (e) => {console.error("unarchiveApplication default err log", e)}) {
+                this.updateApplication(appId, null, 'ACTIVE', callback, callbackError);
+        },
+
+        archiveVersion(appId, version,
+                        callback = () => {console.log("archiveVersion default success log")},
+                        callbackError = (e) => {console.error("archiveVersion default err log", e)}) {
+                try {
+                        ApiCallUtils.putSecureNoContent('/app/' + appId + '/version/' + version + '/archive', {}, callback, callbackError);
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+        unarchiveVersion(appId, version,
+                        callback = () => {console.log("unarchiveVersion default success log")},
+                        callbackError = (e) => {console.error("unarchiveVersion default err log", e)}) {
+                try {
+                        ApiCallUtils.putSecureNoContent('/app/' + appId + '/version/' + version + '/unarchive', {}, callback, callbackError);
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+        createApplication(appLabel,
+                        callback = () => {console.log("createApplication default success log")},
+                        callbackError = (e) => {console.error("createApplication default err log", e)}) {
+                try {
+                appLabel!=null?
+                                ApiCallUtils.putSecureNoContent('/connector/app',
+                                        {
+                                                "appId":  appLabel,
+                                                "appLabel":  appLabel,
+                                                "productOwner":  ""
+                                        },
+                                        () => {
+                                                console.log("success createApplication callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error createApplication callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+        addVersion(appId, numVersion,
+                        callback = () => {console.log("addVersion default success log")},
+                        callbackError = (e) => {console.error("addVersion default err log", e)}) {
+                try {
+                appId!=null&&numVersion!=null?
+                                ApiCallUtils.putSecureNoContent('/connector/app/' + appId + '/version/' + numVersion,
+                                        {
+                                                "filename":  "",
+                                                "contentAsBase64":  ""
+                                        },
+                                        () => {
+                                                console.log("success addVersion callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error addVersion callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
 
 	updateProperty(appId, envId, version, filename, propertyKey, newValue,
 			callback = (data) => {console.log("updateProperty default success log"), data},

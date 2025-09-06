@@ -22,7 +22,7 @@ import com.opyruso.propertiesmanager.utils.FileUtils;
 
 import io.quarkus.logging.Log;
 
-@RolesAllowed("connector")
+@RolesAllowed({"connector", "admin"})
 public class ConnectorResources implements IConnectorResources {
 
 	@Inject

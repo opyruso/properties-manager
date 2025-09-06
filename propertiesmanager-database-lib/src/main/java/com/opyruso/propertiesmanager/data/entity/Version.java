@@ -8,10 +8,13 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.opyruso.propertiesmanager.data.entity.pk.VersionPK;
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 
 @Entity
 @Table(
@@ -29,9 +32,13 @@ public class Version implements Serializable {
 	@CreationTimestamp
 	public Timestamp creationDate;
 
-	@Column(name = "update_date", nullable = false)
-	@CreationTimestamp
-	public Timestamp updateDate;
+        @Column(name = "update_date", nullable = false)
+        @CreationTimestamp
+        public Timestamp updateDate;
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "status", nullable = false)
+        public StatusEnum status = StatusEnum.ACTIVE;
 
 	public VersionPK getPk() {
 		return pk;
@@ -53,8 +60,16 @@ public class Version implements Serializable {
 		return updateDate;
 	}
 
-	public void setUpdateDate(Timestamp updateDate) {
-		this.updateDate = updateDate;
-	}
+        public void setUpdateDate(Timestamp updateDate) {
+                this.updateDate = updateDate;
+        }
+
+        public StatusEnum getStatus() {
+                return status;
+        }
+
+        public void setStatus(StatusEnum status) {
+                this.status = status;
+        }
 
 }

@@ -10,6 +10,7 @@ import AppContext from '../../../AppContext';
 import ApiDefinition from '../../../kustom/api/ApiDefinition';
 import { ButtonUtils, DropDownUtils, FileInputUtils, RichContentUtils, TextInputUtils } from '../../../kustom/commons/HtmlUtils';
 import { useTranslation } from 'react-i18next';
+import { subscribe, unsubscribe } from '../../../AppStaticData';
 
 export default function ConfigHelper() {
 	
@@ -53,7 +54,7 @@ const { keycloak } = useKeycloakInstance();
 	
 useEffect(() => {
 if (keycloak?.authenticated && envList != undefined) {
-			setApplications(undefined);
+                        setApplications(undefined);
 			setVersions(undefined);
 			setFiles(undefined);
 			setTextInput(undefined);
@@ -67,6 +68,14 @@ if (keycloak?.authenticated && envList != undefined) {
 			refreshApplications();
 		}
 }, [envList, keycloak?.authenticated]);
+
+useEffect(() => {
+                const listener = () => {
+                        refreshApplications();
+                };
+                subscribe('archivesChangeEvent', listener);
+                return () => unsubscribe('archivesChangeEvent', listener);
+}, []);
 	
 	
 
@@ -138,6 +147,27 @@ if (keycloak?.authenticated && envList != undefined) {
                 setLogsOutput("...");
                 setSelectedTab('result');
                 startTest(selectedApplication, selectedVersion, selectedFilename, selectedEnvironment, textInput);
+        }
+
+        function addNewVersionCallback() {
+                const version = prompt(t('confighelper.addversion.prompt'));
+                if (version !== null && version.trim() !== '' && selectedApplication !== undefined) {
+                        ApiDefinition.addVersion(selectedApplication, version.trim(), () => {
+                                refreshVersionsByAppId(selectedApplication);
+                                setSelectedVersion(version.trim());
+                        });
+                }
+        }
+
+        function addNewPropertyCallback() {
+                const filename = prompt(t('confighelper.addproperty.filename'));
+                if (filename === null || filename.trim() === '') return;
+                const key = prompt(t('confighelper.addproperty.key'));
+                if (key === null || key.trim() === '' || selectedApplication === undefined || selectedVersion === undefined) return;
+                ApiDefinition.addProperty(selectedApplication, selectedVersion, filename.trim(), key.trim(), '', () => {
+                        refreshApplicationDetailsByAppIdAndVersion(selectedApplication, selectedVersion);
+                        refreshFilesByAppIdAndVersion(selectedApplication, selectedVersion);
+                });
         }
 		
 	function addOrUpdatePropertiesFileCallback() {
@@ -252,17 +282,23 @@ if (keycloak?.authenticated && envList != undefined) {
 		<div className="testing">
 			<div className="testing-content">
 				<div className="testing-parameters">
-					<div className="testing-parameters-line">
-						<DropDownUtils label={t('confighelper.params.title.application')} idParam="appId" textParam="appLabel" list={applications?.sort()} selectedValue={selectedApplication} onChange={selectApplicationCallback} />
-						<DropDownUtils label={t('confighelper.params.title.versions')} list={versions?.sort()} selectedValue={selectedVersion} onChange={selectVersionCallback} />
-					</div>
-					<div className="testing-parameters-line">
-						<DropDownUtils label={t('confighelper.params.title.files')} list={files!==undefined?Object.keys(files).sort():null} selectedValue={selectedFilename} onChange={selectFilenameCallback} />
-						<DropDownUtils label={t('confighelper.params.title.environment')} list={envList} selectedValue={selectedEnvironment} onChange={selectEnvironmentCallback} />
-					</div>
-					<div className="testing-parameters-line">
-						<ButtonUtils label={t('confighelper.params.title.testing')} inactive={selectedApplication===undefined || selectedVersion===undefined || selectedFilename===undefined || selectedEnvironment===undefined || textInput===undefined} onClick={startTestCallback} />
-					</div>
+                                        <div className="testing-parameters-line">
+                                                <DropDownUtils label={t('confighelper.params.title.application')} idParam="appId" textParam="appLabel" list={applications?.sort()} selectedValue={selectedApplication} onChange={selectApplicationCallback} />
+                                                <DropDownUtils label={t('confighelper.params.title.versions')} list={versions?.sort()} selectedValue={selectedVersion} onChange={selectVersionCallback} />
+                                                {Keycloak.securityAdminCheck() && selectedApplication!==undefined ? <ButtonUtils label={t('confighelper.addversion')} onClick={addNewVersionCallback} /> : null}
+                                        </div>
+                                        <div className="testing-parameters-line">
+                                                <DropDownUtils label={t('confighelper.params.title.files')} list={files!==undefined?Object.keys(files).sort():null} selectedValue={selectedFilename} onChange={selectFilenameCallback} />
+                                                <DropDownUtils label={t('confighelper.params.title.environment')} list={envList} selectedValue={selectedEnvironment} onChange={selectEnvironmentCallback} />
+                                        </div>
+                                        {Keycloak.securityAdminCheck() && selectedApplication!==undefined && selectedVersion!==undefined ? (
+                                        <div className="testing-parameters-line">
+                                                <ButtonUtils label={t('confighelper.addproperty')} onClick={addNewPropertyCallback} />
+                                        </div>
+                                        ) : null}
+                                        <div className="testing-parameters-line">
+                                                <ButtonUtils label={t('confighelper.params.title.testing')} inactive={selectedApplication===undefined || selectedVersion===undefined || selectedFilename===undefined || selectedEnvironment===undefined || textInput===undefined} onClick={startTestCallback} />
+                                        </div>
 					<hr />
 					<div className="testing-parameters-line">
 						<TextInputUtils label={t('confighelper.params.title.newfilename')} value={selectedFilename} onChange={changeNewFilenameCallback} />
