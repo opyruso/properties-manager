@@ -146,7 +146,8 @@ public class ApplicationService implements IApplicationService {
 				result.versions.put(iv.envId, iv.numVersion);
 				result.lastReleaseDates.put(iv.envId, iv.updateDate.getTime());
 			}
-			result.existingVersions = getApplicationVersions(appId);
+                        // retrieve non-archived versions for details view
+                        result.existingVersions = getApplicationVersions(appId, false);
 			result.lastReleaseDates = getApplicationLastReleaseDate(appId);
 			List<ApiProperty> tmpProp = new ArrayList<ApiProperty>();
 			tmpProp.addAll(ApiProperty.mapEntityToApi(dataService.selectProperties(appId, numVersion).values()));
@@ -417,7 +418,8 @@ public class ApplicationService implements IApplicationService {
 					}
 				}
 			} else {
-				if (dataService.selectVersions(appId).contains(numVersion)) return;
+                                // check against all versions including archived ones
+                                if (dataService.selectVersions(appId, true).contains(numVersion)) return;
 				Version lastVersion = dataService.selectLastVersionGlobal(appId);
 				
 				Version version = new Version();
@@ -442,7 +444,7 @@ public class ApplicationService implements IApplicationService {
         @Override
         public void createSnapshotVersion(String appId) throws WebApplicationException {
                 try {
-                        if (!dataService.selectVersions(appId).contains("snapshot")) {
+                        if (!dataService.selectVersions(appId, true).contains("snapshot")) {
                                 Version version = new Version();
                                 version.getPk().setAppId(appId);
                                 version.getPk().setNumVersion("snapshot");
