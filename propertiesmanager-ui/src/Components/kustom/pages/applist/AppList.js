@@ -1,7 +1,7 @@
 import './AppList.css';
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import AppContext from "../../../AppContext";
 
@@ -169,13 +169,27 @@ function ApplicationLineTitle(props) {
 
 function ApplicationLine(props) {
         const { t } = useTranslation();
+        const navigate = useNavigate();
+
+        function goToLatest(e) {
+                e.preventDefault();
+                ApiDefinition.getApplicationVersions(
+                        props.application?.appId,
+                        (data) => {
+                                const latest = getLatestVersion(data);
+                                navigate("/app/" + props.application?.appId + "/version/" + latest);
+                        },
+                        () => navigate("/app/" + props.application?.appId + "/version/snapshot")
+                );
+        }
+
         return (
                 <tr className="app-line">
-                        <td className="title"><Link to={"/app/" + props.application?.appId + "/version/snapshot"}>{props.application?.appLabel}</Link></td>
+                        <td className="title"><Link to="#" onClick={goToLatest}>{props.application?.appLabel}</Link></td>
                         <td className="productOwner">{props.application?.productOwner}</td>
                         {
                                 props.envList?.map((env) => {
-                                        return <ApplicationLineEnvColumn key={env} appId={props.application?.appId} version={props.application?.versions?.[env]} date={props.application?.lastReleaseDates?.[env]} />;
+                                        return <ApplicationLineEnvColumn key={env} env={env} appId={props.application?.appId} version={props.application?.versions?.[env]} date={props.application?.lastReleaseDates?.[env]} />;
                                 })
                         }
                         {
@@ -190,13 +204,17 @@ function ApplicationLine(props) {
 }
 
 function ApplicationLineEnvColumn(props) {
-	
-  	const { t } = useTranslation();
-  	
+
+        const { t } = useTranslation();
+
+        function openEnv() {
+                localStorage.setItem("appDetails_env", JSON.stringify({ [props.env]: true }));
+        }
+
         return (
                 props.version != null ? (
                         <td className="envColumn">
-                                <Link to={"/app/" + props.appId + "/version/" + props.version} title={props.date != null ? formatDate(props.date) : t('applist.application.unknowlastdeliverydate')}>
+                                <Link to={"/app/" + props.appId + "/version/" + props.version} onClick={openEnv} title={props.date != null ? formatDate(props.date) : t('applist.application.unknowlastdeliverydate')}>
                                         {props.version}
                                 </Link>
                         </td>
@@ -207,5 +225,22 @@ function ApplicationLineEnvColumn(props) {
 }
 
 function formatDate(t) {
-	return new Date(t).toLocaleString();
+        return new Date(t).toLocaleString();
+}
+
+function compareVersions(a, b) {
+        const pa = a.split('.').map(Number);
+        const pb = b.split('.').map(Number);
+        for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+                const diff = (pa[i] || 0) - (pb[i] || 0);
+                if (diff !== 0) return diff;
+        }
+        return 0;
+}
+
+function getLatestVersion(versions) {
+        if (!versions || versions.length === 0) return 'snapshot';
+        const filtered = versions.filter(v => v && v.toLowerCase() !== 'snapshot').sort(compareVersions);
+        if (filtered.length > 0) return filtered[filtered.length - 1];
+        return versions.includes('snapshot') ? 'snapshot' : versions[versions.length - 1];
 }
