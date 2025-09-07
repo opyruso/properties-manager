@@ -13,7 +13,7 @@ mvn -q -f connector-java/pom.xml install
 mvn -q -f propertiesmanager-api/pom.xml install
 if [[ "${CONFIG_ENV}" == "pro" ]]; then
   npm install --prefix propertiesmanager-ui
-  npm --prefix propertiesmanager-ui run build:${CONFIG_ENV}
+  npm --prefix propertiesmanager-ui run build
 
   DIST_DIR="dist"
   rm -rf "${DIST_DIR}"

@@ -12,7 +12,7 @@ jobs:
       - name: 🔄 Récupération du code
         uses: actions/checkout@v4
 
-      - name: 🚀 Déploiement sur minesweeper-dev
+      - name: 🚀 Déploiement sur propertiesmanager-dev
         run: |
           cd /opt/propertiesmanager-connector
           java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "snapshot" "dev" "${{ github.workspace }}/propertiesmanager-ui/public/config/config.json"

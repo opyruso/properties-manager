@@ -63,6 +63,4 @@ local.properties
 /node_modules/
 /build/
 /package-lock.json
-/public/config/config.json
-/public/config/keycloak.json
 /download/
