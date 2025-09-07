@@ -46,9 +46,11 @@ public interface IApplicationService {
 
 	public void propertyAllEnvDelete(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException;
 
-	public void propertyPermanentDelete(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException;
+        public void propertyPermanentDelete(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException;
 
-	public void addOrUpdateFile(String appId, String numVersion, String filename, String content) throws WebApplicationException;
+        public void deleteAllProperties(String appId, String numVersion) throws WebApplicationException;
+
+        public void addOrUpdateFile(String appId, String numVersion, String filename, String content) throws WebApplicationException;
 
 	public void addInstalledApplicationVersion(String appId, String numVersion, String envId) throws WebApplicationException;
 

@@ -66,9 +66,13 @@ public interface IApplicationResources {
         @Path("/app/{appId}/version/{numVersion}/unarchive")
         public Response unarchiveVersion(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException;
 
-	@PUT
-	@Path("/app/{appId}/updateproperty")
-	public Response appPropertyUpdate(@PathParam("appId") String appId, ApiPropertyUpdateRequest request) throws WebApplicationException;
+        @DELETE
+        @Path("/app/{appId}/version/{numVersion}/properties")
+        public Response deleteAllProperties(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException;
+
+        @PUT
+        @Path("/app/{appId}/updateproperty")
+        public Response appPropertyUpdate(@PathParam("appId") String appId, ApiPropertyUpdateRequest request) throws WebApplicationException;
 
 	@PUT
 	@Path("/app/{appId}/addproperty")

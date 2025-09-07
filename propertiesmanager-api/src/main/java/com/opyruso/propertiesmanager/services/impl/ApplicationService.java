@@ -262,24 +262,34 @@ public class ApplicationService implements IApplicationService {
 	}
 
 	@Override
-	public void propertyPermanentDelete(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException {
-		try {
-			Property np = new Property();
-			np.getPk().setAppId(appId);
-			np.getPk().setNumVersion(numVersion);
-			np.getPk().setFilename(filename);
-			np.getPk().setPropertyKey(propertyKey);
-			dataService.deletePermanentProperty(np.getPk());
-		} catch (Exception e) {
+        public void propertyPermanentDelete(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException {
+                try {
+                        Property np = new Property();
+                        np.getPk().setAppId(appId);
+                        np.getPk().setNumVersion(numVersion);
+                        np.getPk().setFilename(filename);
+                        np.getPk().setPropertyKey(propertyKey);
+                        dataService.deletePermanentProperty(np.getPk());
+                } catch (Exception e) {
                         Log.error("Error:", e);
                         throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+                }
+        }
 
-	@Override
-	public void propertyAllEnvAdd(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException {
-		try {
-			PropertyValue np = new PropertyValue();
+        @Override
+        public void deleteAllProperties(String appId, String numVersion) throws WebApplicationException {
+                try {
+                        dataService.deleteAllPropertyValues(appId, numVersion);
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public void propertyAllEnvAdd(String appId, String numVersion, String filename, String propertyKey) throws WebApplicationException {
+                try {
+                        PropertyValue np = new PropertyValue();
 			np.getPk().setAppId(appId);
 			np.getPk().setNumVersion(numVersion);
 			np.getPk().setFilename(filename);

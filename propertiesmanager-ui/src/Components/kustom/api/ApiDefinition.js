@@ -519,37 +519,62 @@ export default {
 		}
 	},
 
-	removePropertyAllEnv(appId, version, filename, propertyKey,
-			callback = (data) => {console.log("removePropertyAllEnv default success log"), data},
-			callbackError = (e) => {console.error("removePropertyAllEnv default err log", e)}) {
-		try {
-		appId!=null&&version!=null&&filename!=null&&propertyKey!=null?
-				ApiCallUtils.deleteSecureNoContent('/app/' + appId + '/property/deleteall',
-					{
-						"appId": appId,
-						"numVersion": version,
-						"filename": filename,
-						"propertyKey": propertyKey
-					},
-					() => {
-						console.log("success updateProperty callback");
-						callback();
-					},
-					(e) => {
-						console.log("error updateProperty callback", e);
-						callbackError(e);
-					}
-				):null
-		} catch (e) {
+        removePropertyAllEnv(appId, version, filename, propertyKey,
+                        callback = (data) => {console.log("removePropertyAllEnv default success log"), data},
+                        callbackError = (e) => {console.error("removePropertyAllEnv default err log", e)}) {
+                try {
+                appId!=null&&version!=null&&filename!=null&&propertyKey!=null?
+                                ApiCallUtils.deleteSecureNoContent('/app/' + appId + '/property/deleteall',
+                                        {
+                                                "appId": appId,
+                                                "numVersion": version,
+                                                "filename": filename,
+                                                "propertyKey": propertyKey
+                                        },
+                                        () => {
+                                                console.log("success updateProperty callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error updateProperty callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
                         console.error(e);
                         callbackError(e);
-		}
-	},
+                }
+        },
 
-	removePropertyPermanent(appId, version, filename, propertyKey,
-			callback = (data) => {console.log("removePropertyPermanent default success log"), data},
-			callbackError = (e) => {console.error("removePropertyPermanent default err log", e)}) {
-		try {
+        removeAllProperties(appId, version,
+                        callback = (data) => {console.log("removeAllProperties default success log"), data},
+                        callbackError = (e) => {console.error("removeAllProperties default err log", e)}) {
+                try {
+                appId!=null&&version!=null?
+                                ApiCallUtils.deleteSecureNoContent('/app/' + appId + '/version/' + version + '/properties',
+                                        {
+                                                "appId": appId,
+                                                "numVersion": version
+                                        },
+                                        () => {
+                                                console.log("success removeAllProperties callback");
+                                                callback();
+                                        },
+                                        (e) => {
+                                                console.log("error removeAllProperties callback", e);
+                                                callbackError(e);
+                                        }
+                                ):null
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+        removePropertyPermanent(appId, version, filename, propertyKey,
+                        callback = (data) => {console.log("removePropertyPermanent default success log"), data},
+                        callbackError = (e) => {console.error("removePropertyPermanent default err log", e)}) {
+                try {
 		appId!=null&&version!=null&&filename!=null&&propertyKey!=null?
 				ApiCallUtils.deleteSecureNoContent('/app/' + appId + '/property/deletepermanent',
 					{

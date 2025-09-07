@@ -306,17 +306,32 @@ const { keycloak } = useKeycloakInstance();
 		});
 	}
 	
-	function addAllPropertyCallback(filename, propertyKey) {
-		console.log("addAllPropertyCallback", filename, propertyKey);
-		ApiDefinition.addPropertyAllEnv(appId, currentVersion, filename, propertyKey, () => {
-			console.log("success addAllPropertyCallback callback)");
-			envList.map((env) => {
-				if (applicationDetails.propertiesValue?.[env]?.[filename]?.[propertyKey] !== undefined) {
-					applicationDetails.propertiesValue[env][filename][propertyKey].operationType = "ADD";
-				}
-			});
-		});
-	}
+        function addAllPropertyCallback(filename, propertyKey) {
+                console.log("addAllPropertyCallback", filename, propertyKey);
+                ApiDefinition.addPropertyAllEnv(appId, currentVersion, filename, propertyKey, () => {
+                        console.log("success addAllPropertyCallback callback)");
+                        envList.map((env) => {
+                                if (applicationDetails.propertiesValue?.[env]?.[filename]?.[propertyKey] !== undefined) {
+                                        applicationDetails.propertiesValue[env][filename][propertyKey].operationType = "ADD";
+                                }
+                        });
+                });
+        }
+
+        function deleteAllPropertiesCallback() {
+                if (confirm(t('appdetails.deleteall.confirm'))) {
+                        ApiDefinition.removeAllProperties(appId, currentVersion, () => {
+                                setApplicationDetails((current) => {
+                                        if (current) {
+                                                current.properties = [];
+                                                current.propertiesValue = {};
+                                        }
+                                        return { ...current };
+                                });
+                                setFilteredProperties([]);
+                        });
+                }
+        }
 	
 	function copyAllPropertiesCallback() {
 		if (copyVersion === undefined || copyVersion == currentVersion) return;
@@ -458,8 +473,8 @@ const { keycloak } = useKeycloakInstance();
 					</div>
 				</div>
 				<input id="appDetails_searchInput" onChange={updateFilter} className="search-input" type="text" placeholder={t('appdetails.search.placeholder')} defaultValue={currentFilter}></input>
-				<table className="body">
-					<thead><PropertyLineTitle envList={accessibleEnvList} envValues={currentEnvVisibility} /></thead>
+                                <table className="body">
+                                        <thead><PropertyLineTitle envList={accessibleEnvList} envValues={currentEnvVisibility} userCanEditAllEnv={userCanEditAllEnv} deleteAllCallback={deleteAllPropertiesCallback} /></thead>
 					<tbody>{
 						applicationDetails?.properties?.length > 0? 
 						    (filteredProperties === undefined || filteredProperties?.length <= 0? 
@@ -523,21 +538,24 @@ function CheckboxEnv(props) {
 }
 
 function PropertyLineTitle(props) {
-	
-  	const { t } = useTranslation();
 
-	return (
-		<tr key={"LineTitle"} className="property-line-title">
-			<th className="property-key">{t('appdetails.table.title.file')}</th>
-			<th className="property-key">{t('appdetails.table.title.key')}</th>
-			{
-				props.envValues!==undefined?
-					props.envList?.map((env) => {
-						return <PropertyElementTitle key={env + "_title"} envId={env} envVisibility={props.envValues[env]} />
-					}):null
-			}
-		</tr>
-	)
+        const { t } = useTranslation();
+
+        return (
+                <tr key={"LineTitle"} className="property-line-title">
+                        <th className="property-key">
+                                {t('appdetails.table.title.file')}
+                                {props.userCanEditAllEnv ? <span className="env-action" onClick={() => { props.deleteAllCallback(); }}><FontAwesomeIcon className="error" icon={faTrash} /></span> : null}
+                        </th>
+                        <th className="property-key">{t('appdetails.table.title.key')}</th>
+                        {
+                                props.envValues!==undefined?
+                                        props.envList?.map((env) => {
+                                                return <PropertyElementTitle key={env + "_title"} envId={env} envVisibility={props.envValues[env]} />
+                                        }):null
+                        }
+                </tr>
+        )
 }
 
 function PropertyElementTitle(props) {
