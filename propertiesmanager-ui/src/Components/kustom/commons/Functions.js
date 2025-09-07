@@ -27,23 +27,40 @@ export const replaceJSXRecursive = (subject, replacements) => {
 
 
 export const underlineSearchAndReplace = (subject, find) => {
-	if (find.trim().length === 0) return subject;
-	
-	const result = [];
-	if (Array.isArray(subject)) {
-		for (let part of subject)
-			result = [...result, searchAndReplace(part, find)]
-		return result;
-	} else if (typeof subject !== 'string')
-		return subject;
-	let parts = subject.split(find);
-	for (let i = 0; i < parts.length; i++) {
-		result.push(parts[i]);
-		if ((i + 1) !== parts.length)
-			result.push(<span className="underline">{find}</span>);
-	}
-	if (result.length === 0) result.push(subject);
-	return result;
+        const tokens = find.trim().split(/\s+/).filter(t => t.length > 0);
+        if (tokens.length === 0) return subject;
+
+        let result = subject;
+        for (let token of tokens) {
+                result = underlineToken(result, token);
+        }
+        return result;
+}
+
+const escapeRegExp = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\$&');
+
+const underlineToken = (subject, token) => {
+        if (Array.isArray(subject)) {
+                let res = [];
+                for (let part of subject) {
+                        res = res.concat(underlineToken(part, token));
+                }
+                return res;
+        } else if (typeof subject !== 'string')
+                return subject;
+        const escaped = escapeRegExp(token);
+        const regex = new RegExp(`(${escaped})`, 'gi');
+        const parts = subject.split(regex);
+        if (parts.length === 1) return subject;
+        const res = [];
+        for (let i = 0; i < parts.length; i++) {
+                if (i % 2 === 1) {
+                        res.push(<span className="underline">{parts[i]}</span>);
+                } else {
+                        res.push(parts[i]);
+                }
+        }
+        return res;
 }
 
 export const underlineProperties = (subject, find) => {

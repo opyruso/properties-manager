@@ -9,11 +9,13 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        width: 100%;
 }
 
 .search .search-input {
         margin: 5px 5px 5px 5px;
         font-size: 1em;
+        flex: 1;
 }
 
 .search table {

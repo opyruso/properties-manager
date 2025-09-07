@@ -681,7 +681,8 @@ export default {
 	
         searchValues(value, callback = (data) => {console.log("searchValues default success log"), data}, callbackError = (e) => {console.error("searchValues default err log", e)}) {
                 try {
-                        ApiCallUtils.getSecure('/search?value=' + encodeURIComponent(value),
+                        const archives = localStorage.getItem('withArchives') === 'true';
+                        ApiCallUtils.getSecure('/search?value=' + encodeURIComponent(value) + (archives ? '&archives=true' : ''),
                                 (data) => {
                                         console.log("success searchValues callback", data);
                                         callback(data);

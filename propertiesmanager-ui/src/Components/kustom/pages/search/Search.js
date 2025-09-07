@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Search.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import ApiDefinition from '../../api/ApiDefinition';
 import { underlineSearchAndReplace } from '../../commons/Functions';
+import { subscribe, unsubscribe } from '../../../AppStaticData';
 
 export default function Search() {
         const { t } = useTranslation();
@@ -22,10 +23,20 @@ export default function Search() {
         }
 
         function goTo(result) {
-                localStorage.setItem('appDetails_env', result.envId);
-                localStorage.setItem('appDetails_filter_' + result.appId, value);
+                localStorage.setItem('appDetails_env', JSON.stringify({ [result.envId]: true }));
+                localStorage.removeItem('appDetails_filter_' + result.appId);
                 navigate('/app/' + result.appId + '/version/' + result.numVersion);
         }
+
+        useEffect(() => {
+                const listener = () => {
+                        if (value.trim() !== '') {
+                                doSearch();
+                        }
+                };
+                subscribe('archivesChangeEvent', listener);
+                return () => unsubscribe('archivesChangeEvent', listener);
+        }, [value]);
 
         return (
                 <div className="search">
@@ -51,15 +62,15 @@ export default function Search() {
                                                 results === undefined || results.length === 0 ?
                                                         <tr className="search-line"><td className="no-data" colSpan="7">{t('search.noresult')}</td></tr>
                                                         : results.map((r, i) =>
-                                                                <tr key={i} className="search-line" onClick={() => goTo(r)}>
-                                                                        <td className="app-label">{r.appLabel}</td>
-                                                                        <td className="product-owner">{r.productOwner}</td>
-                                                                        <td className="version">{r.numVersion}</td>
-                                                                        <td className="env">{r.envId}</td>
-                                                                        <td className="deploy-date">{r.deployDate ? new Date(r.deployDate).toLocaleString() : '-'}</td>
-                                                                        <td className="key">{r.propertyKey}</td>
-                                                                        <td className="value">{underlineSearchAndReplace(r.value || '', value)}</td>
-                                                                </tr>
+                                                                        <tr key={i} className="search-line" onClick={() => goTo(r)}>
+                                                                                <td className="app-label">{underlineSearchAndReplace(r.appLabel || '', value)}</td>
+                                                                                <td className="product-owner">{underlineSearchAndReplace(r.productOwner || '', value)}</td>
+                                                                                <td className="version">{underlineSearchAndReplace(r.numVersion || '', value)}</td>
+                                                                                <td className="env">{r.envId}</td>
+                                                                                <td className="deploy-date">{r.deployDate ? new Date(r.deployDate).toLocaleString() : '-'}</td>
+                                                                                <td className="key">{underlineSearchAndReplace(r.propertyKey || '', value)}</td>
+                                                                                <td className="value">{underlineSearchAndReplace(r.value || '', value)}</td>
+                                                                        </tr>
                                                         )
                                         }
                                 </tbody>

@@ -137,9 +137,9 @@ public class ApplicationService implements IApplicationService {
 	}
 
         @Override
-        public List<ApiSearchResult> search(String value) throws WebApplicationException {
+        public List<ApiSearchResult> search(String value, boolean includeArchived) throws WebApplicationException {
                 try {
-                        List<Object[]> data = dataService.searchPropertyValues(value);
+                        List<Object[]> data = dataService.searchPropertyValues(value, includeArchived);
                         List<ApiSearchResult> result = new ArrayList<>();
                         for (Object[] o : data) {
                                 ApiSearchResult r = new ApiSearchResult();

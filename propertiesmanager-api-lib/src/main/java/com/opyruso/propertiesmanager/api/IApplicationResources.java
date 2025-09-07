@@ -99,7 +99,7 @@ public interface IApplicationResources {
           public Response createSnapshot(@PathParam("appId") String appId) throws WebApplicationException;
         @GET
         @Path("/search")
-        public Response search(@QueryParam("value") String value) throws WebApplicationException;
+        public Response search(@QueryParam("value") String value, @QueryParam("archives") @DefaultValue("false") boolean archives) throws WebApplicationException;
 
 	@GET
 	@Path("/globalvariables")

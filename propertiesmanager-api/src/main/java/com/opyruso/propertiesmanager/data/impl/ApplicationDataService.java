@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -495,15 +496,36 @@ public class ApplicationDataService implements IApplicationDataService {
 		globalVariableRepository.delete("pk.globalVariableKey = ?1", key);
 	}
         @Override
-        public List<Object[]> searchPropertyValues(String value) {
+        public List<Object[]> searchPropertyValues(String value, boolean includeArchived) {
                 boolean isAdmin = KeycloakAttributesUtils.securityCheckIsAdminAsBoolean(jwt);
                 boolean isConnector = KeycloakAttributesUtils.securityCheckIsConnectorAsBoolean(jwt);
-                String sql = "SELECT pv.app_id, a.app_label, a.app_product_owner, pv.num_version, pv.env_id, iv.update_date, pv.property_key, pv.new_value FROM property_value pv JOIN applications a ON pv.app_id = a.app_id LEFT JOIN installed_version iv ON pv.app_id = iv.app_id AND pv.num_version = iv.num_version AND pv.env_id = iv.env_id WHERE LOWER(pv.new_value) LIKE ?1";
+                String baseSql = "SELECT pv.app_id, a.app_label, a.app_product_owner, pv.num_version, pv.env_id, iv.update_date, pv.property_key, pv.new_value FROM property_value pv JOIN applications a ON pv.app_id = a.app_id JOIN application_version v ON pv.app_id = v.app_id AND pv.num_version = v.num_version LEFT JOIN installed_version iv ON pv.app_id = iv.app_id AND pv.num_version = iv.num_version AND pv.env_id = iv.env_id WHERE ";
+
+                String[] tokens = value == null ? new String[0] : value.toLowerCase().split("\\s+");
+                if (tokens.length == 0) {
+                        return Collections.emptyList();
+                }
+                List<String> criteria = new ArrayList<>();
+                for (int i = 0; i < tokens.length; i++) {
+                        criteria.add("(LOWER(pv.new_value) LIKE ?" + (i + 1)
+                                        + " OR LOWER(pv.property_key) LIKE ?" + (i + 1)
+                                        + " OR LOWER(a.app_product_owner) LIKE ?" + (i + 1)
+                                        + " OR LOWER(a.app_label) LIKE ?" + (i + 1)
+                                        + " OR LOWER(pv.num_version) LIKE ?" + (i + 1) + ")");
+                }
+                String sql = baseSql + String.join(" AND ", criteria);
+                if (!includeArchived) {
+                        sql += " AND a.status = '" + StatusEnum.ACTIVE + "' AND v.status = '" + StatusEnum.ACTIVE + "'";
+                }
                 if (!isAdmin && !isConnector) {
                         sql += " AND pv.is_protected = false";
                 }
+
                 Query q = propertyValueRepository.getEntityManager().createNativeQuery(sql);
-                q.setParameter(1, "%" + value.toLowerCase() + "%");
+                for (int i = 0; i < tokens.length; i++) {
+                        q.setParameter(i + 1, "%" + tokens[i] + "%");
+                }
+
                 List<Object[]> tmp = q.getResultList();
                 List<Object[]> result = new ArrayList<>();
                 for (Object[] o : tmp) {
