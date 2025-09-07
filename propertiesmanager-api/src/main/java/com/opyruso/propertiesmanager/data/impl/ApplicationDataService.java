@@ -494,30 +494,6 @@ public class ApplicationDataService implements IApplicationDataService {
 	public void removeGlobalVariable(String key) {
 		globalVariableRepository.delete("pk.globalVariableKey = ?1", key);
 	}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         @Override
         public List<Object[]> searchPropertyValues(String value) {
                 boolean isAdmin = KeycloakAttributesUtils.securityCheckIsAdminAsBoolean(jwt);
