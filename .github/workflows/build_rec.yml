@@ -12,6 +12,13 @@ jobs:
     - name: 🔄 Récupération du code
       uses: actions/checkout@v4
 
+    - name: Build site
+      working-directory: propertiesmanager-ui
+      run: |
+        npm install
+        npm run build
+    - name: Build backend
+      run: ./build-all.sh rec
     - name: 🚀 Properties propertiesmanager-rec
       run: |
         cd /opt/propertiesmanager-connector
@@ -19,14 +26,6 @@ jobs:
         java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "main" "rec" "${{ github.workspace }}/propertiesmanager-ui/public/config/keycloak.json"
         java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "main" "rec" "${{ github.workspace }}/propertiesmanager-api/src/main/resources/application.properties"
         cd ${{ github.workspace }}
-
-    - name: Build site
-      working-directory: propertiesmanager-ui
-      run: |
-        npm install
-        npm run build:rec
-    - name: Build backend
-      run: ./build-all.sh rec
     - name: Deploy site
       run: |
         rm -rf /opt/props/props-ui-rec

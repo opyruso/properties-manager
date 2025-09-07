@@ -179,7 +179,7 @@ function ApplicationLine(props) {
                                 })
                         }
                         {
-                                Keycloak.securityAdminCheck() ? <td><button onClick={() => {
+                                Keycloak.securityAdminCheck() ? <td className="archive"><button onClick={() => {
                                         props.application?.status === 'ARCHIVED'
                                                 ? ApiDefinition.unarchiveApplication(props.application?.appId, () => publish('archivesChangeEvent'))
                                                 : ApiDefinition.archiveApplication(props.application?.appId, () => publish('archivesChangeEvent'));

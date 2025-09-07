@@ -23,10 +23,15 @@
 	width: auto;
 }
 .app-details .app-details-header .title select {
-	font-size: 1em;
-	margin: 10px;
-	width: auto;
-	flex: 1;
+        font-size: 1em;
+        margin: 10px;
+        width: auto;
+        flex: 1;
+}
+.app-details .app-details-header .title button {
+        font-size: 1em;
+        margin: 10px;
+        height: auto;
 }
 .app-details .app-details-header .title option {
 	font-size: 0.75em;

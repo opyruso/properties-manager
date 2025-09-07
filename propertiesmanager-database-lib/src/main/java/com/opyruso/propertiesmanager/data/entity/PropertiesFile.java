@@ -25,7 +25,7 @@ public class PropertiesFile implements Serializable {
 	private PropertiesFilePK pk = new PropertiesFilePK();
 
 	@Lob
-	@Column(name = "content", nullable = false)
+	@Column(name = "content", nullable = false, columnDefinition = "longtext")
 	private String content;
 
 	@Column(name = "creation_date", nullable = false)
