@@ -14,6 +14,7 @@
 .apps table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: auto;
 }
 
 .apps .app-line-title,
@@ -44,4 +45,10 @@
         white-space: nowrap;
         overflow: hidden;
         border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.apps th.archive,
+.apps td.archive {
+        width: 1%;
+        white-space: nowrap;
 }

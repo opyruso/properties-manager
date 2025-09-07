@@ -91,8 +91,12 @@ button:hover:enabled {
 	background-color: var(--background-ok);
 }
 .button-ko:hover {
-	opacity: 1;
-	background-color: var(--background-ko);
+        opacity: 1;
+        background-color: var(--background-ko);
+}
+
+span.underline {
+        background-color: lightgoldenrodyellow;
 }
 
 
