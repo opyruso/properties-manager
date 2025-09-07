@@ -3,15 +3,22 @@ name: Build Pro
 on:
   push:
     tags:
-    - '*.*.*'
-    - '!*.aab'
-    - '!*.*.*.*'
+      - '**'
 
 jobs:
   build:
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v4
+    - name: 🔄 Récupération du code
+      uses: actions/checkout@v4
+
+    - name: 🚀 Déploiement sur minesweeper-dev
+      run: |
+        cd /opt/propertiesmanager-connector
+        java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "${{ github.ref_name }}" "pro" "${{ github.workspace }}/propertiesmanager-ui/public/config"
+        java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "${{ github.ref_name }}" "pro" "${{ github.workspace }}/propertiesmanager-api/src/main/resources/application.properties"
+        cd ${{ github.workspace }}
+
     - name: Build site
       working-directory: propertiesmanager-ui
       run: |
@@ -28,4 +35,6 @@ jobs:
       run: |
         mkdir -p /opt/props/props-api-pro
         cp propertiesmanager-api/target/*-runner.jar /opt/props/props-api-pro/props-api-runner.jar
+        cp ${{ github.workspace }}/propertiesmanager-api/src/main/resources/application.properties /opt/props/props-api-pro/config/application.properties
+
         sudo systemctl restart quarkus-props-api-pro.service
