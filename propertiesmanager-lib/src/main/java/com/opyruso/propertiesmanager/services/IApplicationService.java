@@ -29,7 +29,7 @@ public interface IApplicationService {
 
 	public Map<String, ApiInstalledVersion> getApplicationInstalledVersions(String appId) throws WebApplicationException;
 
-        public List<ApiSearchResult> search(String value) throws WebApplicationException;
+        public List<ApiSearchResult> search(String value, boolean includeArchived) throws WebApplicationException;
 
         public Map<String, Long> getApplicationLastReleaseDate(String appId) throws WebApplicationException;
 

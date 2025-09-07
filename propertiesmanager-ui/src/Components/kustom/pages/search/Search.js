@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Search.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import ApiDefinition from '../../api/ApiDefinition';
 import { underlineSearchAndReplace } from '../../commons/Functions';
+import { subscribe, unsubscribe } from '../../../AppStaticData';
 
 export default function Search() {
         const { t } = useTranslation();
@@ -23,9 +24,19 @@ export default function Search() {
 
         function goTo(result) {
                 localStorage.setItem('appDetails_env', JSON.stringify({ [result.envId]: true }));
-                localStorage.setItem('appDetails_filter_' + result.appId, value);
+                localStorage.removeItem('appDetails_filter_' + result.appId);
                 navigate('/app/' + result.appId + '/version/' + result.numVersion);
         }
+
+        useEffect(() => {
+                const listener = () => {
+                        if (value.trim() !== '') {
+                                doSearch();
+                        }
+                };
+                subscribe('archivesChangeEvent', listener);
+                return () => unsubscribe('archivesChangeEvent', listener);
+        }, [value]);
 
         return (
                 <div className="search">
