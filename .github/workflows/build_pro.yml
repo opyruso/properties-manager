@@ -24,7 +24,7 @@ jobs:
       working-directory: propertiesmanager-ui
       run: |
         npm install
-        npm run build:pro
+        npm run build
     - name: Build backend
       run: ./build-all.sh pro
     - name: Deploy site
