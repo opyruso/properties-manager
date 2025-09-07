@@ -136,8 +136,6 @@ public class ApplicationService implements IApplicationService {
 		}
 	}
 
-	@Override
-
         @Override
         public List<ApiSearchResult> search(String value) throws WebApplicationException {
                 try {
