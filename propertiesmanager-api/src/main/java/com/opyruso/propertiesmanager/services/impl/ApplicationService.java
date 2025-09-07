@@ -436,7 +436,14 @@ public class ApplicationService implements IApplicationService {
 			} else {
                                 // check against all versions including archived ones
                                 if (dataService.selectVersions(appId, true).contains(numVersion)) return;
-				Version lastVersion = dataService.selectLastVersionGlobal(appId);
+
+                                Version lastVersion = null;
+                                if (numVersion.matches("\\d+(\\.\\d+)*")) {
+                                        lastVersion = dataService.selectLastVersionSameLevel(appId, numVersion);
+                                }
+                                if (lastVersion == null) {
+                                        lastVersion = dataService.selectLastVersionGlobal(appId);
+                                }
 				
 				Version version = new Version();
 				version.getPk().setAppId(appId);

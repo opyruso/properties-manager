@@ -72,9 +72,21 @@ public interface IApplicationDataService {
 
 	void copyAllPropertiesValueFromVersionToVersion(String appId, String fromVersion, String toVersion) throws SQLException;
 
-	InstalledVersion selectLastInstalledVersionGlobal(String appId) throws SQLException;
+        InstalledVersion selectLastInstalledVersionGlobal(String appId) throws SQLException;
 
         Version selectLastVersionGlobal(String appId) throws SQLException;
+
+        /**
+         * Select the most recently created version that shares the same prefix as the
+         * provided version. The prefix corresponds to all numeric segments before the
+         * final dot of the target version.
+         * 
+         * @param appId      the application identifier
+         * @param numVersion the target version
+         * @return the most recent version matching the prefix, or {@code null} if none exists
+         * @throws SQLException if a database access error occurs
+         */
+        Version selectLastVersionSameLevel(String appId, String numVersion) throws SQLException;
 
         Version selectVersion(String appId, String numVersion) throws SQLException;
 
