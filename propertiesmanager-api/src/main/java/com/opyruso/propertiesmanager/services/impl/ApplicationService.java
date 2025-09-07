@@ -18,6 +18,7 @@ import com.opyruso.propertiesmanager.api.entity.ApiEnvironment;
 import com.opyruso.propertiesmanager.api.entity.ApiGlobalVariable;
 import com.opyruso.propertiesmanager.api.entity.ApiGlobalVariableValue;
 import com.opyruso.propertiesmanager.api.entity.ApiInstalledVersion;
+import com.opyruso.propertiesmanager.api.entity.ApiSearchResult;
 import com.opyruso.propertiesmanager.api.entity.ApiLog;
 import com.opyruso.propertiesmanager.api.entity.ApiProperty;
 import com.opyruso.propertiesmanager.api.entity.ApiPropertyValue;
@@ -136,6 +137,31 @@ public class ApplicationService implements IApplicationService {
 	}
 
 	@Override
+
+        @Override
+        public List<ApiSearchResult> search(String value) throws WebApplicationException {
+                try {
+                        List<Object[]> data = dataService.searchPropertyValues(value);
+                        List<ApiSearchResult> result = new ArrayList<>();
+                        for (Object[] o : data) {
+                                ApiSearchResult r = new ApiSearchResult();
+                                r.appId = (String) o[0];
+                                r.appLabel = (String) o[1];
+                                r.productOwner = (String) o[2];
+                                r.numVersion = (String) o[3];
+                                r.envId = (String) o[4];
+                                r.deployDate = (java.sql.Timestamp) o[5];
+                                r.propertyKey = (String) o[6];
+                                r.value = (String) o[7];
+                                result.add(r);
+                        }
+                        return result;
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+        @Override
         public ApiApplicationFull getApplicationDetails(String appId, String numVersion, boolean includeArchived) throws WebApplicationException {
                 try {
                         ApiApplicationFull result = ApiApplicationFull.mapEntityToApi(dataService.selectApplication(appId));

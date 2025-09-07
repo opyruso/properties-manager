@@ -9,6 +9,7 @@ import com.opyruso.propertiesmanager.api.entity.ApiApplicationFull;
 import com.opyruso.propertiesmanager.api.entity.ApiApplicationShort;
 import com.opyruso.propertiesmanager.api.entity.ApiGlobalVariable;
 import com.opyruso.propertiesmanager.api.entity.ApiInstalledVersion;
+import com.opyruso.propertiesmanager.api.entity.ApiSearchResult;
 import com.opyruso.propertiesmanager.api.entity.ApiProperty;
 import com.opyruso.propertiesmanager.api.entity.request.ApiApplicationUpdateRequest;
 import com.opyruso.propertiesmanager.api.entity.request.ApiNewApplicationRequest;
@@ -27,6 +28,8 @@ public interface IApplicationService {
 	public Map<String, String> getApplicationFiles(String appId, String numVersion) throws WebApplicationException;
 
 	public Map<String, ApiInstalledVersion> getApplicationInstalledVersions(String appId) throws WebApplicationException;
+
+        public List<ApiSearchResult> search(String value) throws WebApplicationException;
 
         public Map<String, Long> getApplicationLastReleaseDate(String appId) throws WebApplicationException;
 

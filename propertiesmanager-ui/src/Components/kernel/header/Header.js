@@ -6,7 +6,7 @@ import ProfilMenu from './parts/ProfilMenu';
 import StreamerMenu from './parts/StreamerMenu';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBoxesPacking } from '@fortawesome/free-solid-svg-icons';
+import { faBoxesPacking, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import { useTranslation } from 'react-i18next';
 import LangSwitcher from './parts/LangSwitcher';
@@ -40,6 +40,7 @@ export default function Header() {
 							selected={location?.pathname===link.path}
 							path={link.path} labelRef={link.i18nLabelRef} />})
 						}
+                                                <li className={location?.pathname==='/search'?'selected':null}><Link to="/search" title={t('header.title.search')}><FontAwesomeIcon icon={faMagnifyingGlass} /></Link></li>
                                                 <li className="nohover spacer" />
                                                 <li className="nohover archives-checkbox">
                                                         <label>

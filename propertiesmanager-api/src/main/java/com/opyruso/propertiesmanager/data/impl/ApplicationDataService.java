@@ -518,3 +518,26 @@ public class ApplicationDataService implements IApplicationDataService {
 
 
 
+        @Override
+        public List<Object[]> searchPropertyValues(String value) {
+                boolean isAdmin = KeycloakAttributesUtils.securityCheckIsAdminAsBoolean(jwt);
+                boolean isConnector = KeycloakAttributesUtils.securityCheckIsConnectorAsBoolean(jwt);
+                String sql = "SELECT pv.app_id, a.app_label, a.app_product_owner, pv.num_version, pv.env_id, iv.update_date, pv.property_key, pv.new_value FROM property_value pv JOIN applications a ON pv.app_id = a.app_id LEFT JOIN installed_version iv ON pv.app_id = iv.app_id AND pv.num_version = iv.num_version AND pv.env_id = iv.env_id WHERE LOWER(pv.new_value) LIKE ?1";
+                if (!isAdmin && !isConnector) {
+                        sql += " AND pv.is_protected = false";
+                }
+                Query q = propertyValueRepository.getEntityManager().createNativeQuery(sql);
+                q.setParameter(1, "%" + value.toLowerCase() + "%");
+                List<Object[]> tmp = q.getResultList();
+                List<Object[]> result = new ArrayList<>();
+                for (Object[] o : tmp) {
+                        String appId = (String) o[0];
+                        String envId = (String) o[4];
+                        if (isAdmin || isConnector || KeycloakAttributesUtils.securityCheckAsBoolean(jwt, appId, envId, "r")) {
+                                result.add(o);
+                        }
+                }
+                return result;
+        }
+
+}
