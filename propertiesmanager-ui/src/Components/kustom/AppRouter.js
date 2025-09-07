@@ -21,9 +21,10 @@ const { keycloak, initialized } = useKeycloakInstance();
 
 	return (
 			<Routes>
-				<Route exact path="/" element={globalCondition(security(<Navigate to="/apps" />))} />
-				
-				<Route exact path="/apps" element={globalCondition(security(<AppList />))} />
+                                <Route exact path="/" element={globalCondition(security(<Navigate to="/apps" />))} />
+                                <Route exact path="/login" element={globalCondition(security(<Navigate to="/apps" />))} />
+
+                                <Route exact path="/apps" element={globalCondition(security(<AppList />))} />
 				<Route exact path="/app/:appId/version/:version" element={globalCondition(security(<AppDetails />))} />
                                   <Route exact path="/config-helper" element={globalCondition(security(<ConfigHelper />))} />
                                   <Route exact path="/search" element={globalCondition(security(<Search />))} />
