@@ -679,6 +679,25 @@ export default {
 	
 	
 	
+        searchValues(value, callback = (data) => {console.log("searchValues default success log"), data}, callbackError = (e) => {console.error("searchValues default err log", e)}) {
+                try {
+                        ApiCallUtils.getSecure('/search?value=' + encodeURIComponent(value),
+                                (data) => {
+                                        console.log("success searchValues callback", data);
+                                        callback(data);
+                                },
+                                (e) => {
+                                        console.log("error searchValues callback", e);
+                                        callbackError(e);
+                                }
+                        );
+                } catch (e) {
+                        console.error(e);
+                        callbackError(e);
+                }
+        },
+
+
 	
 	
 	

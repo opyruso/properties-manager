@@ -97,6 +97,9 @@ public interface IApplicationResources {
           @POST
           @Path("/app/{appId}/snapshot")
           public Response createSnapshot(@PathParam("appId") String appId) throws WebApplicationException;
+        @GET
+        @Path("/search")
+        public Response search(@QueryParam("value") String value) throws WebApplicationException;
 
 	@GET
 	@Path("/globalvariables")

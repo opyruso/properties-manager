@@ -372,4 +372,15 @@ public class ApplicationResources implements IApplicationResources {
                 }
         }
 
+        
+        @Override
+        public Response search(String value) throws WebApplicationException {
+                try {
+                        return Response.ok(applicationService.search(value)).build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
 }

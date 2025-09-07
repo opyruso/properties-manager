@@ -114,4 +114,6 @@ public interface IApplicationDataService {
 
         void cleanPropertiesByVersion(String appId, String version) throws SQLException;
 
+        List<Object[]> searchPropertyValues(String value) throws SQLException;
+
 }
