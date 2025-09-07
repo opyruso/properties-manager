@@ -65,7 +65,7 @@ export default function Search() {
                                                 results === undefined || results.length === 0 ?
                                                         <tr className="search-line"><td className="no-data" colSpan="7">{t('search.noresult')}</td></tr>
                                                         : results.map((r, i) => {
-                                                                        const isProtected = r.isProtected || r.is_protected;
+                                                                        const isProtected = r.isProtected;
                                                                         return (
                                                                                 <tr key={i} className="search-line" onClick={() => goTo(r)}>
                                                                                         <td className="app-label">{underlineSearchAndReplace(r.appLabel || '', value)}</td>
