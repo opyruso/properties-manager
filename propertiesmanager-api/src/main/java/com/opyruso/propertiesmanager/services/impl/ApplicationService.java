@@ -151,6 +151,7 @@ public class ApplicationService implements IApplicationService {
                                 r.deployDate = (java.sql.Timestamp) o[5];
                                 r.propertyKey = (String) o[6];
                                 r.value = (String) o[7];
+                                r.isProtected = o[8] != null && (Boolean) o[8];
                                 result.add(r);
                         }
                         return result;

@@ -499,7 +499,7 @@ public class ApplicationDataService implements IApplicationDataService {
         public List<Object[]> searchPropertyValues(String value, boolean includeArchived) {
                 boolean isAdmin = KeycloakAttributesUtils.securityCheckIsAdminAsBoolean(jwt);
                 boolean isConnector = KeycloakAttributesUtils.securityCheckIsConnectorAsBoolean(jwt);
-                String baseSql = "SELECT pv.app_id, a.app_label, a.app_product_owner, pv.num_version, pv.env_id, iv.update_date, pv.property_key, pv.new_value FROM property_value pv JOIN applications a ON pv.app_id = a.app_id JOIN application_version v ON pv.app_id = v.app_id AND pv.num_version = v.num_version LEFT JOIN installed_version iv ON pv.app_id = iv.app_id AND pv.num_version = iv.num_version AND pv.env_id = iv.env_id WHERE ";
+                String baseSql = "SELECT pv.app_id, a.app_label, a.app_product_owner, pv.num_version, pv.env_id, iv.update_date, pv.property_key, pv.new_value, pv.is_protected FROM property_value pv JOIN applications a ON pv.app_id = a.app_id JOIN application_version v ON pv.app_id = v.app_id AND pv.num_version = v.num_version LEFT JOIN installed_version iv ON pv.app_id = iv.app_id AND pv.num_version = iv.num_version AND pv.env_id = iv.env_id WHERE ";
 
                 String[] tokens = value == null ? new String[0] : value.toLowerCase().split("\\s+");
                 if (tokens.length == 0) {

@@ -54,3 +54,9 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.search .value .lock {
+        margin-left: 5px;
+        color: rgb(255, 0, 0);
+        cursor: pointer;
+}
+

@@ -14,5 +14,6 @@ public class ApiSearchResult {
     public Timestamp deployDate;
     public String propertyKey;
     public String value;
+    public boolean isProtected;
 }
 
