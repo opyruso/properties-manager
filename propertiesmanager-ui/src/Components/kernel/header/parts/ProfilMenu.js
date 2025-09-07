@@ -25,11 +25,29 @@ const { keycloak } = useKeycloakInstance();
                 (keycloak?.authenticated) ? (
                         <React.Fragment>
                                 <Link to="/user/profil">{username}</Link>
-                                <Link to="#" onClick={() => keycloak?.logout?.()}><FontAwesomeIcon className="text-icon" icon={faRightFromBracket} /></Link>
+                                <Link
+                                        to="#"
+                                        onClick={() =>
+                                                keycloak?.logout?.({
+                                                        redirectUri: window.location.origin + '/#/login'
+                                                })
+                                        }
+                                >
+                                        <FontAwesomeIcon className="text-icon" icon={faRightFromBracket} />
+                                </Link>
                         </React.Fragment>
                 ) : (
                         <React.Fragment>
-                                <Link to="#" onClick={() => keycloak?.login?.()}><FontAwesomeIcon className="text-icon" icon={faRightToBracket} /></Link>
+                                <Link
+                                        to="#"
+                                        onClick={() =>
+                                                keycloak?.login?.({
+                                                        redirectUri: window.location.origin + '/#/apps'
+                                                })
+                                        }
+                                >
+                                        <FontAwesomeIcon className="text-icon" icon={faRightToBracket} />
+                                </Link>
                         </React.Fragment>
                 )
         );
