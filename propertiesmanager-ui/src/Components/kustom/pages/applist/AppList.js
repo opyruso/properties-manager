@@ -162,7 +162,7 @@ function ApplicationLineTitle(props) {
                                         return <th key={env + "_title"} className="envColumn">{env.toUpperCase()}</th>;
                                 })
                         }
-                        <th className="archive"></th>
+                        {Keycloak.securityAdminCheck() ? <th className="archive"></th> : null}
                 </tr>
         );
 }

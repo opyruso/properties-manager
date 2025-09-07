@@ -245,10 +245,23 @@ public class ApplicationResources implements IApplicationResources {
                 }
         }
 
-	@Override
-	public Response testFile(ApiTestFileRequest request) throws WebApplicationException {
-		KeycloakAttributesUtils.securityCheck(jwt, request.appId, request.envId, "r");
-		try {
+        @Override
+        public Response deleteAllProperties(@PathParam("appId") String appId, @PathParam("numVersion") String numVersion) throws WebApplicationException {
+                for (String envId : environmentConfig.environments().keySet())
+                        KeycloakAttributesUtils.securityCheck(jwt, appId, envId, "w");
+                try {
+                        applicationService.deleteAllProperties(appId, numVersion);
+                        return Response.noContent().build();
+                } catch (Exception e) {
+                        Log.error("Error:", e);
+                        throw new WebApplicationException(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+                }
+        }
+
+        @Override
+        public Response testFile(ApiTestFileRequest request) throws WebApplicationException {
+                KeycloakAttributesUtils.securityCheck(jwt, request.appId, request.envId, "r");
+                try {
 			String fileContentAsString = new String(Base64.getDecoder().decode(request.fileContentAsBase64.getBytes()));
 			ITransformerFactory factory = transformerService.processTransformation(request.appId, request.version, request.envId, request.filename, FileUtils.createTempFile(fileContentAsString));
 			ApiTestFileResponse response = new ApiTestFileResponse();

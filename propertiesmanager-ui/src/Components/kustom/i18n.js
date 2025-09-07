@@ -55,6 +55,7 @@ i18n
           'appdetails.table.title.file': 'Nom de fichier',
           'appdetails.table.title.key': 'Clé',
           'appdetails.createsnapshot': 'Créer la version snapshot',
+          'appdetails.deleteall.confirm': 'Confirmer la suppression de toutes les propriétés ?',
           
           'confighelper.existingkey.title': 'Clés existantes',
           'confighelper.params.title.application': 'Applications',
@@ -126,6 +127,7 @@ i18n
           'appdetails.table.title.file': 'File name',
           'appdetails.table.title.key': 'Key',
           'appdetails.createsnapshot': 'Create snapshot version',
+          'appdetails.deleteall.confirm': 'Confirm removing all properties?',
           
           'confighelper.existingkey.title': 'Existing keys',
           'confighelper.params.title.application': 'Applications',
@@ -197,6 +199,7 @@ i18n
           'appdetails.table.title.file': 'Dateiname',
           'appdetails.table.title.key': 'Schlüssel',
           'appdetails.createsnapshot': 'Snapshot-Version erstellen',
+          'appdetails.deleteall.confirm': 'Alle Eigenschaften entfernen bestätigen?',
           
           'confighelper.existingkey.title': 'Vorhandene Schlüssel',
           'confighelper.params.title.application': 'Anwendungen',
@@ -264,6 +267,7 @@ i18n
           'appdetails.table.title.file': 'Numm vum Fichier',
           'appdetails.table.title.key': 'Schlëssel',
           'appdetails.createsnapshot': 'Snapshot Versioun erstellen',
+          'appdetails.deleteall.confirm': 'All Eegeschafte läschen confirméieren?',
           
           'confighelper.existingkey.title': 'Existéierend Schlësselen',
           'confighelper.params.title.application': 'Applikatiounen',

@@ -108,8 +108,10 @@ public interface IApplicationDataService {
 
 	void removeGlobalVariable(String key) throws SQLException;
 
-	void addGlobalVariable(GlobalVariable globalVariable) throws SQLException;
+        void addGlobalVariable(GlobalVariable globalVariable) throws SQLException;
 
-	void cleanPropertiesByVersion(String appId, String version) throws SQLException;
+        void deleteAllPropertyValues(String appId, String version) throws SQLException;
+
+        void cleanPropertiesByVersion(String appId, String version) throws SQLException;
 
 }

@@ -402,14 +402,27 @@ public class ApplicationDataService implements IApplicationDataService {
 		qpvu.executeUpdate();
 	}
 
-	@Override
-	@Transactional
-	public void cleanPropertiesByVersion(String appId, String version) throws SQLException {
-		Query qpv = propertyValueRepository.getEntityManager().createNativeQuery("DELETE FROM property_value WHERE app_id = ? AND num_version = ?");
-		qpv.setParameter(1, appId);
-		qpv.setParameter(2, version);
-		qpv.executeUpdate();
-		Query qp = propertyRepository.getEntityManager().createNativeQuery("DELETE FROM property WHERE app_id = ? AND num_version = ?");
+        @Override
+        @Transactional
+        public void deleteAllPropertyValues(String appId, String version) throws SQLException {
+                Query qpv = propertyValueRepository.getEntityManager().createNativeQuery("DELETE FROM property_value WHERE app_id = ? AND num_version = ?");
+                qpv.setParameter(1, appId);
+                qpv.setParameter(2, version);
+                qpv.executeUpdate();
+                Query qp = propertyRepository.getEntityManager().createNativeQuery("DELETE FROM property WHERE app_id = ? AND num_version = ?");
+                qp.setParameter(1, appId);
+                qp.setParameter(2, version);
+                qp.executeUpdate();
+        }
+
+        @Override
+        @Transactional
+        public void cleanPropertiesByVersion(String appId, String version) throws SQLException {
+                Query qpv = propertyValueRepository.getEntityManager().createNativeQuery("DELETE FROM property_value WHERE app_id = ? AND num_version = ?");
+                qpv.setParameter(1, appId);
+                qpv.setParameter(2, version);
+                qpv.executeUpdate();
+                Query qp = propertyRepository.getEntityManager().createNativeQuery("DELETE FROM property WHERE app_id = ? AND num_version = ?");
 		qp.setParameter(1, appId);
 		qp.setParameter(2, version);
 		qp.executeUpdate();
