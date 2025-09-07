@@ -37,6 +37,8 @@ export const underlineSearchAndReplace = (subject, find) => {
         return result;
 }
 
+const escapeRegExp = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\$&');
+
 const underlineToken = (subject, token) => {
         if (Array.isArray(subject)) {
                 let res = [];
@@ -46,14 +48,18 @@ const underlineToken = (subject, token) => {
                 return res;
         } else if (typeof subject !== 'string')
                 return subject;
-        const parts = subject.split(token);
+        const escaped = escapeRegExp(token);
+        const regex = new RegExp(`(${escaped})`, 'gi');
+        const parts = subject.split(regex);
+        if (parts.length === 1) return subject;
         const res = [];
         for (let i = 0; i < parts.length; i++) {
-                res.push(parts[i]);
-                if ((i + 1) !== parts.length)
-                        res.push(<span className="underline">{token}</span>);
+                if (i % 2 === 1) {
+                        res.push(<span className="underline">{parts[i]}</span>);
+                } else {
+                        res.push(parts[i]);
+                }
         }
-        if (res.length === 0) res.push(subject);
         return res;
 }
 

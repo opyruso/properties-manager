@@ -510,7 +510,8 @@ public class ApplicationDataService implements IApplicationDataService {
                         criteria.add("(LOWER(pv.new_value) LIKE ?" + (i + 1)
                                         + " OR LOWER(pv.property_key) LIKE ?" + (i + 1)
                                         + " OR LOWER(a.app_product_owner) LIKE ?" + (i + 1)
-                                        + " OR LOWER(a.app_label) LIKE ?" + (i + 1) + ")");
+                                        + " OR LOWER(a.app_label) LIKE ?" + (i + 1)
+                                        + " OR LOWER(pv.num_version) LIKE ?" + (i + 1) + ")");
                 }
                 String sql = baseSql + String.join(" AND ", criteria);
                 if (!isAdmin && !isConnector) {
