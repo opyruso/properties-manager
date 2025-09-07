@@ -20,8 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/copy-config.js",
-    "build": "npm run build",
+    "build": "react-scripts build",
     "build:dev": "CONFIG_ENV=dev npm run build",
     "build:rec": "CONFIG_ENV=rec npm run build",
     "build:pro": "CONFIG_ENV=pro npm run build",
