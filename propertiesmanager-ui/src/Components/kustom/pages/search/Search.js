@@ -64,30 +64,33 @@ export default function Search() {
                                         {
                                                 results === undefined || results.length === 0 ?
                                                         <tr className="search-line"><td className="no-data" colSpan="7">{t('search.noresult')}</td></tr>
-                                                        : results.map((r, i) =>
-                                                                        <tr key={i} className="search-line" onClick={() => goTo(r)}>
-                                                                                <td className="app-label">{underlineSearchAndReplace(r.appLabel || '', value)}</td>
-                                                                                <td className="product-owner">{underlineSearchAndReplace(r.productOwner || '', value)}</td>
-                                                                                <td className="version">{underlineSearchAndReplace(r.numVersion || '', value)}</td>
-                                                                                <td className="env">{r.envId}</td>
-                                                                                <td className="deploy-date">{r.deployDate ? new Date(r.deployDate).toLocaleString() : '-'}</td>
-                                                                                <td className="key">{underlineSearchAndReplace(r.propertyKey || '', value)}</td>
-                                                                                <td className="value">
-                                                                                        {
-                                                                                                parseInt(localStorage.streamer_mod) === 1 ?
-                                                                                                        <span>
-                                                                                                                {revealed[i] ? underlineSearchAndReplace(r.value || '', value) : '*****'}
-                                                                                                                <FontAwesomeIcon className="lock" icon={faLock} onClick={(e)=>{e.stopPropagation(); setRevealed(prev=>({...prev, [i]: !prev[i]}));}} />
-                                                                                                        </span>
-                                                                                                        : underlineSearchAndReplace(r.value || '', value)
-                                                                                        }
-                                                                                </td>
-                                                                        </tr>
-                                                        )
-                                        }
-                                </tbody>
-                        </table>
-                </div>
+                                                        : results.map((r, i) => {
+                                                                        const isProtected = r.isProtected || r.is_protected;
+                                                                        return (
+                                                                                <tr key={i} className="search-line" onClick={() => goTo(r)}>
+                                                                                        <td className="app-label">{underlineSearchAndReplace(r.appLabel || '', value)}</td>
+                                                                                        <td className="product-owner">{underlineSearchAndReplace(r.productOwner || '', value)}</td>
+                                                                                        <td className="version">{underlineSearchAndReplace(r.numVersion || '', value)}</td>
+                                                                                        <td className="env">{r.envId}</td>
+                                                                                        <td className="deploy-date">{r.deployDate ? new Date(r.deployDate).toLocaleString() : '-'}</td>
+                                                                                        <td className="key">{underlineSearchAndReplace(r.propertyKey || '', value)}</td>
+                                                                                        <td className="value">
+                                                                                                {
+                                                                                                        parseInt(localStorage.streamer_mod) === 1 && isProtected ?
+                                                                                                                <span>
+                                                                                                                        {revealed[i] ? underlineSearchAndReplace(r.value || '', value) : '*****'}
+                                                                                                                        <FontAwesomeIcon className="lock" icon={faLock} onClick={(e)=>{e.stopPropagation(); setRevealed(prev=>({...prev, [i]: !prev[i]}));}} />
+                                                                                                                </span>
+                                                                                                                : underlineSearchAndReplace(r.value || '', value)
+                                                                                                }
+                                                                                        </td>
+                                                                                </tr>
+                                                                        );
+                                                        })
+                                       }
+                               </tbody>
+                       </table>
+               </div>
         );
 }
 
