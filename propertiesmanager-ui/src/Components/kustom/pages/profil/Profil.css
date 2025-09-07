@@ -1,0 +1,10 @@
+.profil {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.profil ul {
+    list-style: none;
+    padding-left: 0;
+}

@@ -76,30 +76,45 @@
 	text-align: left;
 }
 .app-details .search-input {
-	margin: 5px 5px 5px 5px;
-	font-size: 1em;
+        margin: 5px 5px 5px 5px;
+        font-size: 1em;
 }
-.app-details .body .property-line-title {
-	margin: 0px 5px -1px 5px;
-	background-color: #000000;
-	font-weight: bold;
+
+.app-details table {
+        width: 100%;
+        border-collapse: collapse;
 }
+.app-details .body .property-line-title,
 .app-details .body .property-line {
-	margin: 0px 5px -1px 5px;
-	background-color: none;
+        margin: 0px 5px -1px 5px;
 }
-.app-details .body .property-line:hover {
-	background-color: gray;
+
+.app-details .body .property-line-title {
+        font-weight: bold;
 }
+
+.app-details .body th {
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
+}
+
+.app-details .body td {
+        background: linear-gradient(to right, var(--background), #404349);
+}
+
+.app-details .body tr:hover td {
+        background: linear-gradient(to right, gray, #a0a0a0);
+}
+
 .app-details .body .property-element:hover {
-	background-color: rgb(75, 75, 75);
+        background: rgb(75, 75, 75);
 }
 
 .app-details .body th, .app-details .body td {
-	padding: 2px 5px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
+        padding: 2px 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .app-details .body .property-line .property-line-cell-content {
 	display: flex;
@@ -125,12 +140,12 @@
 	cursor: default;
 }
 .app-details .body .property-line .status-tovalidate {
-	background-color: rgb(255, 234, 213);
-	color: rgb(75, 75, 75);
+        background: rgb(255, 234, 213);
+        color: rgb(75, 75, 75);
 }
 .app-details .body .property-line .status-del {
-	background-color: rgb(255, 193, 193);
-	color: rgb(75, 75, 75);
+        background: rgb(255, 193, 193);
+        color: rgb(75, 75, 75);
 }
 .app-details .body .property-line .env-action {
 	flex: 0;

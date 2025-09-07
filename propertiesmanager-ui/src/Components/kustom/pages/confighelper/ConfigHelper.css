@@ -46,18 +46,26 @@
 	margin: auto;
 }
 .testing-files {
-	flex: 6;
-	display: flex;
-	flex-direction: row;
-	height: 100%;
-	overflow: auto;
-	font-size: 0.9em;
+        flex: 6;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: auto;
+        font-size: 0.9em;
 }
-.testing-source {
-	flex: 1;
+.testing-tabs {
+        display: flex;
 }
-.testing-log {
-	flex: 1;
+.testing-tabs button {
+        flex: 1;
+        padding: 5px;
+}
+.testing-tabs button.selected {
+        font-weight: bold;
+}
+.testing-tab-content {
+        flex: 1;
+        overflow: auto;
 }
 
 /* design */

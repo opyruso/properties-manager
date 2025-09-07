@@ -3,12 +3,14 @@ import './ConfigHelper.css';
 import React, { useState, useEffect, useContext } from 'react';
 
 import { useKeycloakInstance } from '../../../Keycloak';
+import Keycloak from '../../../Keycloak';
 
 import AppContext from '../../../AppContext';
 
 import ApiDefinition from '../../../kustom/api/ApiDefinition';
 import { ButtonUtils, DropDownUtils, FileInputUtils, RichContentUtils, TextInputUtils } from '../../../kustom/commons/HtmlUtils';
 import { useTranslation } from 'react-i18next';
+import { subscribe, unsubscribe } from '../../../AppStaticData';
 
 export default function ConfigHelper() {
 	
@@ -32,8 +34,9 @@ const { keycloak } = useKeycloakInstance();
 	const [newPropertyKey, setNewPropertyKey] = useState();
 	const [newValue, setNewValue] = useState();
 
-	const [textInput, setTextInput] = useState();
-	const [logsOutput, setLogsOutput] = useState();
+        const [textInput, setTextInput] = useState();
+        const [logsOutput, setLogsOutput] = useState();
+        const [selectedTab, setSelectedTab] = useState('source');
 	
 	
 
@@ -51,7 +54,7 @@ const { keycloak } = useKeycloakInstance();
 	
 useEffect(() => {
 if (keycloak?.authenticated && envList != undefined) {
-			setApplications(undefined);
+                        setApplications(undefined);
 			setVersions(undefined);
 			setFiles(undefined);
 			setTextInput(undefined);
@@ -65,6 +68,14 @@ if (keycloak?.authenticated && envList != undefined) {
 			refreshApplications();
 		}
 }, [envList, keycloak?.authenticated]);
+
+useEffect(() => {
+                const listener = () => {
+                        refreshApplications();
+                };
+                subscribe('archivesChangeEvent', listener);
+                return () => unsubscribe('archivesChangeEvent', listener);
+}, []);
 	
 	
 
@@ -113,12 +124,15 @@ if (keycloak?.authenticated && envList != undefined) {
 	function selectFileContentCallback(file) {
 		console.log("selectFileContentCallback : ", file);
 		let fr = new FileReader();
-		fr.onloadend = (_e)=>{
-			let text = fr.result;
+                fr.onloadend = (_e)=>{
+                        let text = fr.result;
                         try {
                                 JSON.stringify(btoa(text));
                                 setTextInput(text);
                                 setLogsOutput(text);
+                                if (Keycloak.securityAdminCheck() && selectedApplication !== undefined && selectedVersion !== undefined && selectedFilename !== undefined) {
+                                        addOrUpdatePropertiesFile(selectedApplication, selectedVersion, selectedFilename, text);
+                                }
                         } catch (e) {
                                 console.error(e);
                                 setTextInput("Error, Invalid file content !");
@@ -128,11 +142,33 @@ if (keycloak?.authenticated && envList != undefined) {
                 fr.readAsText(file);
         }
 		
-	function startTestCallback() {
-		console.log("startTestCallback");
-		setLogsOutput("...");
-		startTest(selectedApplication, selectedVersion, selectedFilename, selectedEnvironment, textInput);
-	}
+        function startTestCallback() {
+                console.log("startTestCallback");
+                setLogsOutput("...");
+                setSelectedTab('result');
+                startTest(selectedApplication, selectedVersion, selectedFilename, selectedEnvironment, textInput);
+        }
+
+        function addNewVersionCallback() {
+                const version = prompt(t('confighelper.addversion.prompt'));
+                if (version !== null && version.trim() !== '' && selectedApplication !== undefined) {
+                        ApiDefinition.addVersion(selectedApplication, version.trim(), () => {
+                                refreshVersionsByAppId(selectedApplication);
+                                setSelectedVersion(version.trim());
+                        });
+                }
+        }
+
+        function addNewPropertyCallback() {
+                const filename = prompt(t('confighelper.addproperty.filename'));
+                if (filename === null || filename.trim() === '') return;
+                const key = prompt(t('confighelper.addproperty.key'));
+                if (key === null || key.trim() === '' || selectedApplication === undefined || selectedVersion === undefined) return;
+                ApiDefinition.addProperty(selectedApplication, selectedVersion, filename.trim(), key.trim(), '', () => {
+                        refreshApplicationDetailsByAppIdAndVersion(selectedApplication, selectedVersion);
+                        refreshFilesByAppIdAndVersion(selectedApplication, selectedVersion);
+                });
+        }
 		
 	function addOrUpdatePropertiesFileCallback() {
 		console.log("addOrUpdatePropertiesFileCallback");
@@ -246,17 +282,23 @@ if (keycloak?.authenticated && envList != undefined) {
 		<div className="testing">
 			<div className="testing-content">
 				<div className="testing-parameters">
-					<div className="testing-parameters-line">
-						<DropDownUtils label={t('confighelper.params.title.application')} idParam="appId" textParam="appLabel" list={applications?.sort()} selectedValue={selectedApplication} onChange={selectApplicationCallback} />
-						<DropDownUtils label={t('confighelper.params.title.versions')} list={versions?.sort()} selectedValue={selectedVersion} onChange={selectVersionCallback} />
-					</div>
-					<div className="testing-parameters-line">
-						<DropDownUtils label={t('confighelper.params.title.files')} list={files!==undefined?Object.keys(files).sort():null} selectedValue={selectedFilename} onChange={selectFilenameCallback} />
-						<DropDownUtils label={t('confighelper.params.title.environment')} list={envList} selectedValue={selectedEnvironment} onChange={selectEnvironmentCallback} />
-					</div>
-					<div className="testing-parameters-line">
-						<ButtonUtils label={t('confighelper.params.title.testing')} inactive={selectedApplication===undefined || selectedVersion===undefined || selectedFilename===undefined || selectedEnvironment===undefined || textInput===undefined} onClick={startTestCallback} />
-					</div>
+                                        <div className="testing-parameters-line">
+                                                <DropDownUtils label={t('confighelper.params.title.application')} idParam="appId" textParam="appLabel" list={applications?.sort()} selectedValue={selectedApplication} onChange={selectApplicationCallback} />
+                                                <DropDownUtils label={t('confighelper.params.title.versions')} list={versions?.sort()} selectedValue={selectedVersion} onChange={selectVersionCallback} />
+                                                {Keycloak.securityAdminCheck() && selectedApplication!==undefined ? <ButtonUtils label={t('confighelper.addversion')} onClick={addNewVersionCallback} /> : null}
+                                        </div>
+                                        <div className="testing-parameters-line">
+                                                <DropDownUtils label={t('confighelper.params.title.files')} list={files!==undefined?Object.keys(files).sort():null} selectedValue={selectedFilename} onChange={selectFilenameCallback} />
+                                                <DropDownUtils label={t('confighelper.params.title.environment')} list={envList} selectedValue={selectedEnvironment} onChange={selectEnvironmentCallback} />
+                                        </div>
+                                        {Keycloak.securityAdminCheck() && selectedApplication!==undefined && selectedVersion!==undefined ? (
+                                        <div className="testing-parameters-line">
+                                                <ButtonUtils label={t('confighelper.addproperty')} onClick={addNewPropertyCallback} />
+                                        </div>
+                                        ) : null}
+                                        <div className="testing-parameters-line">
+                                                <ButtonUtils label={t('confighelper.params.title.testing')} inactive={selectedApplication===undefined || selectedVersion===undefined || selectedFilename===undefined || selectedEnvironment===undefined || textInput===undefined} onClick={startTestCallback} />
+                                        </div>
 					<hr />
 					<div className="testing-parameters-line">
 						<TextInputUtils label={t('confighelper.params.title.newfilename')} value={selectedFilename} onChange={changeNewFilenameCallback} />
@@ -283,14 +325,19 @@ if (keycloak?.authenticated && envList != undefined) {
 						<ExistingRules applicationDetails={applicationDetails} selectedFilename={selectedFilename} selectPropertyKeyCallback={changeNewPropertyKeyCallback} />
 					</div>
 				</div>
-				<div className="testing-files">
-					<div className="testing-source">
-						<RichContentUtils label={t('confighelper.title.testcontent')} content={textInput} contentType={selectedFilename?.split('.').slice(-1)[0]} underline={newPropertyKey} />
-					</div>
-					<div className="testing-log">
-						<LogReader label={t('confighelper.title.testresult')} logsOutput={logsOutput} selectPropertyKeyCallback={selectPropertyKeyCallback} />
-					</div>
-				</div>
+                                <div className="testing-files">
+                                        <div className="testing-tabs">
+                                                <button className={selectedTab==='source'?"selected":null} onClick={()=>setSelectedTab('source')}>{t('confighelper.title.testcontent')}</button>
+                                                <button className={selectedTab==='result'?"selected":null} onClick={()=>setSelectedTab('result')}>{t('confighelper.title.testresult')}</button>
+                                        </div>
+                                        <div className="testing-tab-content">
+                                                {selectedTab==='source'?(
+                                                        <RichContentUtils label={t('confighelper.title.testcontent')} content={textInput} contentType={selectedFilename?.split('.').slice(-1)[0]} underline={newPropertyKey} />
+                                                ):(
+                                                        <LogReader label={t('confighelper.title.testresult')} logsOutput={logsOutput} selectPropertyKeyCallback={selectPropertyKeyCallback} />
+                                                )}
+                                        </div>
+                                </div>
 			</div>
 		</div>
 	);

@@ -23,9 +23,9 @@ jobs:
       working-directory: propertiesmanager-ui
       run: |
         npm install
-        npm run build
+        npm run build:pro
     - name: Build backend
-      run: ./build-all.sh
+      run: ./build-all.sh pro
     - name: Deploy site
       run: |
         rm -rf /opt/props/props-ui-pro
@@ -38,3 +38,10 @@ jobs:
         cp ${{ github.workspace }}/propertiesmanager-api/src/main/resources/application.properties /opt/props/props-api-pro/config/application.properties
 
         sudo systemctl restart quarkus-props-api-pro.service
+    - name: Archive installer
+      run: |
+        VERSION="${GITHUB_REF_NAME}"
+        BUILD_DIR="/opt/props/props-resources/builds"
+        mkdir -p "${BUILD_DIR}"
+        rm -f "${BUILD_DIR}/propertiesmanager_installer_${VERSION}.zip"
+        cp propertiesmanager.zip "${BUILD_DIR}/propertiesmanager_installer_${VERSION}.zip"

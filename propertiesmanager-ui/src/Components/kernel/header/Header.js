@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import LangSwitcher from './parts/LangSwitcher';
 import { useLocation } from 'react-router-dom';
 
-import AppStaticData from '../../AppStaticData';
+import AppStaticData, { publish } from '../../AppStaticData';
 
 export default function Header() {
 	
@@ -20,7 +20,7 @@ export default function Header() {
 	
   	const { t } = useTranslation();
   	
-  	let i = 0;
+        let i = 0;
 
 	return (
 		<React.Fragment>
@@ -40,10 +40,16 @@ export default function Header() {
 							selected={location?.pathname===link.path}
 							path={link.path} labelRef={link.i18nLabelRef} />})
 						}
-						<li className="nohover spacer" />
-						<li className="nohover profile"><StreamerMenu /></li>
-						<li className="nohover profile"><ProfilMenu /></li>
-						<li className="nohover lang"><LangSwitcher /></li>
+                                                <li className="nohover spacer" />
+                                                <li className="nohover archives-checkbox">
+                                                        <label>
+                                                                <input type="checkbox" id="archivesCheckbox" defaultChecked={localStorage.getItem('withArchives') === 'true'}
+                                                                        onChange={(e) => {localStorage.setItem('withArchives', e.target.checked); publish('archivesChangeEvent');}} /> {t('header.archives')}
+                                                        </label>
+                                                </li>
+                                                <li className="nohover profile"><StreamerMenu /></li>
+                                                <li className="nohover profile"><ProfilMenu /></li>
+                                                <li className="nohover lang"><LangSwitcher /></li>
 					</ul>
 				</nav>
 			</header>

@@ -1,44 +1,70 @@
 .global-variables {
-	display: flex;
+        padding: 15px;
 }
 
-.variables-list {
-	display: block;
-	direction: rtl;
-	flex: 4;
-	padding: 15px;
-	max-height: 1100px;
-	overflow-y: scroll;
+.global-variables .add-panel {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+        align-items: flex-end;
 }
 
-.variables-list .global-variable-item  {
-	direction: ltr;
-	padding: 5px 15px;
-	border-radius: 5px;
-	border: none;
+.global-variables table {
+        width: 100%;
+        border-collapse: collapse;
 }
 
-.variables-list .global-variable-item.selected  {
-	direction: rtl;
-	color: red;
-	background-color: rgb(128, 64, 64);
+
+.global-variables .global-variable-line-title,
+.global-variables .global-variable-line {
+        margin: 0px 5px -1px 5px;
 }
 
-.variables-list .global-variable-item:hover  {
-	direction: rtl;
-	background-color: var(--background-form-hover);
-	color: var(--font-form-hover);
+.global-variables .global-variable-line-title {
+        font-weight: bold;
 }
 
-.edit-panel {
-	flex: 6;
-	height: 100%;
-	padding: 15px;
+.global-variables th {
+        background: linear-gradient(to right, var(--background-title), #1a1a1a);
 }
-.edit-panel button {
-	background-color: var(--background-title-ko);
-	color: var(--font-ko);
-	width: fit-content;
-	margin: auto;
-	margin-right: 0px;
+
+.global-variables td {
+        background: linear-gradient(to right, var(--background), #404349);
+}
+
+.global-variables tr:hover td {
+        background: linear-gradient(to right, gray, #a0a0a0);
+}
+
+.global-variables th,
+.global-variables td {
+        padding: 2px 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.global-variables .cell-content {
+        display: flex;
+        flex-direction: row;
+}
+
+.global-variables .cell-content .env-value {
+        flex: auto;
+}
+
+.global-variables .cell-content input {
+        flex: auto;
+}
+
+.global-variables .cell-content .env-action {
+        flex: 0;
+        padding: 2px 5px;
+        text-align: center;
+}
+
+.global-variables .delete-col {
+        width: 1%;
+        white-space: nowrap;
 }

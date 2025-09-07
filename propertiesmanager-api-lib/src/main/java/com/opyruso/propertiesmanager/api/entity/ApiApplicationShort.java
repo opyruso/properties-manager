@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.opyruso.propertiesmanager.constants.StatusEnum;
 import com.opyruso.propertiesmanager.data.entity.Application;
 
 public class ApiApplicationShort {
@@ -11,17 +12,19 @@ public class ApiApplicationShort {
 	public String appId;
 	public String appLabel;
 	public String productOwner;
-	public Map<String, String> versions;
-	public Map<String, Long> lastReleaseDates;
+        public Map<String, String> versions;
+        public Map<String, Long> lastReleaseDates;
+        public StatusEnum status;
 
 	public static ApiApplicationShort mapEntityToApi(Application application) {
 		ApiApplicationShort result = new ApiApplicationShort();
 		result.appId = application.getPk().getAppId();
 		result.appLabel = application.getAppLabel();
-		result.productOwner = application.getProductOwner();
-		result.versions = application.getVersions();
-		result.lastReleaseDates = application.getLastReleaseDates();
-		return result;
+                result.productOwner = application.getProductOwner();
+                result.versions = application.getVersions();
+                result.lastReleaseDates = application.getLastReleaseDates();
+                result.status = application.getStatus();
+                return result;
 	}
 
 	public static List<ApiApplicationShort> mapEntityToApi(List<Application> applications) {

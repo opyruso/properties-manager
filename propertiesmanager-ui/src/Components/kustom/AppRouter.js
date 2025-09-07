@@ -10,6 +10,7 @@ import AppList from './pages/applist/AppList';
 import AppDetails from "./pages/appdetails/AppDetails";
 import ConfigHelper from "./pages/confighelper/ConfigHelper";
 import GlobalVariables from "./pages/globalvariables/GlobalVariables";
+import Profil from "./pages/profil/Profil";
 import AppContext from "../AppContext";
 
 export default function AppRouter() {
@@ -23,8 +24,9 @@ const { keycloak, initialized } = useKeycloakInstance();
 				
 				<Route exact path="/apps" element={globalCondition(security(<AppList />))} />
 				<Route exact path="/app/:appId/version/:version" element={globalCondition(security(<AppDetails />))} />
-				<Route exact path="/config-helper" element={globalCondition(security(<ConfigHelper />))} />
-				<Route exact path="/global-variables" element={globalCondition(security(<GlobalVariables />))} />
+                                  <Route exact path="/config-helper" element={globalCondition(security(<ConfigHelper />))} />
+                                  <Route exact path="/global-variables" element={globalCondition(security(<GlobalVariables />))} />
+                                  <Route exact path="/user/profil" element={globalCondition(security(<Profil />))} />
 				
 
 				<Route exact path="/copyright" element={globalCondition(<Copyright />)} />
