@@ -6,16 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import ApiDefinition from '../../api/ApiDefinition';
 import { underlineSearchAndReplace } from '../../commons/Functions';
 import { subscribe, unsubscribe } from '../../../AppStaticData';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 export default function Search() {
         const { t } = useTranslation();
         const navigate = useNavigate();
         const [value, setValue] = useState('');
         const [results, setResults] = useState();
+        const [revealed, setRevealed] = useState({});
 
         function doSearch() {
                 if (value.trim() === '') return;
-                ApiDefinition.searchValues(value.trim(), (data) => { setResults(data); });
+                ApiDefinition.searchValues(value.trim(), (data) => { setResults(data); setRevealed({}); });
         }
 
         function handleKey(e) {
@@ -69,7 +72,16 @@ export default function Search() {
                                                                                 <td className="env">{r.envId}</td>
                                                                                 <td className="deploy-date">{r.deployDate ? new Date(r.deployDate).toLocaleString() : '-'}</td>
                                                                                 <td className="key">{underlineSearchAndReplace(r.propertyKey || '', value)}</td>
-                                                                                <td className="value">{underlineSearchAndReplace(r.value || '', value)}</td>
+                                                                                <td className="value">
+                                                                                        {
+                                                                                                parseInt(localStorage.streamer_mod) === 1 ?
+                                                                                                        <span>
+                                                                                                                {revealed[i] ? underlineSearchAndReplace(r.value || '', value) : '*****'}
+                                                                                                                <FontAwesomeIcon className="lock" icon={faLock} onClick={(e)=>{e.stopPropagation(); setRevealed(prev=>({...prev, [i]: !prev[i]}));}} />
+                                                                                                        </span>
+                                                                                                        : underlineSearchAndReplace(r.value || '', value)
+                                                                                        }
+                                                                                </td>
                                                                         </tr>
                                                         )
                                         }
