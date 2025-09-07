@@ -191,6 +191,23 @@ public class ApplicationDataService implements IApplicationDataService {
         }
 
         @Override
+        public Version selectLastVersionSameLevel(String appId, String numVersion) throws SQLException {
+                int lastDot = numVersion.lastIndexOf('.');
+                if (lastDot < 0) {
+                        return null;
+                }
+                String prefix = numVersion.substring(0, lastDot) + ".%";
+                Optional<Version> tmp = versionRepository.find(
+                                "pk.appId = ?1 "
+                                        + "AND pk.numVersion LIKE ?2 "
+                                        + "AND pk.numVersion <> 'snapshot' "
+                                        + "AND creationDate = (SELECT MAX(v2.creationDate) FROM Version v2 WHERE v2.pk.appId = ?1 AND v2.pk.numVersion LIKE ?2) "
+                                        + "ORDER BY updateDate desc ",
+                                appId, prefix).firstResultOptional();
+                return tmp.orElse(null);
+        }
+
+        @Override
         public Version selectVersion(String appId, String numVersion) throws WebApplicationException {
                 return versionRepository.find("pk.appId = ?1 AND pk.numVersion = ?2", appId, numVersion).firstResult();
         }
