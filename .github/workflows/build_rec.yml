@@ -15,7 +15,8 @@ jobs:
     - name: 🚀 Properties minesweeper-rec
       run: |
         cd /opt/propertiesmanager-connector
-        java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "main" "rec" "${{ github.workspace }}/propertiesmanager-ui/public/config"
+        java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "main" "rec" "${{ github.workspace }}/propertiesmanager-ui/public/config/config.json"
+        java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "main" "rec" "${{ github.workspace }}/propertiesmanager-ui/public/config/keycloak.json"
         java -jar propertiesmanager-java-connector-runner.jar UPDATE "propertiesmanager" "main" "rec" "${{ github.workspace }}/propertiesmanager-api/src/main/resources/application.properties"
         cd ${{ github.workspace }}
 
